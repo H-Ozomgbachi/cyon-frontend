@@ -1,0 +1,30 @@
+.register-component-container {
+  position: relative;
+}
+
+.register-component-card {
+  width: 35%;
+  margin: 2rem auto 0 auto;
+  padding: 1.3rem;
+}
+
+.register-component-card h1 {
+  color: rgba(0, 148, 50, 1);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.register-component-btn {
+  background-color: rgba(25, 80, 44, 0.895) !important;
+}
+
+.register-component-btn:disabled {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+@media screen and (max-width: 600px) {
+  .register-component-card {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}

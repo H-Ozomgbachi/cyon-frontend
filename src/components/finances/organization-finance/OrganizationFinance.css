@@ -1,0 +1,42 @@
+.organization-finance_box-income {
+  background-image: linear-gradient(
+      45deg,
+      rgba(0, 128, 0, 0.589),
+      rgba(0, 128, 0, 0.842)
+    ),
+    url("../../../assets/img/bg-paper.webp");
+  padding: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.organization-finance_box-expenditure {
+  background-image: linear-gradient(
+      45deg,
+      rgba(197, 24, 24, 0.719),
+      rgba(197, 24, 24, 0.493)
+    ),
+    url("../../../assets/img/bg-paper.webp");
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.organization-finance_atm {
+  color: #ebc23e;
+  transform: scale(1.5);
+}
+
+.organization-finance_wifi {
+  color: #fff;
+  transform: rotate(90deg) scale(1.5);
+}
+
+.organization-account-balance_box {
+  background-image: linear-gradient(
+      45deg,
+      rgba(45, 52, 54, 0.884),
+      rgba(45, 52, 54, 0.637)
+    ),
+    url("../../../assets/img/money.jpg");
+  padding: 1rem 0.3rem 2.2rem 0.3rem;
+  margin-bottom: 1rem;
+}

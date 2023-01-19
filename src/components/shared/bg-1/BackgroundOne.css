@@ -1,0 +1,13 @@
+.background-one-container {
+  min-height: 100vh;
+  background: linear-gradient(
+      60deg,
+      rgba(199, 181, 21, 0.4),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url("../../../assets/img/chur_img_1.jpg");
+  background-size: cover;
+  /* background-position: 50% 50%; */
+  padding: 1rem 0;
+  background-repeat: no-repeat;
+}

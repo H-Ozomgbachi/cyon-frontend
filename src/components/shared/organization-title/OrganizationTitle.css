@@ -1,0 +1,50 @@
+.organisation-title {
+  padding: 1.5rem;
+  display: flex;
+  gap: 0.87rem;
+}
+.organisation-title_2 {
+  display: flex;
+  align-items: center;
+  gap: 0.87rem;
+}
+
+.organisation-title_logo {
+  max-width: 60px;
+  background-color: #fff;
+  padding: 3px;
+}
+.organisation-title_logo_2 {
+  max-width: 60px;
+  background-color: #fff;
+  padding: 3px;
+}
+
+.organisation-title_text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.7;
+}
+.organisation-title_text_2 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.just-logo {
+  max-width: 35px;
+}
+
+@media screen and (max-width: 600px) {
+  .organisation-title {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .organisation-title_text {
+    display: none;
+  }
+}

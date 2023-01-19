@@ -1,0 +1,10 @@
+.header-nav_container {
+  background-color: rgb(150, 114, 23);
+  padding: 3px;
+}
+
+.header-nav_burger {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem !important;
+}

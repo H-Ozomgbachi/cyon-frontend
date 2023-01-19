@@ -1,0 +1,26 @@
+.login-component-container {
+  position: relative;
+}
+
+.login-component-card {
+  width: 35%;
+  margin: 3rem auto 0 auto;
+  padding: 1.5rem;
+}
+
+.login-component-card h1 {
+  color: rgba(0, 148, 50, 1);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.login-component-btn {
+  background-color: rgba(25, 80, 44, 0.895) !important;
+}
+
+@media screen and (max-width: 600px) {
+  .login-component-card {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}

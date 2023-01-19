@@ -1,0 +1,12 @@
+.indicator-container {
+  margin-top: 0rem !important;
+  z-index: 100 !important;
+}
+
+.indicator-btn {
+  color: #eee !important;
+}
+
+.indicator-btn_active {
+  color: rgba(0, 148, 50, 1) !important;
+}
