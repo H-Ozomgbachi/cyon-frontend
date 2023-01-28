@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Divider } from "@mui/material";
-import HeaderNav from "../../components/shared/header";
+import HeaderNav from "../../components/shared/header-nav";
 import BottomNav from "../../components/shared/bottom-nav";
 import {
   AccountBalanceOutlined,

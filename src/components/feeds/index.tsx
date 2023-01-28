@@ -1,4 +1,6 @@
 import { Box, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { customHistory } from "../..";
 import CustomCarousel from "../shared/carousel";
 import ContentTitle from "../shared/content-title";
 import AnnouncementCard from "./AnnouncementCard";
@@ -92,8 +94,9 @@ export default function Feeds() {
       <Button
         sx={{
           mb: 1,
-          color: "green",
+          color: "rgba(0, 148, 50, 1)",
         }}
+        onClick={() => customHistory.push("/dashboard/announcements")}
       >
         See more...
       </Button>

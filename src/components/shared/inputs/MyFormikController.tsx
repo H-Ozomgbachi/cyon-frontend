@@ -2,6 +2,7 @@ import CustomCheckbox from "./CustomCheckbox";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomInput, { MyInputProps } from "./CustomInput";
 import CustomInputPassword from "./CustomInputPassword";
+import CustomInputTextArea from "./CustomInputTextArea";
 import CustomSelect from "./CustomSelect";
 
 export default function MyFormikController(props: MyInputProps) {
@@ -18,6 +19,8 @@ export default function MyFormikController(props: MyInputProps) {
       return <CustomCheckbox {...rest} />;
     case "date-picker":
       return <CustomDatePicker {...rest} />;
+    case "text-area":
+      return <CustomInputTextArea {...rest} />;
     default:
       return null;
   }

@@ -10,6 +10,7 @@ export default function ContentTitle({ title }: Props) {
       sx={{
         fontWeight: "bold",
         mb: 1,
+        fontSize: "1.2rem",
       }}
     >
       {title}

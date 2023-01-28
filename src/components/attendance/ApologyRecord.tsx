@@ -3,6 +3,9 @@ import { Box, Fab } from "@mui/material";
 import ContentTitle from "../shared/content-title";
 import SummaryCard from "../shared/summary-card";
 import ApologyCard from "./ApologyCard";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../api/main/appStore";
+import AddApology from "./AddApology";
 
 const RESULTS = [
   {
@@ -55,7 +58,9 @@ const RESULTS = [
   },
 ];
 
-export default function ApologyRecord() {
+export default observer(function ApologyRecord() {
+  const { commonStore } = useStore();
+
   return (
     <Box>
       <SummaryCard
@@ -79,7 +84,13 @@ export default function ApologyRecord() {
           justifyContent: "flex-end",
         }}
       >
-        <Fab size="medium" aria-label="add">
+        <Fab
+          size="medium"
+          aria-label="add"
+          onClick={() =>
+            commonStore.setModalContent(<AddApology />, "Send An Apology")
+          }
+        >
           <Create
             sx={{
               color: "rgb(150, 114, 23)",
@@ -89,4 +100,4 @@ export default function ApologyRecord() {
       </Box>
     </Box>
   );
-}
+});

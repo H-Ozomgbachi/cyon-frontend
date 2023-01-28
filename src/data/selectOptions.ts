@@ -33,3 +33,13 @@ export const departmentList: SelectOptionModel[] = [
     value: "3fa85f64-5717-4562-b3fc-2c963f66afa0",
   },
 ];
+export const attendanceTypeList: SelectOptionModel[] = [
+  {
+    text: "Car Wash",
+    value: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  },
+  {
+    text: "General Meeting",
+    value: "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  },
+];

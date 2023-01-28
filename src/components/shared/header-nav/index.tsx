@@ -16,10 +16,36 @@ import {
   JustLogo,
   OrganizationTitleSecond,
 } from "../organization-title/OrganizationTitle";
+import { customHistory } from "../../..";
+import { NavModel } from "../models/navModel";
+import { ROUTES } from "../../../routes";
 
-const pages: string[] = ["Home", "About"];
+const pages: NavModel[] = [
+  {
+    title: "Home",
+    linkUrl: ROUTES.home,
+  },
+  {
+    title: "Hire Skill",
+    linkUrl: ROUTES.hireSkill,
+  },
+];
 
-const settings = ["Profile", "Dashboard", "Logout"];
+const settings: NavModel[] = [
+  {
+    title: "My Account",
+    linkUrl: ROUTES.myAccount,
+  },
+  {
+    title: "Dashboard",
+    linkUrl: ROUTES.dashboard,
+  },
+  {
+    title: "Logout",
+    action: () => console.log("This should logout user"),
+  },
+];
+// const settings: NavModel[] = ["Profile", "Dashboard", "Logout"];
 
 export default function HeaderNav() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -36,11 +62,21 @@ export default function HeaderNav() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (value: NavModel) => {
+    if (value.linkUrl) {
+      customHistory.push(value.linkUrl);
+    } else if (value.action) {
+      value.action();
+    }
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (value: NavModel) => {
+    if (value.linkUrl) {
+      customHistory.push(value.linkUrl);
+    } else if (value.action) {
+      value.action();
+    }
     setAnchorElUser(null);
   };
 
@@ -80,8 +116,11 @@ export default function HeaderNav() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.title}
+                  onClick={() => handleCloseNavMenu(page)}
+                >
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -123,11 +162,11 @@ export default function HeaderNav() {
           >
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.title}
+                onClick={() => handleCloseNavMenu(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
@@ -158,8 +197,11 @@ export default function HeaderNav() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem
+                  key={setting.title}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
+                  <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
