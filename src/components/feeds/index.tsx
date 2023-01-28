@@ -1,5 +1,4 @@
 import { Box, Button } from "@mui/material";
-import { Link } from "react-router-dom";
 import { customHistory } from "../..";
 import CustomCarousel from "../shared/carousel";
 import ContentTitle from "../shared/content-title";
