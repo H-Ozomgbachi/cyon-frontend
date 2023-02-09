@@ -1,12 +1,22 @@
 import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { useStore } from "../../api/main/appStore";
 import { MeetingModel } from "../../api/models/meeting";
+import MySkeleton from "../shared/loading-spinner/MySkeleton";
 import MeetingCard from "./MeetingCard";
 
 interface Props {
   data: MeetingModel;
 }
 
-export default function MeetingDetail({ data }: Props) {
+export default observer(function MeetingDetail({ data }: Props) {
+  const { meetingStore } = useStore();
+
+  useEffect(() => {
+    meetingStore.getMinutesByMeetingDate(data.date);
+  }, [meetingStore, data.date]);
+
   const LinedTitle = (value: string) => (
     <Divider>
       <Typography
@@ -48,29 +58,17 @@ export default function MeetingDetail({ data }: Props) {
 
       {LinedTitle("Minutes")}
 
-      <Typography>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </Typography>
-
-      <Typography>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </Typography>
+      {meetingStore.loadingMinuteOfMeeting ? (
+        <MySkeleton count={2} />
+      ) : meetingStore.minutesOfMeeting.length === 0 ? (
+        <Typography color={"darkred"} paragraph>
+          Minutes of this meeting has not yet been uploaded. Check back later.
+        </Typography>
+      ) : (
+        <Typography paragraph>
+          {meetingStore.minutesOfMeeting[0].content}
+        </Typography>
+      )}
     </Box>
   );
-}
+});

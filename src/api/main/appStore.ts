@@ -5,6 +5,7 @@ import { AnnouncementStore } from "../storeCollection/announcementStore";
 import { YearProgrammeStore } from "../storeCollection/yearprogrammeStore";
 import { FinanceStore } from "../storeCollection/financeStore";
 import { AttendanceStore } from "../storeCollection/attendanceStore";
+import { MeetingStore } from "../storeCollection/meetingStore";
 
 interface Store {
   commonStore: CommonStore;
@@ -13,6 +14,7 @@ interface Store {
   yearProgrammeStore: YearProgrammeStore;
   financeStore: FinanceStore;
   attendanceStore: AttendanceStore;
+  meetingStore: MeetingStore;
 }
 
 export const store: Store = {
@@ -22,6 +24,7 @@ export const store: Store = {
   yearProgrammeStore: new YearProgrammeStore(),
   financeStore: new FinanceStore(),
   attendanceStore: new AttendanceStore(),
+  meetingStore: new MeetingStore(),
 };
 
 export const StoreContext = createContext(store);
