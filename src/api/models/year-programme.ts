@@ -3,6 +3,7 @@ export interface YearProgrammeModel {
   title: string;
   startDate: string;
   endDate: string;
-  image: string;
+  imageUrl: string;
   scope: string;
+  year: number;
 }

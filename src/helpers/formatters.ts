@@ -21,3 +21,6 @@ export const NumberToHourMin = (value: number) => {
 
 export const DayAndMonthFormatter = (value: string) =>
   dayjs(value).format("MMMM DD");
+
+export const CompleteDateFormatter = (value: string) =>
+  dayjs(value).format("MMMM DD, YYYY");

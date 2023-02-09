@@ -6,60 +6,17 @@ import ApologyCard from "./ApologyCard";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import AddApology from "./AddApology";
-
-const RESULTS = [
-  {
-    id: "d85c44f6-aa87-4df6-c841-08daeaa166ec",
-    for: "Car Wash Exercise",
-    attendanceTypeId: "0b175d49-9acf-4dba-ea00-08dae9b0a584",
-    date: "2022-12-30T20:05:25.939",
-    reason: "I am going work",
-    isRejected: false,
-    rejectionReason: "",
-    isResolved: false,
-    userId: "9fe03fb7-853a-4961-8955-bb78cab1c461",
-    userEmail: "fabian@test.io",
-  },
-  {
-    id: "d85c44f6-aa87-4df6-c841-08daeaa166ec",
-    for: "Meeting",
-    attendanceTypeId: "0b175d49-9acf-4dba-ea00-08dae9b0a584",
-    date: "2022-12-30T20:05:25.939",
-    reason: "I am going work",
-    isRejected: true,
-    rejectionReason: "",
-    isResolved: false,
-    userId: "9fe03fb7-853a-4961-8955-bb78cab1c461",
-    userEmail: "fabian@test.io",
-  },
-  {
-    id: "d85c44f6-aa87-4df6-c841-08daeaa166ec",
-    for: "Security",
-    attendanceTypeId: "0b175d49-9acf-4dba-ea00-08dae9b0a584",
-    date: "2022-12-30T20:05:25.939",
-    reason: "I am going work",
-    isRejected: false,
-    rejectionReason: "",
-    isResolved: false,
-    userId: "9fe03fb7-853a-4961-8955-bb78cab1c461",
-    userEmail: "fabian@test.io",
-  },
-  {
-    id: "d85c44f6-aa87-4df6-c841-08daeaa166ec",
-    for: "Car Wash Exercise",
-    attendanceTypeId: "0b175d49-9acf-4dba-ea00-08dae9b0a584",
-    date: "2022-12-30T20:05:25.939",
-    reason: "I am going work",
-    isRejected: true,
-    rejectionReason: "",
-    isResolved: false,
-    userId: "9fe03fb7-853a-4961-8955-bb78cab1c461",
-    userEmail: "fabian@test.io",
-  },
-];
+import { useEffect } from "react";
+import MySkeleton from "../shared/loading-spinner/MySkeleton";
 
 export default observer(function ApologyRecord() {
-  const { commonStore } = useStore();
+  const { commonStore, attendanceStore } = useStore();
+
+  useEffect(() => {
+    if (attendanceStore.myApologies.length === 0) {
+      attendanceStore.getMyApologies();
+    }
+  }, [attendanceStore]);
 
   return (
     <Box>
@@ -72,9 +29,13 @@ export default observer(function ApologyRecord() {
 
       <ContentTitle title="Details" />
 
-      {RESULTS.map((el, i) => (
-        <ApologyCard key={i} data={el} />
-      ))}
+      {attendanceStore.loadingMyApologies ? (
+        <MySkeleton count={4} />
+      ) : (
+        attendanceStore.myApologies.map((el, i) => (
+          <ApologyCard key={i} data={el} />
+        ))
+      )}
 
       <Box
         sx={{

@@ -1,12 +1,15 @@
 import { Button, Paper } from "@mui/material";
 import dayjs from "dayjs";
+import { observer } from "mobx-react-lite";
 import { Form, Formik } from "formik";
 import { TODAY } from "../shared/inputs/CustomDatePicker";
 import * as Yup from "yup";
 import MyFormikController from "../shared/inputs/MyFormikController";
-import { attendanceTypeList } from "../../data/selectOptions";
+import { useStore } from "../../api/main/appStore";
 
-export default function AddApology() {
+export default observer(function AddApology() {
+  const { attendanceStore } = useStore();
+
   const initialValues = {
     attendanceTypeId: "",
     absenteeReason: "",
@@ -22,15 +25,20 @@ export default function AddApology() {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => console.log(values)}
+        onSubmit={(values, { resetForm }) =>
+          attendanceStore.addApology({
+            ...values,
+            date: values.date.toISOString(),
+          })
+        }
       >
-        {({ values }) => (
+        {() => (
           <Form>
             <MyFormikController
               control="select"
               label="Activity"
               name="attendanceTypeId"
-              options={attendanceTypeList}
+              options={attendanceStore.attendanceTypes}
             />
             <MyFormikController
               type="text"
@@ -52,4 +60,4 @@ export default function AddApology() {
       </Formik>
     </Paper>
   );
-}
+});

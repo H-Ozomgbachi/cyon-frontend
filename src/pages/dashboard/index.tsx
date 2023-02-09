@@ -14,8 +14,9 @@ import OrganizationFinance from "../../components/finances/organization-finance"
 import Attendance from "../../components/attendance";
 import Meetings from "../../components/meeting";
 import Feeds from "../../components/feeds";
+import { observer } from "mobx-react-lite";
 
-export default function Dashboard() {
+export default observer(function Dashboard() {
   return (
     <Box>
       <HeaderNav />
@@ -52,4 +53,4 @@ export default function Dashboard() {
       />
     </Box>
   );
-}
+});

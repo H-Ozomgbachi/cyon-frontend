@@ -7,12 +7,30 @@ import Register from "./pages/auth/Register";
 import Dashboard from "./pages/dashboard";
 import Home from "./pages/home";
 import MyAlert from "./components/shared/alert";
+import LoadingSpinner from "./components/shared/loading-spinner";
+import { useStore } from "./api/main/appStore";
+import { useEffect } from "react";
 
 export default observer(function App() {
+  const { commonStore, authenticationStore } = useStore();
+
+  useEffect(() => {
+    commonStore.handleCloseOrUnloadWindow();
+  }, [commonStore]);
+
+  useEffect(() => {
+    if (commonStore.token && !authenticationStore.currentUser) {
+      (async () => {
+        await authenticationStore.getMyAccount();
+      })();
+    }
+  }, [commonStore.token, authenticationStore]);
+
   return (
     <>
       <MyModal />
       <MyAlert />
+      <LoadingSpinner />
 
       <Routes>
         <Route index element={<Home />} />

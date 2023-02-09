@@ -2,6 +2,7 @@
   padding: 1.5rem;
   display: flex;
   gap: 0.87rem;
+  cursor: pointer;
 }
 .organisation-title_2 {
   display: flex;

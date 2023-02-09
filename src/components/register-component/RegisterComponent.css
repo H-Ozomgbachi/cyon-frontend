@@ -22,6 +22,14 @@
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.register-component-link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 1rem;
+  color: rgb(150, 114, 23);
+}
+
 @media screen and (max-width: 600px) {
   .register-component-card {
     width: 95%;

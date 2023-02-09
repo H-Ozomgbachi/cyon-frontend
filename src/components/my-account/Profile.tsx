@@ -3,8 +3,9 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { genderList } from "../../data/selectOptions";
+import { observer } from "mobx-react-lite";
 
-export default function Profile() {
+export default observer(function Profile() {
   const initialValues = {
     id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     firstName: "Henry",
@@ -100,4 +101,4 @@ export default function Profile() {
       </Box>
     </Box>
   );
-}
+});

@@ -19,6 +19,8 @@ import {
 import { customHistory } from "../../..";
 import { NavModel } from "../models/navModel";
 import { ROUTES } from "../../../routes";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../../api/main/appStore";
 
 const pages: NavModel[] = [
   {
@@ -45,15 +47,16 @@ const settings: NavModel[] = [
     action: () => console.log("This should logout user"),
   },
 ];
-// const settings: NavModel[] = ["Profile", "Dashboard", "Logout"];
 
-export default function HeaderNav() {
+export default observer(function HeaderNav() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const { authenticationStore } = useStore();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -171,43 +174,45 @@ export default function HeaderNav() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://res.cloudinary.com/dgmqfvh6c/image/upload/v1673362605/lyc13bevlarntpzn0102.jpg"
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.title}
-                  onClick={() => handleCloseUserMenu(setting)}
-                >
-                  <Typography textAlign="center">{setting.title}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {authenticationStore.currentUser && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={authenticationStore.currentUser.photoUrl}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting.title}
+                    onClick={() => handleCloseUserMenu(setting)}
+                  >
+                    <Typography textAlign="center">{setting.title}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+});

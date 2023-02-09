@@ -12,7 +12,7 @@ export default observer(function MyAlert() {
 
   React.useEffect(() => {
     if (commonStore.alertVisible) {
-      const timer = setTimeout(() => commonStore.setAlertVisible(false), 7000);
+      const timer = setTimeout(() => commonStore.setAlertVisible(false), 6000);
 
       return () => {
         clearTimeout(timer);

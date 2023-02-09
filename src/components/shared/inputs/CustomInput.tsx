@@ -25,6 +25,7 @@ export default function CustomInput(props: MyInputProps) {
     <FormControl fullWidth className="mb-1">
       <TextField
         id={name}
+        autoComplete="off"
         label={label}
         {...rest}
         error={meta.touched && meta.error ? true : false}

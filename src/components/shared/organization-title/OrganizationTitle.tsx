@@ -1,9 +1,10 @@
 import "./OrganizationTitle.css";
 import logo from "../../../assets/img/logo_2.png";
+import { customHistory } from "../../..";
 
 export function OrganizationTitle() {
   return (
-    <div className="organisation-title">
+    <div className="organisation-title" onClick={() => customHistory.push("/")}>
       <div>
         <img alt="logo" src={logo} className="organisation-title_logo" />
       </div>
@@ -17,7 +18,7 @@ export function OrganizationTitle() {
 
 export function JustLogo() {
   return (
-    <div>
+    <div onClick={() => customHistory.push("/")}>
       <img alt="logo" src={logo} className="just-logo" />
     </div>
   );

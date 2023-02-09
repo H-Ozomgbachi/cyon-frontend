@@ -13,6 +13,7 @@ import MyFormikController from "../shared/inputs/MyFormikController";
 import { departmentList, genderList } from "../../data/selectOptions";
 import dayjs from "dayjs";
 import { TODAY } from "../shared/inputs/CustomDatePicker";
+import { Link } from "react-router-dom";
 
 export default function RegisterComponent() {
   const theme = useTheme();
@@ -38,6 +39,7 @@ export default function RegisterComponent() {
     departmentId: "",
     dateOfBirth: dayjs(TODAY),
     gender: "",
+    address: "",
     isCommunicant: false,
   };
 
@@ -98,6 +100,12 @@ export default function RegisterComponent() {
     {
       description: (
         <>
+          <MyFormikController
+            control="input"
+            type="text"
+            label="House Address"
+            name="address"
+          />
           <MyFormikController
             control="select"
             label="Choose a department"
@@ -217,6 +225,10 @@ export default function RegisterComponent() {
             </Button>
           }
         />
+
+        <Link className="register-component-link" to={"/account/login"}>
+          Already have an account ? Sign In
+        </Link>
       </Paper>
     </div>
   );

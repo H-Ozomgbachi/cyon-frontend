@@ -1,4 +1,5 @@
 import { Chip, Paper, Typography } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import { YearProgrammeModel } from "../../api/models/year-programme";
 import { DayAndMonthFormatter } from "../../helpers/formatters";
 
@@ -6,7 +7,7 @@ interface Props {
   data: YearProgrammeModel;
 }
 
-export default function YearProgrammeCard({ data }: Props) {
+export default observer(function YearProgrammeCard({ data }: Props) {
   return (
     <Paper
       elevation={0}
@@ -14,7 +15,7 @@ export default function YearProgrammeCard({ data }: Props) {
       sx={{
         p: 1,
         height: "100%",
-        backgroundImage: `linear-gradient(45deg, rgba(0, 0, 0, 0.462), rgba(0, 0, 0, 0.597)), url(${data.image})`,
+        backgroundImage: `linear-gradient(45deg, rgba(0, 0, 0, 0.462), rgba(0, 0, 0, 0.597)), url(${data.imageUrl})`,
       }}
     >
       <Typography
@@ -53,4 +54,4 @@ export default function YearProgrammeCard({ data }: Props) {
       </Typography>
     </Paper>
   );
-}
+});

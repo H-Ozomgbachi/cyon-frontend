@@ -20,3 +20,14 @@ export interface ApologyModel {
   userId: string;
   userEmail: string;
 }
+
+export interface CreateApologyPayload {
+  attendanceTypeId: string;
+  absenteeReason: string;
+  date: string;
+}
+
+export interface AttendanceTypeModel {
+  id: string;
+  name: string;
+}

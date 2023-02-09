@@ -4,8 +4,13 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { OrganizationTitle } from "../shared/organization-title/OrganizationTitle";
+import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../api/main/appStore";
 
-export default function LoginComponent() {
+export default observer(function LoginComponent() {
+  const { authenticationStore } = useStore();
+
   const initialValues = {
     email: "",
     password: "",
@@ -27,7 +32,11 @@ export default function LoginComponent() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => console.log(values)}
+          onSubmit={(values, { resetForm }) =>
+            authenticationStore
+              .login(values)
+              .finally(() => resetForm({ values: initialValues }))
+          }
         >
           {({ isSubmitting }) => (
             <Form>
@@ -55,7 +64,10 @@ export default function LoginComponent() {
             </Form>
           )}
         </Formik>
+        <Link className="register-component-link" to={"/account/register"}>
+          Don't have an account ? Sign Up
+        </Link>
       </Paper>
     </div>
   );
-}
+});

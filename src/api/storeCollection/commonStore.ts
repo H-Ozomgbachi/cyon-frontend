@@ -4,8 +4,7 @@ import { makeAutoObservable, reaction } from "mobx";
 import { customHistory } from "../..";
 
 export class CommonStore {
-  id: string | null = window.localStorage.getItem("id-cyon");
-  token: string | null = window.localStorage.getItem("jwt-cyon");
+  token: string | null = null;
   loading = false;
   isModalFullScreen = false;
   modalVisible = false;
@@ -16,31 +15,10 @@ export class CommonStore {
   alertSeverity: AlertColor = "success";
   lastVisitedPathname: string | null = null;
   onreloadPath: string | null = window.localStorage.getItem("reload-path-cyon");
+  isAppLoaded = false;
 
   constructor() {
     makeAutoObservable(this);
-
-    reaction(
-      () => this.token,
-      (token) => {
-        if (token) {
-          window.localStorage.setItem("jwt-cyon", token);
-        } else {
-          window.localStorage.removeItem("jwt-cyon");
-        }
-      }
-    );
-
-    reaction(
-      () => this.id,
-      (id) => {
-        if (id) {
-          window.localStorage.setItem("id-cyon", id);
-        } else {
-          window.localStorage.removeItem("id-cyon");
-        }
-      }
-    );
 
     reaction(
       () => this.onreloadPath,
@@ -67,11 +45,9 @@ export class CommonStore {
     this.modalVisible = true;
     this.modalContent = content;
     this.modalTitle = modalTitle;
-
-    if (isFullScreen) {
-      this.isModalFullScreen = true;
-    }
+    this.setIsModalFullScreen(isFullScreen);
   };
+  setIsModalFullScreen = (value: boolean) => (this.isModalFullScreen = value);
 
   setAlertVisible = (value: boolean) => (this.alertVisible = value);
 
@@ -88,10 +64,6 @@ export class CommonStore {
     this.token = token;
   };
 
-  setId = (id: string | null) => {
-    this.id = id;
-  };
-
   setOnreloadPath = (path: string | null) => {
     this.onreloadPath = path;
   };
@@ -103,9 +75,7 @@ export class CommonStore {
   redirectDecision = () => {
     let linkToDirect;
 
-    if (this.lastVisitedPathname === "/" || this.onreloadPath === "/") {
-      linkToDirect = "/dashboard";
-    } else if (
+    if (
       this.lastVisitedPathname !== null &&
       this.lastVisitedPathname !== "/account/login" &&
       this.lastVisitedPathname !== "/account/forgot-password"
@@ -127,4 +97,27 @@ export class CommonStore {
   };
 
   goBack = () => customHistory.back();
+
+  unloadCallback = () => {
+    window.localStorage.setItem("reload-path-cyon", window.location.pathname);
+    if (this.token) {
+      window.localStorage.setItem("jwt-cyon", this.token);
+    }
+  };
+
+  handleCloseOrUnloadWindow = () => {
+    window.addEventListener("unload", this.unloadCallback);
+    window.addEventListener("close", this.unloadCallback);
+    this.loadedCallback();
+  };
+
+  loadedCallback = () => {
+    const retrievedToken = window.localStorage.getItem("jwt-cyon");
+
+    if (retrievedToken) {
+      this.setToken(retrievedToken);
+      window.localStorage.removeItem("jwt-cyon");
+    }
+    this.redirectDecision();
+  };
 }
