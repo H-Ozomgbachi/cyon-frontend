@@ -1,10 +1,11 @@
-import { Person, Work, MeetingRoom } from "@mui/icons-material";
+import { Person, Work, Settings } from "@mui/icons-material";
+import { observer } from "mobx-react-lite";
 import BottomNav from "../shared/bottom-nav";
 import Department from "./Department";
 import Occupation from "./Occupation";
 import Profile from "./Profile";
 
-export default function MyAccount() {
+export default observer(function MyAccount() {
   return (
     <BottomNav
       navItems={[
@@ -17,11 +18,11 @@ export default function MyAccount() {
           icon: <Work />,
         },
         {
-          label: "Department",
-          icon: <MeetingRoom />,
+          label: "Settings",
+          icon: <Settings />,
         },
       ]}
       contentItems={[<Profile />, <Occupation />, <Department />]}
     />
   );
-}
+});

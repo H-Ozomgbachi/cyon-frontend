@@ -1,25 +1,41 @@
-import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { genderList } from "../../data/selectOptions";
 import { observer } from "mobx-react-lite";
+import { useStore } from "../../api/main/appStore";
+import MySkeleton from "../shared/loading-spinner/MySkeleton";
 
 export default observer(function Profile() {
+  const { authenticationStore } = useStore();
+
   const initialValues = {
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    firstName: "Henry",
-    lastName: "Ozomgbachi",
-    userName: "HenryChi",
-    phoneNumber: "08144001908",
-    gender: "M",
-    isCommunicant: true,
-    address: "6 OKE Street, Pedro",
+    id: authenticationStore.currentUser?.id ?? "",
+    firstName: authenticationStore.currentUser?.firstName ?? "",
+    lastName: authenticationStore.currentUser?.lastName ?? "",
+    userName: authenticationStore.currentUser?.userName ?? "",
+    phoneNumber: authenticationStore.currentUser?.phoneNumber ?? "",
+    gender: authenticationStore.currentUser?.gender ?? "",
+    isCommunicant: authenticationStore.currentUser?.isCommunicant ?? false,
+    address: authenticationStore.currentUser?.address ?? "",
   };
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required(),
   });
+
+  if (!authenticationStore.currentUser) {
+    return (
+      <Box
+        sx={{
+          p: 2,
+        }}
+      >
+        <MySkeleton count={4} />
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -34,10 +50,17 @@ export default observer(function Profile() {
       >
         <Avatar
           alt="Remy Sharp"
-          src="https://res.cloudinary.com/dgmqfvh6c/image/upload/v1673362605/lyc13bevlarntpzn0102.jpg"
+          src={authenticationStore.currentUser?.photoUrl}
           sx={{ width: "6rem", height: "6rem" }}
         />
-        <Typography>Henry Ozomgbachi</Typography>
+
+        <Button
+          sx={{
+            color: "rgb(150, 114, 23)",
+          }}
+        >
+          Edit Photo
+        </Button>
       </Box>
       <Divider />
 
