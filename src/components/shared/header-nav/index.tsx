@@ -25,26 +25,11 @@ import { useStore } from "../../../api/main/appStore";
 const pages: NavModel[] = [
   {
     title: "Home",
-    linkUrl: ROUTES.home,
-  },
-  {
-    title: "Hire Skill",
-    linkUrl: ROUTES.hireSkill,
-  },
-];
-
-const settings: NavModel[] = [
-  {
-    title: "My Account",
-    linkUrl: ROUTES.myAccount,
-  },
-  {
-    title: "Dashboard",
     linkUrl: ROUTES.dashboard,
   },
   {
-    title: "Logout",
-    action: () => console.log("This should logout user"),
+    title: "Hire A Skill",
+    linkUrl: ROUTES.hireSkill,
   },
 ];
 
@@ -57,6 +42,21 @@ export default observer(function HeaderNav() {
   );
 
   const { authenticationStore } = useStore();
+
+  const settings: NavModel[] = [
+    {
+      title: "My Account",
+      linkUrl: ROUTES.myAccount,
+    },
+    {
+      title: "Dashboard",
+      linkUrl: ROUTES.dashboard,
+    },
+    {
+      title: "Logout",
+      action: authenticationStore.logout,
+    },
+  ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);

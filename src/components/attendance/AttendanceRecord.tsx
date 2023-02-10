@@ -14,16 +14,23 @@ export default observer(function AttendanceRecord() {
     if (attendanceStore.myAttendance.length === 0) {
       attendanceStore.getMyAttendance();
     }
+    if (!attendanceStore.attendanceSummary) {
+      attendanceStore.getAttendanceSummary();
+    }
   }, [attendanceStore]);
 
   return (
     <Box>
-      <SummaryCard
-        firstTitle="Presence"
-        firstValue={"80%"}
-        secondTitle="Absence"
-        secondValue={"20%"}
-      />
+      {attendanceStore.attendanceSummary ? (
+        <SummaryCard
+          firstTitle="Presence"
+          firstValue={attendanceStore.attendanceSummary.presence}
+          secondTitle="Absence"
+          secondValue={attendanceStore.attendanceSummary.absence}
+        />
+      ) : (
+        <MySkeleton count={1} />
+      )}
 
       <ContentTitle title="Details" />
 

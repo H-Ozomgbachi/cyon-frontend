@@ -1,7 +1,9 @@
 import requests from "../main/apiConfig";
 import {
   ApologyModel,
+  ApologySummaryModel,
   AttendanceModel,
+  AttendanceSummaryModel,
   AttendanceTypeModel,
   CreateApologyPayload,
 } from "../models/attendance";
@@ -20,4 +22,12 @@ export const Attendance = {
 
   getAttendanceTypes: () =>
     requests.get<AttendanceTypeModel[]>("/attendanceTypes"),
+
+  getAttendanceSummary: () =>
+    requests.get<AttendanceSummaryModel>(
+      "/AttendanceRegister/GetAttendanceSummary"
+    ),
+
+  getApologySummary: () =>
+    requests.get<ApologySummaryModel>("/Apology/GetApologySummary"),
 };

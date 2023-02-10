@@ -10,12 +10,15 @@ import "./RegisterComponent.css";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import MyFormikController from "../shared/inputs/MyFormikController";
-import { departmentList, genderList } from "../../data/selectOptions";
+import { genderList } from "../../data/selectOptions";
 import dayjs from "dayjs";
 import { TODAY } from "../shared/inputs/CustomDatePicker";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../api/main/appStore";
 
-export default function RegisterComponent() {
+export default observer(function RegisterComponent() {
+  const { authenticationStore, departmentStore } = useStore();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = 3;
@@ -110,7 +113,7 @@ export default function RegisterComponent() {
             control="select"
             label="Choose a department"
             name="departmentId"
-            options={departmentList}
+            options={departmentStore.departments}
           />
           <MyFormikController
             control="date-picker"
@@ -165,14 +168,14 @@ export default function RegisterComponent() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) =>
-            console.log({
+          onSubmit={(values) =>
+            authenticationStore.registerMyAccount({
               ...values,
               dateOfBirth: values.dateOfBirth.toISOString(),
             })
           }
         >
-          {({ isSubmitting }) => (
+          {() => (
             <Form>
               {steps[activeStep].description}
               {activeStep === maxSteps - 1 ? (
@@ -232,4 +235,4 @@ export default function RegisterComponent() {
       </Paper>
     </div>
   );
-}
+});

@@ -16,16 +16,21 @@ export default observer(function ApologyRecord() {
     if (attendanceStore.myApologies.length === 0) {
       attendanceStore.getMyApologies();
     }
+    attendanceStore.getApologySummary();
   }, [attendanceStore]);
 
   return (
     <Box>
-      <SummaryCard
-        firstTitle="Approved"
-        firstValue={"80%"}
-        secondTitle="Declined"
-        secondValue={"20%"}
-      />
+      {attendanceStore.apologySummary ? (
+        <SummaryCard
+          firstTitle="Approved"
+          firstValue={attendanceStore.apologySummary.approved}
+          secondTitle="Declined"
+          secondValue={attendanceStore.apologySummary.declined}
+        />
+      ) : (
+        <MySkeleton count={1} />
+      )}
 
       <ContentTitle title="Details" />
 

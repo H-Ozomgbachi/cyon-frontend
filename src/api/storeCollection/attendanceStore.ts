@@ -4,7 +4,9 @@ import agent from "../main/apiAgent";
 import { store } from "../main/appStore";
 import {
   ApologyModel,
+  ApologySummaryModel,
   AttendanceModel,
+  AttendanceSummaryModel,
   CreateApologyPayload,
 } from "../models/attendance";
 
@@ -14,6 +16,8 @@ export class AttendanceStore {
   myApologies: ApologyModel[] = [];
   loadingMyApologies = false;
   attendanceTypes: SelectOptionModel[] = [];
+  attendanceSummary: AttendanceSummaryModel | null = null;
+  apologySummary: ApologySummaryModel | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -73,6 +77,30 @@ export class AttendanceStore {
             value: el.id,
           };
         });
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getAttendanceSummary = async () => {
+    try {
+      const result = await agent.attendance.getAttendanceSummary();
+
+      runInAction(() => {
+        this.attendanceSummary = result;
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getApologySummary = async () => {
+    try {
+      const result = await agent.attendance.getApologySummary();
+
+      runInAction(() => {
+        this.apologySummary = result;
       });
     } catch (error) {
       throw error;

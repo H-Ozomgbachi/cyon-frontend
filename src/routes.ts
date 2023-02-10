@@ -3,4 +3,5 @@ export const ROUTES = {
   dashboard: "/dashboard",
   home: "/",
   hireSkill: "/hire-skill",
+  login: "/account/login"
 };

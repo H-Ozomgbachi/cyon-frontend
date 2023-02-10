@@ -31,3 +31,13 @@ export interface AttendanceTypeModel {
   id: string;
   name: string;
 }
+
+export interface AttendanceSummaryModel {
+  presence: string;
+  absence: string;
+}
+
+export interface ApologySummaryModel {
+  approved: string;
+  declined: string;
+}

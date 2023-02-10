@@ -25,3 +25,28 @@ export interface UserModel {
   rank: string;
   address: string;
 }
+
+export interface UpdateMyAccountPayload {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  phoneNumber: string;
+  gender: string;
+  isCommunicant: boolean;
+  address: string;
+}
+
+export interface RegisterMyAccountPayload {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  departmentId: string;
+  dateOfBirth: string;
+  gender: string;
+  isCommunicant: boolean;
+  address: string;
+}

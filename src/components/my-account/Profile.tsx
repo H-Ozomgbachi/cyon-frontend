@@ -72,7 +72,7 @@ export default observer(function Profile() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => console.log(values)}
+          onSubmit={(values) => authenticationStore.updateMyAccount(values)}
         >
           {() => (
             <Form>

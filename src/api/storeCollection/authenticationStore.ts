@@ -3,7 +3,12 @@ import { customHistory } from "../..";
 import { ROUTES } from "../../routes";
 import agent from "../main/apiAgent";
 import { store } from "../main/appStore";
-import { LoginPayload, UserModel } from "../models/authentication";
+import {
+  LoginPayload,
+  RegisterMyAccountPayload,
+  UpdateMyAccountPayload,
+  UserModel,
+} from "../models/authentication";
 
 export class AuthenticationStore {
   currentUser: UserModel | null = null;
@@ -31,6 +36,12 @@ export class AuthenticationStore {
     }
   };
 
+  logout = () => {
+    this.setCurrentUser(null);
+    store.commonStore.setToken(null);
+    customHistory.push(ROUTES.login);
+  };
+
   getMyAccount = async () => {
     try {
       const user = await agent.authentication.myAccount();
@@ -41,8 +52,37 @@ export class AuthenticationStore {
     }
   };
 
-  initializeApp = async () => {
-    if (store.commonStore.token) {
+  updateMyAccount = async (values: UpdateMyAccountPayload) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      const succeeded = await agent.authentication.updateMyAccount(values);
+
+      if (succeeded) {
+        window.scrollTo(0, 0);
+        this.getMyAccount();
+      }
+
+      store.commonStore.setAlertText("Account update successful");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
     }
   };
+
+  registerMyAccount = async (values: RegisterMyAccountPayload) => {
+    try {
+      store.commonStore.setLoading(true);
+      await agent.authentication.registerMyAccount(values);
+
+      this.login({ email: values.email, password: values.password });
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  setCurrentUser = (value: UserModel | null) => (this.currentUser = value);
 }

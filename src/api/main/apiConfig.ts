@@ -30,16 +30,16 @@ axios.interceptors.response.use(
 
     const { data, status } = error.response!;
     switch (status) {
-      case 500:
-        break;
+      // case 500:
+      //   break;
       case 401:
         store.commonStore.setLastVisitedPathname(window.location.pathname);
         customHistory.push("/account/login");
         break;
-      case 400:
-        break;
-        default:
-            console.log(data)
+      // case 400:
+      //   break;
+      default:
+        console.log(data);
     }
     return Promise.reject(error);
   }
