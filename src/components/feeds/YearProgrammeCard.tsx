@@ -1,7 +1,7 @@
 import { Chip, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { YearProgrammeModel } from "../../api/models/year-programme";
-import { DayAndMonthFormatter } from "../../helpers/formatters";
+import { DayAndMonthFormatter, IsDaySame } from "../../helpers/formatters";
 
 interface Props {
   data: YearProgrammeModel;
@@ -50,7 +50,9 @@ export default observer(function YearProgrammeCard({ data }: Props) {
         }}
       >
         {DayAndMonthFormatter(data.startDate)}{" "}
-        {data.endDate ? `- ${DayAndMonthFormatter(data.endDate)}` : null}
+        {IsDaySame(data.startDate, data.endDate) === false
+          ? `- ${DayAndMonthFormatter(data.endDate)}`
+          : null}
       </Typography>
     </Paper>
   );

@@ -24,3 +24,6 @@ export const DayAndMonthFormatter = (value: string) =>
 
 export const CompleteDateFormatter = (value: string) =>
   dayjs(value).format("MMMM DD, YYYY");
+
+export const IsDaySame = (value1: string, value2: string) =>
+  dayjs(value1).isSame(value2, "day");
