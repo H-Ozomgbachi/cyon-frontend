@@ -1,7 +1,6 @@
-import { Person, Work, Settings } from "@mui/icons-material";
+import { Person, Work, MoreHoriz } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
 import BottomNav from "../shared/bottom-nav";
-import Department from "./Department";
 import Occupation from "./Occupation";
 import Profile from "./Profile";
 
@@ -18,11 +17,11 @@ export default observer(function MyAccount() {
           icon: <Work />,
         },
         {
-          label: "Settings",
-          icon: <Settings />,
+          label: "More",
+          icon: <MoreHoriz />,
         },
       ]}
-      contentItems={[<Profile />, <Occupation />, <Department />]}
+      contentItems={[<Profile />, <Occupation />, <></>]}
     />
   );
 });

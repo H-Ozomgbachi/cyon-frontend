@@ -10,10 +10,6 @@ import "./OrganizationFinance.css";
 import OrganizationFinanceCard from "./OrganizationFinanceCard";
 import ViewAccountStatement from "./ViewAccountStatement";
 
-const balance = {
-  balance: 156000,
-};
-
 export default observer(function OrganizationFinance() {
   const { financeStore } = useStore();
 
@@ -21,11 +17,16 @@ export default observer(function OrganizationFinance() {
     if (financeStore.organizationFinances.length === 0) {
       financeStore.getOrganizationFinances();
     }
+    financeStore.getOrganizationAccountBalance();
   }, [financeStore]);
 
   return (
     <Paper elevation={0}>
-      <OrganizationAccountBalance data={balance} />
+      {financeStore.organizationBalance ? (
+        <OrganizationAccountBalance data={financeStore.organizationBalance} />
+      ) : (
+        <MySkeleton count={1} />
+      )}
 
       <CustomAccordion
         isExpanded={true}

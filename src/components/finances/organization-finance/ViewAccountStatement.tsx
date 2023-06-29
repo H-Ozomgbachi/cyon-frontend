@@ -2,24 +2,43 @@ import { DoubleArrow } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import { TODAY } from "../../shared/inputs/CustomDatePicker";
 import MyFormikController from "../../shared/inputs/MyFormikController";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../../api/main/appStore";
+import StatementOfAccount from "./StatementOfAccount";
 
-export default function ViewAccountStatement() {
+export default observer(function ViewAccountStatement() {
+  const { financeStore, commonStore } = useStore();
+
   const initialValues = {
     startDate: dayjs(TODAY),
     endDate: dayjs(TODAY).add(30, "day"),
   };
 
-  const validationSchema = Yup.object({});
+  const handleSubmit = async (start: string, end: string) => {
+    const response = await financeStore.getOrganizationAccountStatement({
+      startDate: start,
+      endDate: end,
+    });
+
+    return commonStore.setModalContent(
+      <StatementOfAccount data={response} />,
+      "Statement of Account",
+      true
+    );
+  };
 
   return (
     <div>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => console.log(values)}
+        onSubmit={async (values, { resetForm }) =>
+          await handleSubmit(
+            values.startDate.format("DD/MM/YYYY"),
+            values.endDate.format("DD/MM/YYYY")
+          )
+        }
       >
         {() => (
           <Form>
@@ -51,4 +70,4 @@ export default function ViewAccountStatement() {
       </Formik>
     </div>
   );
-}
+});

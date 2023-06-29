@@ -18,7 +18,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 
 export default observer(function RegisterComponent() {
-  const { authenticationStore, departmentStore } = useStore();
+  const { authenticationStore, departmentStore, commonStore } = useStore();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = 3;
@@ -44,6 +44,12 @@ export default observer(function RegisterComponent() {
     gender: "",
     address: "",
     isCommunicant: false,
+  };
+
+  const handleErrors = (errors: any) => {
+    const msg = Object.values(errors)[0] as string;
+
+    commonStore.setAlertText(msg, true);
   };
 
   const validationSchema = Yup.object({
@@ -175,21 +181,24 @@ export default observer(function RegisterComponent() {
             })
           }
         >
-          {() => (
-            <Form>
-              {steps[activeStep].description}
-              {activeStep === maxSteps - 1 ? (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth
-                  className="mt-3 register-component-btn"
-                >
-                  Sign Up
-                </Button>
-              ) : null}
-            </Form>
-          )}
+          {({ isValid, errors, isSubmitting }) => {
+            if (isSubmitting && !isValid) handleErrors(errors);
+            return (
+              <Form>
+                {steps[activeStep].description}
+                {activeStep === maxSteps - 1 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    className="mt-3 register-component-btn"
+                  >
+                    Sign Up
+                  </Button>
+                ) : null}
+              </Form>
+            );
+          }}
         </Formik>
 
         <MobileStepper

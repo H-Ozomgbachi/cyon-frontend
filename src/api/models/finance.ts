@@ -5,6 +5,11 @@ export interface UserFinanceModel {
   amount: number;
 }
 
+export interface UserFinanceSummaryModel {
+  contribution: number;
+  debt: number;
+}
+
 export interface OrganizationFinanceModel {
   id: string;
   financeType: string;
@@ -15,4 +20,21 @@ export interface OrganizationFinanceModel {
 
 export interface OrganizationBalanceModel {
   balance: number;
+}
+
+export interface OrganizationAccountStatementPayload {
+  startDate: string;
+  endDate: string;
+}
+
+export interface OrganizationAccountStatementModel {
+  startDate: string;
+  endDate: string;
+  balanceBroughtForward: number;
+  finances: OrganizationFinanceModel[];
+  balanceAtHand: number;
+}
+
+export interface OrganizationAccountStatementModelResult {
+  accountStatement: OrganizationAccountStatementModel;
 }

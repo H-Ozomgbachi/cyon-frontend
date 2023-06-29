@@ -1,10 +1,18 @@
-import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Typography,
+} from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useStore } from "../../api/main/appStore";
 import { MeetingModel } from "../../api/models/meeting";
 import MySkeleton from "../shared/loading-spinner/MySkeleton";
 import MeetingCard from "./MeetingCard";
+import { Download } from "@mui/icons-material";
 
 interface Props {
   data: MeetingModel;
@@ -12,6 +20,13 @@ interface Props {
 
 export default observer(function MeetingDetail({ data }: Props) {
   const { meetingStore } = useStore();
+
+  const downloadMinute = (url: string) => {
+    const link = document.createElement("a");
+    link.download = url;
+    link.href = url;
+    link.click();
+  };
 
   useEffect(() => {
     meetingStore.getMinutesByMeetingDate(data.date);
@@ -56,8 +71,6 @@ export default observer(function MeetingDetail({ data }: Props) {
         );
       })}
 
-      {LinedTitle("Minutes")}
-
       {meetingStore.loadingMinuteOfMeeting ? (
         <MySkeleton count={2} />
       ) : meetingStore.minutesOfMeeting.length === 0 ? (
@@ -65,9 +78,18 @@ export default observer(function MeetingDetail({ data }: Props) {
           Minutes of this meeting has not yet been uploaded. Check back later.
         </Typography>
       ) : (
-        <Typography paragraph>
-          {meetingStore.minutesOfMeeting[0].content}
-        </Typography>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          className="mt-3 uni-green_btn"
+          startIcon={<Download />}
+          onClick={() =>
+            downloadMinute(meetingStore.minutesOfMeeting[0].content)
+          }
+        >
+          View Minutes
+        </Button>
       )}
     </Box>
   );

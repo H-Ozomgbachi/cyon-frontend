@@ -16,16 +16,23 @@ export default observer(function UserFinance() {
     if (financeStore.userFinances.length === 0) {
       financeStore.getUserFinances();
     }
+    financeStore.getUserFinanceSummary();
   }, [financeStore]);
 
   return (
     <Paper elevation={0}>
-      <SummaryCard
-        firstTitle="Contribution"
-        firstValue={`${NairaFormatter(78500)}`}
-        secondTitle="Debt"
-        secondValue={NairaFormatter(0)}
-      />
+      {financeStore.userFinanceSummary ? (
+        <SummaryCard
+          firstTitle="Contribution"
+          firstValue={`${NairaFormatter(
+            financeStore.userFinanceSummary.contribution
+          )}`}
+          secondTitle="Debt"
+          secondValue={NairaFormatter(financeStore.userFinanceSummary.debt)}
+        />
+      ) : (
+        <MySkeleton count={1} />
+      )}
 
       <ContentTitle title="Details" />
 

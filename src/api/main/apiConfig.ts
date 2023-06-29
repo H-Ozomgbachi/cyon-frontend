@@ -3,6 +3,11 @@ import { customHistory } from "../..";
 import { backendUrl } from "../../urls";
 import { store } from "./appStore";
 
+interface Error {
+  data: any;
+  status: number;
+}
+
 export const sleep = (delay: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
@@ -28,8 +33,8 @@ axios.interceptors.response.use(
     // if (error.message === "Network Error") {
     // }
 
-    const { data, status } = error.response!;
-    switch (status) {
+    const resError = error.response as Error;
+    switch (resError.status) {
       // case 500:
       //   break;
       case 401:
@@ -39,7 +44,8 @@ axios.interceptors.response.use(
       // case 400:
       //   break;
       default:
-        console.log(data);
+        // store.commonStore.setAlertText(resError.data, true);
+        console.log(resError);
     }
     return Promise.reject(error);
   }

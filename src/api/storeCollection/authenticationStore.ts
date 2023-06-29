@@ -26,13 +26,14 @@ export class AuthenticationStore {
       store.commonStore.setToken(result.token);
 
       customHistory.push(ROUTES.dashboard);
-    } catch (error) {
-      throw error;
+    } catch (err: any) {
+      store.commonStore.setAlertText(err?.response.data, true);
     } finally {
-      store.commonStore.setLoading(false);
       if (store.commonStore.token) {
         this.getMyAccount();
       }
+
+      store.commonStore.setLoading(false);
     }
   };
 
