@@ -54,13 +54,13 @@ export default observer(function Profile() {
           sx={{ width: "6rem", height: "6rem" }}
         />
 
-        <Button
+        {/* <Button
           sx={{
             color: "rgb(150, 114, 23)",
           }}
         >
           Edit Photo
-        </Button>
+        </Button> */}
       </Box>
       <Divider />
 

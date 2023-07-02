@@ -24,6 +24,7 @@ export interface UserModel {
   };
   rank: string;
   address: string;
+  uniqueCode: string;
 }
 
 export interface UpdateMyAccountPayload {

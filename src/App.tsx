@@ -10,6 +10,8 @@ import MyAlert from "./components/shared/alert";
 import LoadingSpinner from "./components/shared/loading-spinner";
 import { useStore } from "./api/main/appStore";
 import { useEffect } from "react";
+import { customHistory } from ".";
+import { isMobile } from "react-device-detect";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -23,10 +25,12 @@ export default observer(function App() {
       (async () => {
         await authenticationStore.getMyAccount();
       })();
+    } else {
+      customHistory.push("/account/login");
     }
   }, [commonStore.token, authenticationStore]);
 
-  return (
+  return !isMobile ? (
     <>
       <MyModal />
       <MyAlert />
@@ -47,5 +51,9 @@ export default observer(function App() {
         </Route>
       </Routes>
     </>
+  ) : (
+    <h2 className="p-3 mt-1">
+      This Site is Currently Supported for Mobile Devices Only
+    </h2>
   );
 });

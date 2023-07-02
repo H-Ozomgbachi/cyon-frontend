@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import BottomNav from "../shared/bottom-nav";
 import Occupation from "./Occupation";
 import Profile from "./Profile";
+import More from "./More";
 
 export default observer(function MyAccount() {
   return (
@@ -21,7 +22,7 @@ export default observer(function MyAccount() {
           icon: <MoreHoriz />,
         },
       ]}
-      contentItems={[<Profile />, <Occupation />, <></>]}
+      contentItems={[<Profile />, <Occupation />, <More />]}
     />
   );
 });

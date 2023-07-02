@@ -35,8 +35,8 @@ export default observer(function ViewAccountStatement() {
         initialValues={initialValues}
         onSubmit={async (values, { resetForm }) =>
           await handleSubmit(
-            values.startDate.format("DD/MM/YYYY"),
-            values.endDate.format("DD/MM/YYYY")
+            values.startDate.toISOString(),
+            values.endDate.toISOString()
           )
         }
       >

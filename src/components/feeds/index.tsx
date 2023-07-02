@@ -8,9 +8,11 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import MySkeleton from "../shared/loading-spinner/MySkeleton";
 import { useEffect } from "react";
+import UpcomingEventCard from "./UpcomingEventCard";
 
 export default observer(function Feeds() {
-  const { announcementStore, yearProgrammeStore } = useStore();
+  const { announcementStore, yearProgrammeStore, upcomingEventStore } =
+    useStore();
 
   useEffect(() => {
     if (
@@ -20,7 +22,10 @@ export default observer(function Feeds() {
       announcementStore.getAnnouncements();
       yearProgrammeStore.getCurrentYearProgrammes();
     }
-  }, [announcementStore, yearProgrammeStore]);
+    if (upcomingEventStore.upcomingEvents.length === 0) {
+      upcomingEventStore.getUpcomingEvents();
+    }
+  }, [announcementStore, yearProgrammeStore, upcomingEventStore]);
 
   return (
     <Box
@@ -46,6 +51,16 @@ export default observer(function Feeds() {
       ) : (
         announcementStore.announcements.map((el) => (
           <AnnouncementCard key={el.id} data={el} />
+        ))
+      )}
+
+      <ContentTitle title="Upcoming Events" />
+
+      {upcomingEventStore.loadingUpcomingEvents ? (
+        <MySkeleton count={4} />
+      ) : (
+        upcomingEventStore.upcomingEvents.map((el) => (
+          <UpcomingEventCard key={el.id} data={el} />
         ))
       )}
     </Box>

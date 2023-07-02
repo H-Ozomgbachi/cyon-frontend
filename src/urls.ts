@@ -4,4 +4,4 @@ export const frontendUrl =
 export const backendUrl =
   process.env.NODE_ENV === "development"
     ? "https://localhost:7271/api/v1"
-    : "https://intranet.thehaulagehub.com/api/v1";
+    : "https://api.cyonshomolu.com.ng/api/v1";

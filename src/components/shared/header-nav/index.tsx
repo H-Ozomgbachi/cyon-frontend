@@ -21,6 +21,7 @@ import { NavModel } from "../models/navModel";
 import { ROUTES } from "../../../routes";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
+import { roles } from "../../../data/roles";
 
 const pages: NavModel[] = [
   {
@@ -28,8 +29,9 @@ const pages: NavModel[] = [
     linkUrl: ROUTES.dashboard,
   },
   {
-    title: "Hire A Skill",
-    linkUrl: ROUTES.hireSkill,
+    title: "Admin Panel",
+    linkUrl: ROUTES.adminPanel,
+    scope: roles.exco,
   },
 ];
 
@@ -118,14 +120,29 @@ export default observer(function HeaderNav() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.title}
-                  onClick={() => handleCloseNavMenu(page)}
-                >
-                  <Typography textAlign="center">{page.title}</Typography>
-                </MenuItem>
-              ))}
+              {pages
+                .filter((e) => e.scope !== roles.exco)
+                .map((page) => (
+                  <MenuItem
+                    key={page.title}
+                    onClick={() => handleCloseNavMenu(page)}
+                  >
+                    <Typography textAlign="center">{page.title}</Typography>
+                  </MenuItem>
+                ))}
+
+              {authenticationStore.currentUser &&
+                authenticationStore.currentUser.roles.includes(roles.exco) &&
+                pages
+                  .filter((e) => e.scope === roles.exco)
+                  .map((page) => (
+                    <MenuItem
+                      key={page.title}
+                      onClick={() => handleCloseNavMenu(page)}
+                    >
+                      <Typography textAlign="center">{page.title}</Typography>
+                    </MenuItem>
+                  ))}
             </Menu>
           </Box>
 

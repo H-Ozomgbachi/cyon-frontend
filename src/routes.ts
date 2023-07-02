@@ -2,6 +2,6 @@ export const ROUTES = {
   myAccount: "/account",
   dashboard: "/dashboard",
   home: "/",
-  hireSkill: "/hire-skill",
-  login: "/account/login"
+  adminPanel: "/admin-panel",
+  login: "/account/login",
 };

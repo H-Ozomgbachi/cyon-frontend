@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { customHistory } from "../..";
 import { backendUrl } from "../../urls";
 import { store } from "./appStore";
+import { ROUTES } from "../../routes";
 
 interface Error {
   data: any;
@@ -35,16 +36,22 @@ axios.interceptors.response.use(
 
     const resError = error.response as Error;
     switch (resError.status) {
-      // case 500:
-      //   break;
+      case 500:
+        console.log(resError);
+        store.commonStore.setAlertText(resError.data.message, true);
+        break;
       case 401:
         store.commonStore.setLastVisitedPathname(window.location.pathname);
-        customHistory.push("/account/login");
+        customHistory.push(ROUTES.login);
         break;
-      // case 400:
-      //   break;
+      case 404:
+        store.commonStore.setAlertText(resError.data.message, true);
+        break;
+      case 400:
+        store.commonStore.setAlertText(resError.data.message, true);
+        break;
       default:
-        // store.commonStore.setAlertText(resError.data, true);
+        //store.commonStore.setAlertText(resError.data.message, true);
         console.log(resError);
     }
     return Promise.reject(error);

@@ -49,6 +49,7 @@ export class AuthenticationStore {
 
       this.currentUser = user;
     } catch (error) {
+      customHistory.push(ROUTES.login);
       throw error;
     }
   };
