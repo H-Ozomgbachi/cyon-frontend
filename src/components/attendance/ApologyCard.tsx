@@ -1,5 +1,5 @@
 import { Done, HighlightOff } from "@mui/icons-material";
-import { Avatar, Box, Chip, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Divider, Paper, Typography } from "@mui/material";
 import { ApologyModel } from "../../api/models/attendance";
 import { DateOnlyFormatter } from "../../helpers/formatters";
 import GrowAnimation from "../shared/animate-content/GrowAnimation";
@@ -46,23 +46,52 @@ export default function ApologyCard({ data }: Props) {
           />
         </Box>
 
-        <Typography
+        <Divider
           sx={{
-            mt: 1,
-            fontWeight: "bold",
+            py: 1,
           }}
-        >
-          For: <span className=" fw-light">{data.for}</span>
-        </Typography>
+        />
 
-        <Typography
+        <Box
           sx={{
-            mt: 1,
-            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          Reason: <span className=" fw-light">{data.reason}</span>
-        </Typography>
+          <Typography
+            sx={{
+              mt: 1,
+              fontWeight: "bold",
+            }}
+          >
+            For
+          </Typography>
+          <Typography className="fw-light">{data.for}</Typography>
+        </Box>
+        <Divider
+          sx={{
+            py: 1,
+          }}
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              mt: 1,
+              fontWeight: "bold",
+            }}
+          >
+            Reason
+          </Typography>
+          <Typography className="fw-light">{data.reason}</Typography>
+        </Box>
       </Paper>
     </GrowAnimation>
   );

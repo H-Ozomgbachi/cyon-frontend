@@ -20,6 +20,17 @@ export const Attendance = {
   addApology: (values: CreateApologyPayload) =>
     requests.post<ApologyModel>("/Apology/AddApology", values),
 
+  getPendingApologies: () =>
+    requests.get<ApologyModel[]>("/Apology/GetPendingApologies"),
+
+  approveApology: (payload: ApologyModel) =>
+    requests.post("/Apology/ApproveApology", payload),
+
+  declineApology: (payload: ApologyModel) =>
+    requests.post("/Apology/DeclineApology", payload),
+
+  deleteApology: (id: string) => requests.del(`/Apology/DeleteApology/${id}`),
+
   getAttendanceTypes: () =>
     requests.get<AttendanceTypeModel[]>("/attendanceTypes"),
 

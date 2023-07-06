@@ -37,7 +37,6 @@ axios.interceptors.response.use(
     const resError = error.response as Error;
     switch (resError.status) {
       case 500:
-        console.log(resError);
         store.commonStore.setAlertText(resError.data.message, true);
         break;
       case 401:
@@ -48,6 +47,7 @@ axios.interceptors.response.use(
         store.commonStore.setAlertText(resError.data.message, true);
         break;
       case 400:
+        console.log(resError);
         store.commonStore.setAlertText(resError.data.message, true);
         break;
       default:

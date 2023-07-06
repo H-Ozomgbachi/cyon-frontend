@@ -5,13 +5,26 @@ export interface UserFinanceModel {
   amount: number;
 }
 
+export interface CreateUserFinance {
+  description: string;
+  dateCollected: string;
+  amount: number;
+  userId: string;
+  financeType: string;
+}
+export interface CreateUserFinanceDues {
+  userId: string;
+  amountPaid: number;
+  duesCostMonthly: number;
+}
+
 export interface UserFinanceSummaryModel {
   contribution: number;
   debt: number;
 }
 
 export interface OrganizationFinanceModel {
-  id: string;
+  id?: string;
   financeType: string;
   description: string;
   amount: number;

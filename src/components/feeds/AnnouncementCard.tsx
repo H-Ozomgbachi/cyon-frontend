@@ -3,12 +3,9 @@ import { AnnouncementModel } from "../../api/models/announcement";
 import { observer } from "mobx-react-lite";
 import SlideAnimation from "../shared/animate-content/SlideAnimation";
 import { Box, Divider } from "@mui/material";
-import relativeTime from "dayjs/plugin/relativeTime";
-import dayjs from "dayjs";
 import { useStore } from "../../api/main/appStore";
 import AnnouncementDetail from "./AnnouncementDetail";
-
-dayjs.extend(relativeTime);
+import { dateFromNow } from "../../helpers/formatters";
 
 interface Props {
   data: AnnouncementModel;
@@ -38,7 +35,7 @@ export default observer(function AnnouncementCard({ data }: Props) {
         >
           <Typography
             sx={{
-              fontWeight: read ? "light" : "bold",
+              fontWeight: read ? "" : "bold",
               fontSize: "0.9rem",
             }}
           >
@@ -48,10 +45,10 @@ export default observer(function AnnouncementCard({ data }: Props) {
             sx={{
               fontSize: "0.6rem",
               color: "rgba(25, 80, 44, 0.895)",
-              fontWeight: read ? "light" : "bold",
+              fontWeight: read ? "" : "bold",
             }}
           >
-            {dayjs(data.dateAdded).fromNow()}
+            {dateFromNow(data.dateAdded)}
           </Typography>
 
           <Divider

@@ -18,34 +18,35 @@ interface Props {
   data: MeetingModel;
 }
 
+export const LinedTitle = (value: string) => (
+  <Divider>
+    <Typography
+      sx={{
+        color: "rgb(150, 114, 23)",
+        mb: 1,
+        fontSize: "1.2rem",
+        fontWeight: "bold",
+      }}
+    >
+      {value}
+    </Typography>
+  </Divider>
+);
+
+export const downloadMinute = (url: string) => {
+  const link = document.createElement("a");
+  link.download = url;
+  link.href = url;
+  link.target = "_blank";
+  link.click();
+};
+
 export default observer(function MeetingDetail({ data }: Props) {
   const { meetingStore } = useStore();
-
-  const downloadMinute = (url: string) => {
-    const link = document.createElement("a");
-    link.download = url;
-    link.href = url;
-    link.click();
-  };
 
   useEffect(() => {
     meetingStore.getMinutesByMeetingDate(data.date);
   }, [meetingStore, data.date]);
-
-  const LinedTitle = (value: string) => (
-    <Divider>
-      <Typography
-        sx={{
-          color: "rgb(150, 114, 23)",
-          mb: 1,
-          fontSize: "1.2rem",
-          fontWeight: "bold",
-        }}
-      >
-        {value}
-      </Typography>
-    </Divider>
-  );
 
   return (
     <Box>

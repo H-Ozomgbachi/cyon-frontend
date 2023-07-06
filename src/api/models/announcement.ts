@@ -6,3 +6,10 @@ export interface AnnouncementModel {
   dateAdded: string;
   readBy: string;
 }
+
+export interface CreateOrUpdateAnnouncement {
+  id?: string;
+  title: string;
+  content: string;
+  isActive?: boolean;
+}

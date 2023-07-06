@@ -1,5 +1,7 @@
 import requests from "../main/apiConfig";
 import {
+  CreateUserFinance,
+  CreateUserFinanceDues,
   OrganizationAccountStatementModelResult,
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
@@ -11,6 +13,12 @@ import {
 export const Finance = {
   getUserFinances: () =>
     requests.get<UserFinanceModel[]>("/UserFinance/GetUserFinances"),
+
+  addUserFinance: (payload: CreateUserFinance) =>
+    requests.post("/UserFinance/AddUserFinance", payload),
+
+  payDuesByAmount: (payload: CreateUserFinanceDues) =>
+    requests.post("/UserFinance/PayDuesByAmount", payload),
 
   getUserFinanceSummary: () =>
     requests.get<UserFinanceSummaryModel>("/UserFinance/GetUserFinanceSummary"),
@@ -32,4 +40,10 @@ export const Finance = {
       "/OrganisationFinance/GetOrganisationAccountStatement",
       payload
     ),
+
+  addOrganizationFinance: (payload: OrganizationFinanceModel) =>
+    requests.post("/OrganisationFinance/AddOrganisationFinance", payload),
+
+  deleteOrganizationFinance: (id: string) =>
+    requests.del(`/OrganisationFinance/DeleteOrganisationFinance/${id}`),
 };

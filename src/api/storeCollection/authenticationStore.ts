@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { customHistory } from "../..";
 import { ROUTES } from "../../routes";
 import agent from "../main/apiAgent";
@@ -9,9 +9,13 @@ import {
   UpdateMyAccountPayload,
   UserModel,
 } from "../models/authentication";
+import { SelectOptionModel } from "../../components/shared/models/selectOptionModel";
 
 export class AuthenticationStore {
   currentUser: UserModel | null = null;
+  allUsers: UserModel[] = [];
+
+  usersOption: SelectOptionModel[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -79,6 +83,29 @@ export class AuthenticationStore {
       await agent.authentication.registerMyAccount(values);
 
       this.login({ email: values.email, password: values.password });
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  getAllUsers = async () => {
+    try {
+      store.commonStore.setLoading(true);
+
+      const result = await agent.authentication.getAllUsers();
+
+      this.usersOption = result.map((el) => {
+        return {
+          text: `${el.firstName} ${el.lastName}`,
+          value: el.id,
+        };
+      });
+
+      runInAction(() => {
+        this.allUsers = result;
+      });
     } catch (error) {
       throw error;
     } finally {

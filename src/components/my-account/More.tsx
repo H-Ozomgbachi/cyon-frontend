@@ -1,13 +1,13 @@
 import { Box, Grid, Paper, Typography, styled } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 import ContentTitle from "../shared/content-title";
 import { PersonOff, PsychologyAlt } from "@mui/icons-material";
 import { useStore } from "../../api/main/appStore";
 import DeactivateRequest from "./more/DeactivateRequest";
+import MakeDecision from "./more/MakeDecision";
 
 export default observer(function More() {
-  const { commonStore } = useStore();
+  const { commonStore, decisionStore } = useStore();
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -17,10 +17,13 @@ export default observer(function More() {
     color: theme.palette.text.secondary,
   }));
 
-  useEffect(() => {}, []);
-
-  const handleDeactivateRequest = () =>
+  const handleDeactivateRequest = async () =>
     commonStore.setModalContent(<DeactivateRequest />, "Deactivate Account");
+
+  const handleMakeDecision = async () => {
+    const result = await decisionStore.getDecisions();
+    commonStore.setModalContent(<MakeDecision data={result} />, "", true);
+  };
 
   return (
     <Box
@@ -37,6 +40,7 @@ export default observer(function More() {
               display: "flex",
               flexDirection: "column",
             }}
+            onClick={handleMakeDecision}
           >
             <PsychologyAlt
               sx={{

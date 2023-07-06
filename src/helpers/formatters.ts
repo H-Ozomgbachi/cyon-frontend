@@ -1,4 +1,9 @@
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
 
 export const NairaFormatter = (value: number) => {
   const result = new Intl.NumberFormat("en", {
@@ -10,7 +15,7 @@ export const NairaFormatter = (value: number) => {
 };
 
 export const DateOnlyFormatter = (value: string) =>
-  dayjs(value).format("DD/MM/YYYY");
+  dayjs.utc(value).format("DD/MM/YYYY");
 
 export const NumberToHourMin = (value: number) => {
   const hr = Math.floor(value / 60);
@@ -20,10 +25,12 @@ export const NumberToHourMin = (value: number) => {
 };
 
 export const DayAndMonthFormatter = (value: string) =>
-  dayjs(value).format("MMMM DD");
+  dayjs.utc(value).format("MMMM DD");
 
 export const CompleteDateFormatter = (value: string) =>
-  dayjs(value).format("MMMM DD, YYYY");
+  dayjs.utc(value).format("MMMM DD, YYYY");
 
 export const IsDaySame = (value1: string, value2: string) =>
-  dayjs(value1).isSame(value2, "day");
+  dayjs.utc(value1).isSame(value2, "day");
+
+export const dateFromNow = (value: string) => dayjs.utc(value).fromNow();

@@ -1,11 +1,16 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../main/apiAgent";
-import { AnnouncementModel } from "../models/announcement";
+import {
+  AnnouncementModel,
+  CreateOrUpdateAnnouncement,
+} from "../models/announcement";
 import { store } from "../main/appStore";
 
 export class AnnouncementStore {
   announcements: AnnouncementModel[] = [];
   loadingAnnouncements = false;
+
+  isDeletingAnnouncement = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -23,6 +28,50 @@ export class AnnouncementStore {
       throw error;
     } finally {
       this.loadingAnnouncements = false;
+    }
+  };
+
+  addAnnouncement = async (values: CreateOrUpdateAnnouncement) => {
+    try {
+      await agent.announcement.addAnnouncement(values);
+
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setAlertText("Announcement added successfully");
+
+      this.latestAnnouncementList();
+    } catch (error) {
+      store.commonStore.setModalVisible(false);
+      throw error;
+    }
+  };
+
+  updateAnnouncement = async (values: CreateOrUpdateAnnouncement) => {
+    try {
+      await agent.announcement.updateAnnouncement(values);
+
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setAlertText("Announcement updated successfully");
+
+      this.latestAnnouncementList();
+    } catch (error) {
+      store.commonStore.setModalVisible(false);
+      throw error;
+    }
+  };
+
+  deleteAnnouncement = async (id: string) => {
+    try {
+      this.isDeletingAnnouncement = true;
+      await agent.announcement.deleteAnnouncement(id);
+
+      this.isDeletingAnnouncement = false;
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setAlertText("Announcement deleted successfully");
+
+      this.latestAnnouncementList();
+    } catch (error) {
+      store.commonStore.setModalVisible(false);
+      throw error;
     }
   };
 

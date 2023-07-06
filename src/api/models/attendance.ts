@@ -3,9 +3,10 @@ export interface AttendanceModel {
   attendanceTypeName: string;
   dateAdded: string;
   userId: string;
-  userEmail: string;
+  name: string;
   isPresent: boolean;
   rating: number;
+  userCode: string;
 }
 
 export interface ApologyModel {
@@ -18,13 +19,15 @@ export interface ApologyModel {
   rejectionReason: string;
   isResolved: boolean;
   userId: string;
-  userEmail: string;
+  userCode: string;
+  name: string;
 }
 
 export interface CreateApologyPayload {
   attendanceTypeId: string;
   absenteeReason: string;
   date: string;
+  name: string;
 }
 
 export interface AttendanceTypeModel {

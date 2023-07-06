@@ -1,18 +1,19 @@
 export interface MeetingModel {
-  id: string;
+  id?: string;
   date: string;
+  additionalInfo: string;
   agenda: Agendum[];
   proposedDurationInMinutes: number;
 }
 
 export interface MinutesModel {
-  id: string;
+  id?: string;
   content: string;
   dateOfMeeting: string;
 }
 
 interface Agendum {
-  id: string;
+  id?: string;
   title: string;
   description: string;
 }

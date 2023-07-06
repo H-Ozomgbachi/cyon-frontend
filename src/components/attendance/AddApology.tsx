@@ -8,12 +8,13 @@ import MyFormikController from "../shared/inputs/MyFormikController";
 import { useStore } from "../../api/main/appStore";
 
 export default observer(function AddApology() {
-  const { attendanceStore } = useStore();
+  const { attendanceStore, authenticationStore } = useStore();
 
   const initialValues = {
     attendanceTypeId: "",
     absenteeReason: "",
     date: dayjs(TODAY),
+    name: `${authenticationStore.currentUser?.firstName} ${authenticationStore.currentUser?.lastName}`,
   };
 
   const validationSchema = Yup.object({

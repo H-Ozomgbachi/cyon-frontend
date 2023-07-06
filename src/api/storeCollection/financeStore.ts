@@ -1,6 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../main/apiAgent";
 import {
+  CreateUserFinance,
+  CreateUserFinanceDues,
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
@@ -15,6 +17,8 @@ export class FinanceStore {
   organizationFinances: OrganizationFinanceModel[] = [];
   organizationBalance: OrganizationBalanceModel | null = null;
   userFinanceSummary: UserFinanceSummaryModel | null = null;
+
+  isDeletingOrganizationFinance = false;
 
   loadingOrganizationFinances = false;
 
@@ -35,6 +39,35 @@ export class FinanceStore {
       throw error;
     } finally {
       this.loadingUserFinances = false;
+    }
+  };
+
+  addUserFinance = async (values: CreateUserFinance) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      await agent.finance.addUserFinance(values);
+
+      store.commonStore.setAlertText("User finance added successfully");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  payDuesByAmount = async (values: CreateUserFinanceDues) => {
+    try {
+      store.commonStore.setLoading(true);
+      await agent.finance.payDuesByAmount(values);
+
+      store.commonStore.setAlertText("Dues payment successful");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -92,6 +125,36 @@ export class FinanceStore {
       throw error;
     } finally {
       store.commonStore.setLoading(false);
+    }
+  };
+
+  addOrganizationFinance = async (values: OrganizationFinanceModel) => {
+    try {
+      await agent.finance.addOrganizationFinance(values);
+
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setAlertText("Org. Finance added successfully");
+
+      this.getOrganizationFinances();
+    } catch (error) {
+      store.commonStore.setModalVisible(false);
+      throw error;
+    }
+  };
+
+  deleteOrganizationFinance = async (id: string) => {
+    try {
+      this.isDeletingOrganizationFinance = true;
+      await agent.finance.deleteOrganizationFinance(id);
+
+      this.isDeletingOrganizationFinance = false;
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setAlertText("Org. Finance deleted successfully");
+
+      this.getOrganizationFinances();
+    } catch (error) {
+      store.commonStore.setModalVisible(false);
+      throw error;
     }
   };
 }

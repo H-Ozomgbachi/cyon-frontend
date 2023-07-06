@@ -2,6 +2,7 @@ import { AccountManagement } from "../endpoints/accountManagementEndpoint";
 import { Announcement } from "../endpoints/announcementEndpoint";
 import { Attendance } from "../endpoints/attendanceEndpoint";
 import { Authentication } from "../endpoints/authenticationEndpoint";
+import { Decision } from "../endpoints/decisionEndpoint";
 import { Department } from "../endpoints/departmentEndpoint";
 import { Finance } from "../endpoints/financeEndpoint";
 import { Meeting } from "../endpoints/meetingEndpoint";
@@ -20,6 +21,7 @@ const agent = {
   department: Department,
   upcomingEvent: UpcomingEvent,
   accountManagement: AccountManagement,
+  decision: Decision,
 };
 
 export default agent;

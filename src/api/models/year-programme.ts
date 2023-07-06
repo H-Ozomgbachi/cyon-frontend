@@ -5,5 +5,5 @@ export interface YearProgrammeModel {
   endDate: string;
   imageUrl: string;
   scope: string;
-  year: number;
+  year: string;
 }

@@ -19,6 +19,9 @@ export class AttendanceStore {
   attendanceSummary: AttendanceSummaryModel | null = null;
   apologySummary: ApologySummaryModel | null = null;
 
+  loadingPendingApologies = false;
+  pendingApologies: ApologyModel[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -53,15 +56,75 @@ export class AttendanceStore {
     }
   };
 
+  getPendingApologies = async () => {
+    try {
+      this.loadingPendingApologies = true;
+      const result = await agent.attendance.getPendingApologies();
+
+      runInAction(() => {
+        this.pendingApologies = result;
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      this.loadingPendingApologies = false;
+    }
+  };
+
+  approveApology = async (values: ApologyModel) => {
+    try {
+      store.commonStore.setLoading(true);
+      await agent.attendance.approveApology(values);
+
+      store.commonStore.setAlertText("Apology approved");
+
+      this.getPendingApologies();
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  declineApology = async (values: ApologyModel) => {
+    try {
+      store.commonStore.setModalVisible(false);
+
+      store.commonStore.setLoading(true);
+      await agent.attendance.declineApology(values);
+
+      store.commonStore.setAlertText("Apology declined");
+      this.getPendingApologies();
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  deleteApology = async (id: string) => {
+    try {
+      await agent.attendance.deleteApology(id);
+
+      store.commonStore.setAlertText("Apology deleted successfully");
+      this.getPendingApologies();
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setModalVisible(false);
+    }
+  };
+
   addApology = async (values: CreateApologyPayload) => {
     try {
+      store.commonStore.setModalVisible(false);
+
       store.commonStore.setLoading(true);
       const result = await agent.attendance.addApology(values);
       store.commonStore.setAlertText(`${result.for} apology sent`);
     } catch (error) {
       throw error;
     } finally {
-      store.commonStore.setModalVisible(false);
       store.commonStore.setLoading(false);
     }
   };

@@ -11,7 +11,7 @@ import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 type Props = {
   isExpanded?: boolean;
   title: string;
-  titleIcon: ReactJSXElement;
+  titleIcon?: ReactJSXElement;
   content: ReactJSXElement;
 };
 

@@ -20,6 +20,7 @@ export default observer(function Dashboard() {
   return (
     <Box>
       <HeaderNav />
+      
       <Divider />
 
       <BottomNav

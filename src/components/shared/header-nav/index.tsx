@@ -29,7 +29,7 @@ const pages: NavModel[] = [
     linkUrl: ROUTES.dashboard,
   },
   {
-    title: "Admin Panel",
+    title: "Admin",
     linkUrl: ROUTES.adminPanel,
     scope: roles.exco,
   },

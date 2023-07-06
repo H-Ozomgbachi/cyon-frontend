@@ -12,6 +12,8 @@ import { useStore } from "./api/main/appStore";
 import { useEffect } from "react";
 import { customHistory } from ".";
 import { isMobile } from "react-device-detect";
+import Admin from "./pages/admin";
+import MoreContentsAdmin1 from "./pages/admin/MoreContentsAdmin1";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -30,7 +32,7 @@ export default observer(function App() {
     }
   }, [commonStore.token, authenticationStore]);
 
-  return !isMobile ? (
+  return isMobile ? (
     <>
       <MyModal />
       <MyAlert />
@@ -47,7 +49,10 @@ export default observer(function App() {
 
         <Route path="dashboard">
           <Route index element={<Dashboard />} />
-          <Route path="announcements" element={<></>} />
+        </Route>
+        <Route path="admin">
+          <Route index element={<Admin />} />
+          <Route path="more-contents-1" element={<MoreContentsAdmin1 />} />
         </Route>
       </Routes>
     </>
