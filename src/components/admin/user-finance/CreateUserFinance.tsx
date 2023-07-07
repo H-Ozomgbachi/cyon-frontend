@@ -14,7 +14,7 @@ export default observer(function CreateUserFinance() {
 
   const initialValues = {
     description: "",
-    dateCollected: dayjs(TODAY).add(30, "day"),
+    dateCollected: dayjs(TODAY).add(0, "day"),
     amount: 0,
     userId: "",
     financeType: "",

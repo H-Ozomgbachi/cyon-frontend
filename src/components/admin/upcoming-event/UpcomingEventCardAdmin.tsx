@@ -41,15 +41,18 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   return (
     <GrowAnimation>
       <Card sx={{ maxWidth: 345, mb: 1 }}>
         <CardMedia
           component="img"
-          height="200"
+          height="250px"
           image={data.imageUrl}
           alt="eventImg"
+          sx={{
+            objectFit: "cover",
+            objectPosition: "top",
+          }}
         />
         <CardContent>
           <Typography
@@ -70,10 +73,8 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {/* <Button
-            sx={{
-              mt: 0,
-            }}
+          <Button
+            color="error"
             onClick={() =>
               commonStore.setModalContent(
                 <DeleteUpcomingEvent data={data} />,
@@ -81,8 +82,8 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
               )
             }
           >
-            Delete
-          </Button> */}
+            <Delete color="error" /> remove
+          </Button>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
@@ -98,19 +99,14 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{data.description}</Typography>
+            {/* <Typography paragraph>{data.description}</Typography> */}
 
-            <Button
-              color="error"
-              onClick={() =>
-                commonStore.setModalContent(
-                  <DeleteUpcomingEvent data={data} />,
-                  `Do you want to delete ${data.title}`
-                )
-              }
-            >
-              <Delete color="error" /> remove
-            </Button>
+            <div
+              className="container"
+              dangerouslySetInnerHTML={{
+                __html: data.description.replaceAll("<p><br></p>", "<br/>"),
+              }}
+            />
           </CardContent>
         </Collapse>
       </Card>

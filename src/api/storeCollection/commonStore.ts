@@ -57,6 +57,8 @@ export class CommonStore {
 
     if (isError) {
       this.alertSeverity = "error";
+    } else {
+      this.alertSeverity = "success";
     }
   };
 

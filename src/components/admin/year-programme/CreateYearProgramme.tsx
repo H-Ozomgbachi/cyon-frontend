@@ -101,9 +101,7 @@ export default observer(function CreateYearProgramme() {
                 mt: 1,
               }}
             >
-              {url && (
-                <CardMedia component="img" height="200" image={url} alt="img" />
-              )}
+              {url && <CardMedia component="img" image={url} alt="img" />}
             </Typography>
             <label>
               <input
@@ -111,6 +109,7 @@ export default observer(function CreateYearProgramme() {
                 type="file"
                 onChange={(e) => handleFileUpload(e.target?.files?.[0])}
                 required
+                accept="image/*"
               />
               <Typography
                 sx={{

@@ -5,6 +5,8 @@ import MyFormikController from "../../shared/inputs/MyFormikController";
 import { useStore } from "../../../api/main/appStore";
 import { observer } from "mobx-react-lite";
 import { AnnouncementModel } from "../../../api/models/announcement";
+import { useState } from "react";
+import RichEditor from "../../shared/rich-editor";
 
 interface Props {
   announcement: AnnouncementModel | null;
@@ -14,17 +16,18 @@ export default observer(function CreateOrUpdateAnnouncement({
   announcement,
 }: Props) {
   const { announcementStore } = useStore();
+  const [contentValue, setContentValue] = useState(announcement?.content ?? "");
 
   const initialValues = {
     id: announcement?.id ?? "",
     title: announcement?.title ?? "",
-    content: announcement?.content ?? "",
+    content: contentValue,
     isActive: announcement?.isActive ?? true,
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Title required"),
-    content: Yup.string().required("Content required"),
+    // content: Yup.string().required("Content required"),
   });
 
   return (
@@ -34,8 +37,14 @@ export default observer(function CreateOrUpdateAnnouncement({
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) =>
           announcement
-            ? announcementStore.updateAnnouncement(values)
-            : announcementStore.addAnnouncement(values)
+            ? console.log({
+                ...values,
+                content: contentValue,
+              })
+            : announcementStore.addAnnouncement({
+                ...values,
+                content: contentValue,
+              })
         }
       >
         {({ values, isSubmitting }) => (
@@ -46,11 +55,16 @@ export default observer(function CreateOrUpdateAnnouncement({
               name="title"
               type="text"
             />
-            <MyFormikController
+            {/* <MyFormikController
               control="text-area"
               label="Content"
               name="content"
               type="text"
+            /> */}
+
+            <RichEditor
+              setValue={setContentValue}
+              defaultValue={contentValue}
             />
 
             <MyFormikController

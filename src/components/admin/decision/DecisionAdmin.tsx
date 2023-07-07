@@ -2,19 +2,20 @@ import { Box, Fab } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
 import { Create } from "@mui/icons-material";
+import ContentTitle from "../../shared/content-title";
 import { useEffect } from "react";
 import MySkeleton from "../../shared/loading-spinner/MySkeleton";
-import AnnouncementCardAdmin from "./AnnouncementCardAdmin";
-import CreateOrUpdateAnnouncement from "./CreateOrUpdateAnnouncement";
+import DecisionCardAdmin from "./DecisionCardAdmin";
+import CreateOrUpdateDecision from "./CreateOrUpdateDecision";
 
-export default observer(function AnnouncementAdmin() {
-  const { announcementStore, commonStore } = useStore();
+export default observer(function DecisionAdmin() {
+  const { decisionStore, commonStore } = useStore();
 
   useEffect(() => {
-    if (announcementStore.announcements.length === 0) {
-      announcementStore.getAnnouncements();
+    if (decisionStore.decisionsAtAdmin.length === 0) {
+      decisionStore.getDecisionsAdAdmin();
     }
-  }, [announcementStore]);
+  }, [decisionStore]);
 
   return (
     <Box
@@ -22,11 +23,13 @@ export default observer(function AnnouncementAdmin() {
         p: 1,
       }}
     >
-      {announcementStore.loadingAnnouncements ? (
+      <ContentTitle title="Decisions Manager" />
+
+      {decisionStore.loadingDecisionsAtAdmin ? (
         <MySkeleton count={3} />
       ) : (
-        announcementStore.announcements.map((el, i) => (
-          <AnnouncementCardAdmin key={i} data={el} />
+        decisionStore.decisionsAtAdmin.map((el, i) => (
+          <DecisionCardAdmin key={i} data={el} />
         ))
       )}
 
@@ -43,8 +46,8 @@ export default observer(function AnnouncementAdmin() {
           aria-label="add"
           onClick={() =>
             commonStore.setModalContent(
-              <CreateOrUpdateAnnouncement announcement={null} />,
-              "New Announcement",
+              <CreateOrUpdateDecision decision={null} />,
+              "New Decision",
               true
             )
           }

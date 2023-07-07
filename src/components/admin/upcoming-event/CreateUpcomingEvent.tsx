@@ -12,9 +12,12 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import MyFormikController from "../../shared/inputs/MyFormikController";
 import { UploadFile } from "@mui/icons-material";
+import RichEditor from "../../shared/rich-editor";
 
 export default observer(function CreateUpcomingEvent() {
   const { upcomingEventStore } = useStore();
+  const [contentValue, setContentValue] = useState("");
+
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<any>();
   const [url, setUrl] = useState("");
@@ -38,7 +41,7 @@ export default observer(function CreateUpcomingEvent() {
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
+    // description: Yup.string().required("Description is required"),
   });
 
   return (
@@ -50,7 +53,7 @@ export default observer(function CreateUpcomingEvent() {
           const formData = new FormData();
 
           formData.append("title", values.title);
-          formData.append("description", values.description);
+          formData.append("description", contentValue);
           formData.append("image", file, fileName);
 
           upcomingEventStore.addUpcomingEvent(formData);
@@ -64,11 +67,16 @@ export default observer(function CreateUpcomingEvent() {
               name="title"
               type="text"
             />
-            <MyFormikController
+            {/* <MyFormikController
               control="text-area"
               label="Description"
               name="description"
               type="text"
+            /> */}
+
+            <RichEditor
+              defaultValue={contentValue}
+              setValue={setContentValue}
             />
 
             <Typography
@@ -76,9 +84,7 @@ export default observer(function CreateUpcomingEvent() {
                 mt: 1,
               }}
             >
-              {url && (
-                <CardMedia component="img" height="200" image={url} alt="img" />
-              )}
+              {url && <CardMedia component="img" image={url} alt="img" />}
             </Typography>
             <label>
               <input
@@ -86,6 +92,7 @@ export default observer(function CreateUpcomingEvent() {
                 type="file"
                 onChange={(e) => handleFileUpload(e.target?.files?.[0])}
                 required
+                accept="image/*"
               />
               <Typography
                 sx={{

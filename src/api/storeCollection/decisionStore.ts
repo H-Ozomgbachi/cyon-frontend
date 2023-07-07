@@ -1,15 +1,18 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { SelectOptionModel } from "../../components/shared/models/selectOptionModel";
 import agent from "../main/apiAgent";
 import { store } from "../main/appStore";
 import {
   CreateDecision,
   CreateDecisionResponse,
+  DecisionModel,
   UpdateDecision,
 } from "../models/decision";
 
 export class DecisionStore {
   isDeletingDecision = false;
+  decisionsAtAdmin: DecisionModel[] = [];
+  loadingDecisionsAtAdmin = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -29,6 +32,21 @@ export class DecisionStore {
     }
   };
 
+  getDecisionsAdAdmin = async () => {
+    try {
+      this.loadingDecisionsAtAdmin = true;
+
+      const response = await agent.decision.getDecisions();
+      runInAction(() => {
+        this.decisionsAtAdmin = response;
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      this.loadingDecisionsAtAdmin = false;
+    }
+  };
+
   addDecision = async (values: CreateDecision) => {
     try {
       await agent.decision.addDecision(values);
@@ -36,7 +54,7 @@ export class DecisionStore {
       store.commonStore.setModalVisible(false);
       store.commonStore.setAlertText("Decision created successfully");
 
-      this.getDecisions();
+      this.getDecisionsAdAdmin();
     } catch (error) {
       store.commonStore.setModalVisible(false);
       throw error;
@@ -50,7 +68,7 @@ export class DecisionStore {
       store.commonStore.setModalVisible(false);
       store.commonStore.setAlertText("Decision updated successfully");
 
-      this.getDecisions();
+      this.getDecisionsAdAdmin();
     } catch (error) {
       store.commonStore.setModalVisible(false);
       throw error;
@@ -66,7 +84,7 @@ export class DecisionStore {
       store.commonStore.setModalVisible(false);
       store.commonStore.setAlertText("Decision deleted successfully");
 
-      this.getDecisions();
+      this.getDecisionsAdAdmin();
     } catch (error) {
       store.commonStore.setModalVisible(false);
       throw error;
@@ -79,8 +97,9 @@ export class DecisionStore {
 
       store.commonStore.setAlertText("Thanks for deciding!");
     } catch (error) {
-      store.commonStore.setModalVisible(false);
       throw error;
+    } finally {
+      store.commonStore.setModalVisible(false);
     }
   };
 

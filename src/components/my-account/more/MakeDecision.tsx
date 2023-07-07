@@ -112,7 +112,11 @@ export default observer(function MakeDecision({ data }: Props) {
 
   return (
     <>
-      {openDecisions}
+      {openDecisions.length ? (
+        openDecisions
+      ) : (
+        <Typography>No decision to take right now!</Typography>
+      )}
 
       <Divider
         sx={{

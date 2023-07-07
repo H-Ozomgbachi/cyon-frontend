@@ -65,6 +65,7 @@ export default observer(function CreateMinute() {
                 type="file"
                 onChange={(e) => handleFileUpload(e.target?.files?.[0])}
                 required
+                accept=".pdf,.docx,.doc"
               />
               <Typography
                 sx={{

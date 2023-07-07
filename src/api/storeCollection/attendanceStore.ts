@@ -8,6 +8,8 @@ import {
   AttendanceModel,
   AttendanceSummaryModel,
   CreateApologyPayload,
+  MarkAbsentees,
+  TakeAttendance,
 } from "../models/attendance";
 
 export class AttendanceStore {
@@ -15,6 +17,9 @@ export class AttendanceStore {
   loadingMyAttendance = false;
   myApologies: ApologyModel[] = [];
   loadingMyApologies = false;
+  loadingTodayAttendance = false;
+  todayAttendance: AttendanceModel[] = [];
+  loadingAttendanceTypes = false;
   attendanceTypes: SelectOptionModel[] = [];
   attendanceSummary: AttendanceSummaryModel | null = null;
   apologySummary: ApologySummaryModel | null = null;
@@ -38,6 +43,57 @@ export class AttendanceStore {
       throw error;
     } finally {
       this.loadingMyAttendance = false;
+    }
+  };
+
+  getTodayAttendance = async () => {
+    try {
+      this.loadingTodayAttendance = true;
+      const result = await agent.attendance.getTodayAttendance();
+
+      runInAction(() => {
+        this.todayAttendance = result;
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      this.loadingTodayAttendance = false;
+    }
+  };
+
+  takeAttendance = async (values: TakeAttendance) => {
+    let flag = false;
+    try {
+      store.commonStore.setLoading(true);
+      await agent.attendance.takeAttendance(values);
+
+      store.commonStore.setAlertText("Attendance recorded");
+
+      this.getTodayAttendance();
+
+      flag = true;
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+      window.scrollTo(0, 0);
+    }
+    return flag;
+  };
+
+  markAbsentees = async (values: MarkAbsentees) => {
+    try {
+      store.commonStore.setLoading(true);
+      const outcome = await agent.attendance.markAbsentees(values);
+
+      store.commonStore.setAlertText(outcome);
+
+      this.getTodayAttendance();
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -131,6 +187,8 @@ export class AttendanceStore {
 
   getAttendanceTypes = async () => {
     try {
+      this.loadingAttendanceTypes = true;
+
       const result = await agent.attendance.getAttendanceTypes();
 
       runInAction(() => {
@@ -143,6 +201,8 @@ export class AttendanceStore {
       });
     } catch (error) {
       throw error;
+    } finally {
+      this.loadingAttendanceTypes = false;
     }
   };
 

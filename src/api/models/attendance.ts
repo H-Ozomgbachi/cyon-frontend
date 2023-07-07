@@ -44,3 +44,20 @@ export interface ApologySummaryModel {
   approved: string;
   declined: string;
 }
+
+export interface TakeAttendance {
+  attendanceTypeId: string;
+  date: string;
+  attendanceData: AttendanceDatum[];
+}
+
+export interface AttendanceDatum {
+  userCode: string;
+  rating: number;
+  name: string;
+}
+
+export interface MarkAbsentees {
+  dateEventHeld: string;
+  attendanceTypeId: string;
+}

@@ -6,6 +6,8 @@ import {
   AttendanceSummaryModel,
   AttendanceTypeModel,
   CreateApologyPayload,
+  MarkAbsentees,
+  TakeAttendance,
 } from "../models/attendance";
 
 export const Attendance = {
@@ -41,4 +43,13 @@ export const Attendance = {
 
   getApologySummary: () =>
     requests.get<ApologySummaryModel>("/Apology/GetApologySummary"),
+
+  takeAttendance: (payload: TakeAttendance) =>
+    requests.post("/AttendanceRegister/TakeAttendance", payload),
+
+  markAbsentees: (payload: MarkAbsentees) =>
+    requests.post<string>("/AttendanceRegister/MarkAbsentees", payload),
+
+  getTodayAttendance: () =>
+    requests.get<AttendanceModel[]>("/AttendanceRegister/GetTodayAttendance"),
 };

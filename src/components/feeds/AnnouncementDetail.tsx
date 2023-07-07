@@ -19,7 +19,14 @@ export default observer(function AnnouncementDetail({ data }: Props) {
 
       <Divider className="my-3" />
 
-      <Typography paragraph>{data.content}</Typography>
+      <div
+        className="container"
+        dangerouslySetInnerHTML={{
+          __html: data.content.replaceAll("<p><br></p>", "<br/>"),
+        }}
+      />
+
+      {/* <Typography paragraph>{data.content}</Typography> */}
     </div>
   );
 });

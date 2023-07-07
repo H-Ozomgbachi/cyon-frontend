@@ -44,9 +44,13 @@ export default observer(function UpcomingEventCard({ data }: Props) {
       <Card sx={{ maxWidth: 345, mb: 1 }}>
         <CardMedia
           component="img"
-          height="200"
+          height="250px"
           image={data.imageUrl}
-          alt="announcementImg"
+          alt="img"
+          sx={{
+            objectFit: "cover",
+            objectPosition: "top",
+          }}
         />
         <CardContent>
           <Typography
@@ -82,7 +86,13 @@ export default observer(function UpcomingEventCard({ data }: Props) {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{data.description}</Typography>
+            {/* <Typography paragraph>{data.description}</Typography> */}
+            <div
+              className="container"
+              dangerouslySetInnerHTML={{
+                __html: data.description.replaceAll("<p><br></p>", "<br/>"),
+              }}
+            />
           </CardContent>
         </Collapse>
       </Card>

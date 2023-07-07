@@ -18,7 +18,9 @@ export default observer(function AddApology() {
   };
 
   const validationSchema = Yup.object({
-    absenteeReason: Yup.string().required("Reason to be absent is required"),
+    absenteeReason: Yup.string()
+      .required("Reason to be absent is required")
+      .max(20, "Maximum of 20 characters"),
   });
 
   return (

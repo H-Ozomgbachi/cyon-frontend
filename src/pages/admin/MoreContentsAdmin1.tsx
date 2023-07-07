@@ -13,6 +13,7 @@ import YearProgrammeAdmin from "../../components/admin/year-programme/YearProgra
 import HeaderNav from "../../components/shared/header-nav";
 import MeetingAdmin from "../../components/admin/meeting/MeetingAdmin";
 import MinuteAdmin from "../../components/admin/minute/MinuteAdmin";
+import DecisionAdmin from "../../components/admin/decision/DecisionAdmin";
 
 export default observer(function MoreContentsAdmin1() {
   useEffect(() => {}, []);
@@ -47,7 +48,7 @@ export default observer(function MoreContentsAdmin1() {
             tabNames={["upcoming", "programmes"]}
             tabContents={[<UpcomingEventAdmin />, <YearProgrammeAdmin />]}
           />,
-          <></>,
+          <DecisionAdmin />,
         ]}
       />
     </Box>

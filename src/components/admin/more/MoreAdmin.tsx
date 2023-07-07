@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography, styled } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { Toc } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import ContentTitle from "../../shared/content-title";
 import { customHistory } from "../../..";
 import { ROUTES } from "../../../routes";
@@ -20,7 +20,7 @@ export default observer(function MoreAdmin() {
         p: 1,
       }}
     >
-      <ContentTitle title="Administrator Tasks" />
+      <ContentTitle title="Administrator" />
 
       <Grid container spacing={1}>
         <Grid item xs={4}>
@@ -31,7 +31,7 @@ export default observer(function MoreAdmin() {
             }}
             onClick={() => customHistory.push(ROUTES.moreContentAdmin)}
           >
-            <Toc
+            <Settings
               sx={{
                 alignSelf: "center",
               }}
@@ -41,7 +41,7 @@ export default observer(function MoreAdmin() {
                 color: "rgb(150, 114, 23)",
               }}
             >
-              Contents 1
+              Setup
             </Typography>
           </Item>
         </Grid>
