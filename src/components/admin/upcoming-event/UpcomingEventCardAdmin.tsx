@@ -43,10 +43,10 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
   };
   return (
     <GrowAnimation>
-      <Card sx={{ maxWidth: 345, mb: 1 }}>
+      <Card sx={{ mb: 1 }}>
         <CardMedia
           component="img"
-          height="250px"
+          height="auto"
           image={data.imageUrl}
           alt="eventImg"
           sx={{
@@ -72,7 +72,7 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
             Posted: {CompleteDateFormatter(data.dateAdded)}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions disableSpacing onClick={handleExpandClick}>
           <Button
             color="error"
             onClick={() =>
@@ -86,7 +86,6 @@ export default observer(function UpcomingEventCardAdmin({ data }: Props) {
           </Button>
           <ExpandMore
             expand={expanded}
-            onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
           >

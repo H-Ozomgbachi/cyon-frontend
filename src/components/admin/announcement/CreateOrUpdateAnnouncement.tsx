@@ -37,7 +37,7 @@ export default observer(function CreateOrUpdateAnnouncement({
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) =>
           announcement
-            ? console.log({
+            ? announcementStore.updateAnnouncement({
                 ...values,
                 content: contentValue,
               })

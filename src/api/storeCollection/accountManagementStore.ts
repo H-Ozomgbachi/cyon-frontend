@@ -41,12 +41,12 @@ export class AccountManagementStore {
       const val = response.map(
         (el) =>
           `${el.groupTitle.toUpperCase()}\n${el.members.map(
-            (m) => `${m.firstName} ${m.lastName}, ${m.phoneNumber}`
+            (m) => `${m.firstName} ${m.lastName} ${m.phoneNumber}\n`
           )}`
       );
 
       runInAction(() => {
-        this.groupsResult = val.join("\n\n");
+        this.groupsResult = val.map((e) => e.replaceAll(",", "")).join("\n\n");
       });
     } catch (error) {
       throw error;

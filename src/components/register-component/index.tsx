@@ -68,7 +68,10 @@ export default observer(function RegisterComponent() {
     email: Yup.string()
       .email("Must be valid email")
       .required("Email is required"),
-    password: Yup.string().min(8).required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Must be atleast 8 characters")
+      .matches(new RegExp(/^(?=.*[0-9])/), "Must contain a digit"),
     confirmPassword: Yup.string()
       .required("You must confirm password")
       .oneOf([Yup.ref("password"), null], "Passwords must match"),

@@ -28,6 +28,7 @@ export default function CustomInputPassword(props: MyInputProps) {
         id={name}
         type={showPassword ? "text" : "password"}
         label={label}
+        autoComplete="off"
         {...rest}
         InputProps={{
           endAdornment: (

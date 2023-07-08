@@ -114,7 +114,7 @@ export default observer(function ApologyCardAdmin({ data }: Props) {
             onClick={() =>
               commonStore.setModalContent(
                 <DeclineApology data={data} />,
-                "Decline and Apology"
+                "Decline Apology"
               )
             }
           >

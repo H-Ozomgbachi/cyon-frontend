@@ -29,4 +29,7 @@ export const AccountManagement = {
 
   deactivateAccount: (payload: AccountDeactivateRequestModel) =>
     requests.post("/AccountManagement/DeactivateAccount", payload),
+
+  uploadProfilePic: (payload: FormData) =>
+    requests.post("/AccountManagement/UploadProfilePicture", payload),
 };

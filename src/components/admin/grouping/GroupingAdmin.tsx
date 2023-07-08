@@ -34,7 +34,7 @@ export default observer(function GroupingAdmin() {
         isExpanded={true}
         title="Generate Groups"
         titleIcon={<Layers />}
-        content={<GenerateGroup />}
+        content={<GenerateGroup activeUsers={activeUsers} />}
       />
 
       <GroupResult />

@@ -58,9 +58,18 @@ export class AuthenticationStore {
     }
   };
 
-  updateMyAccount = async (values: UpdateMyAccountPayload) => {
+  updateMyAccount = async (
+    values: UpdateMyAccountPayload,
+    img: File | null
+  ) => {
     try {
       store.commonStore.setLoading(true);
+
+      if (img) {
+        const formData = new FormData();
+        formData.append("file", img);
+        await agent.accountManagement.uploadProfilePic(formData);
+      }
 
       const succeeded = await agent.authentication.updateMyAccount(values);
 

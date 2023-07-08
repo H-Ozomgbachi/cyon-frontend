@@ -41,10 +41,10 @@ export default observer(function UpcomingEventCard({ data }: Props) {
 
   return (
     <GrowAnimation>
-      <Card sx={{ maxWidth: 345, mb: 1 }}>
+      <Card>
         <CardMedia
           component="img"
-          height="250px"
+          height="auto"
           image={data.imageUrl}
           alt="img"
           sx={{
@@ -70,13 +70,13 @@ export default observer(function UpcomingEventCard({ data }: Props) {
             Posted: {CompleteDateFormatter(data.dateAdded)}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions disableSpacing onClick={handleExpandClick}>
           <Typography paragraph sx={{ ml: 1 }}>
             Read more
           </Typography>
           <ExpandMore
+            // onClick={handleExpandClick}
             expand={expanded}
-            onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
           >

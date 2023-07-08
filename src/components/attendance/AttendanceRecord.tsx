@@ -11,12 +11,8 @@ export default observer(function AttendanceRecord() {
   const { attendanceStore } = useStore();
 
   useEffect(() => {
-    if (attendanceStore.myAttendance.length === 0) {
-      attendanceStore.getMyAttendance();
-    }
-    if (!attendanceStore.attendanceSummary) {
-      attendanceStore.getAttendanceSummary();
-    }
+    attendanceStore.getMyAttendance();
+    attendanceStore.getAttendanceSummary();
   }, [attendanceStore]);
 
   return (

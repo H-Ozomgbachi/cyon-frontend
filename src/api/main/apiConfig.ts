@@ -15,6 +15,21 @@ export const sleep = (delay: number) => {
   });
 };
 
+const processBadRequestMessage = (err: Error) => {
+  if (err.data.message) {
+    return err.data.message;
+  } else if (
+    err.data.errors &&
+    err.data.title.includes("One or more validation errors occurred.")
+  ) {
+    const validationErrors = Object.values(err.data.errors).flatMap(
+      (e) => e
+    ) as string[];
+    return validationErrors.join(", ");
+  }
+  return "An undescribed error occurred";
+};
+
 axios.defaults.baseURL = backendUrl;
 
 axios.interceptors.request.use((request) => {
@@ -37,7 +52,10 @@ axios.interceptors.response.use(
     const resError = error.response as Error;
     switch (resError.status) {
       case 500:
-        store.commonStore.setAlertText(resError.data.message, true);
+        store.commonStore.setAlertText(
+          "An internal server error occurred",
+          true
+        );
         break;
       case 401:
         store.commonStore.setLastVisitedPathname(window.location.pathname);
@@ -47,12 +65,16 @@ axios.interceptors.response.use(
         store.commonStore.setAlertText(resError.data.message, true);
         break;
       case 400:
-        console.log(resError);
-        store.commonStore.setAlertText(resError.data.message, true);
+        store.commonStore.setAlertText(
+          processBadRequestMessage(resError),
+          true
+        );
         break;
       default:
-        //store.commonStore.setAlertText(resError.data.message, true);
-        console.log(resError);
+        store.commonStore.setAlertText(
+          "An unknown error occurred contact site admin",
+          true
+        );
     }
     return Promise.reject(error);
   }

@@ -25,8 +25,6 @@ export default observer(function AnnouncementDetail({ data }: Props) {
           __html: data.content.replaceAll("<p><br></p>", "<br/>"),
         }}
       />
-
-      {/* <Typography paragraph>{data.content}</Typography> */}
     </div>
   );
 });

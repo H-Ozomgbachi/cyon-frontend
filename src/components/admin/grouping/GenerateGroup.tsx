@@ -7,7 +7,11 @@ import { useStore } from "../../../api/main/appStore";
 import { observer } from "mobx-react-lite";
 import "./Grouping.css";
 
-export default observer(function GenerateGroup() {
+interface Props {
+  activeUsers: number;
+}
+
+export default observer(function GenerateGroup({ activeUsers }: Props) {
   const { accountManagementStore } = useStore();
 
   const initialValues = {
@@ -16,10 +20,9 @@ export default observer(function GenerateGroup() {
   };
 
   const validationSchema = Yup.object({
-    numberOfUsersPerGroup: Yup.number().moreThan(
-      0,
-      "Number per group required"
-    ),
+    numberOfUsersPerGroup: Yup.number()
+      .moreThan(0, "Number per group required")
+      .lessThan(activeUsers + 1, "Must be less or equal to active users"),
   });
 
   return (

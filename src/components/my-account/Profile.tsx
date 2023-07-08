@@ -1,14 +1,39 @@
-import { Avatar, Box, Button, Divider } from "@mui/material";
+import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { genderList } from "../../data/selectOptions";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import MySkeleton from "../shared/loading-spinner/MySkeleton";
+import { Camera } from "@mui/icons-material";
 
 export default observer(function Profile() {
   const { authenticationStore } = useStore();
+  const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState(
+    authenticationStore.currentUser?.photoUrl
+  );
+
+  useEffect(() => {
+    if (authenticationStore.currentUser) {
+      setImageUrl(authenticationStore.currentUser.photoUrl);
+    }
+  }, [authenticationStore.currentUser]);
+
+  const handleFileUpload = (file: File | undefined) => {
+    if (!file) {
+      return;
+    }
+    setImageUrl(URL.createObjectURL(file));
+    setFile(file);
+  };
+
+  const handleRemove = () => {
+    setFile(null);
+    setImageUrl(authenticationStore.currentUser?.photoUrl);
+  };
 
   const initialValues = {
     id: authenticationStore.currentUser?.id ?? "",
@@ -19,6 +44,7 @@ export default observer(function Profile() {
     gender: authenticationStore.currentUser?.gender ?? "",
     isCommunicant: authenticationStore.currentUser?.isCommunicant ?? false,
     address: authenticationStore.currentUser?.address ?? "",
+    userCode: authenticationStore.currentUser?.uniqueCode ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -50,17 +76,40 @@ export default observer(function Profile() {
       >
         <Avatar
           alt="Remy Sharp"
-          src={authenticationStore.currentUser?.photoUrl}
-          sx={{ width: "6rem", height: "6rem" }}
+          src={imageUrl}
+          sx={{
+            width: "6rem",
+            height: "6rem",
+            backgroundSize: "cover",
+            backgroundPosition: "top center",
+          }}
         />
 
-        {/* <Button
-          sx={{
-            color: "rgb(150, 114, 23)",
-          }}
-        >
-          Edit Photo
-        </Button> */}
+        {file ? (
+          <Button color="error" onClick={handleRemove}>
+            remove
+          </Button>
+        ) : (
+          <label>
+            <input
+              className="btn d-none"
+              type="file"
+              onChange={(e) => handleFileUpload(e.target?.files?.[0])}
+              required
+              accept="image/*"
+            />
+            <Typography
+              sx={{
+                p: 1,
+                borderRadius: 1,
+                color: "rgba(150, 114, 23, 0.7)",
+              }}
+            >
+              {" "}
+              <Camera /> Edit Picture
+            </Typography>
+          </label>
+        )}
       </Box>
       <Divider />
 
@@ -72,9 +121,13 @@ export default observer(function Profile() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => authenticationStore.updateMyAccount(values)}
+          onSubmit={(values) =>
+            authenticationStore
+              .updateMyAccount(values, file)
+              .finally(() => setFile(null))
+          }
         >
-          {() => (
+          {({ values }) => (
             <Form>
               <MyFormikController
                 control="input"
@@ -87,10 +140,12 @@ export default observer(function Profile() {
                 name="lastName"
                 label="Last Name"
               />
+
               <MyFormikController
                 control="input"
-                name="userName"
-                label="Username"
+                name="userCode"
+                label="Member Code"
+                disabled
               />
               <MyFormikController
                 type="tel"
@@ -108,6 +163,15 @@ export default observer(function Profile() {
                 label="Gender"
                 name="gender"
                 options={genderList}
+              />
+              <MyFormikController
+                control="checkbox"
+                label={
+                  values.isCommunicant
+                    ? "You are a communicant"
+                    : "You're not yet a communicant"
+                }
+                name="isCommunicant"
               />
 
               <Button
