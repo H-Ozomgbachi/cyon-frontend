@@ -12,8 +12,8 @@ export default observer(function ViewAccountStatement() {
   const { financeStore, commonStore } = useStore();
 
   const initialValues = {
-    startDate: dayjs(TODAY),
-    endDate: dayjs(TODAY).add(30, "day"),
+    startDate: dayjs(TODAY).add(-30, "day"),
+    endDate: dayjs(TODAY),
   };
 
   const handleSubmit = async (start: string, end: string) => {

@@ -2,6 +2,7 @@ import requests from "../main/apiConfig";
 import {
   CreateUserFinance,
   CreateUserFinanceDues,
+  DebtPaymentDto,
   OrganizationAccountStatementModelResult,
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
@@ -46,4 +47,10 @@ export const Finance = {
 
   deleteOrganizationFinance: (id: string) =>
     requests.del(`/OrganisationFinance/DeleteOrganisationFinance/${id}`),
+
+  getUserDebts: (userId: string) =>
+    requests.get<UserFinanceModel[]>(`/UserFinance/GetDebts/${userId}`),
+
+  clearDebt: (payload: DebtPaymentDto) =>
+    requests.post("/UserFinance/ClearDebt", payload),
 };

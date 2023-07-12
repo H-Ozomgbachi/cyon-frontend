@@ -44,7 +44,7 @@ export class AuthenticationStore {
   logout = () => {
     this.setCurrentUser(null);
     store.commonStore.setToken(null);
-    customHistory.push(ROUTES.login);
+    customHistory.replace(ROUTES.login);
   };
 
   getMyAccount = async () => {
@@ -53,7 +53,7 @@ export class AuthenticationStore {
 
       this.currentUser = user;
     } catch (error) {
-      customHistory.push(ROUTES.login);
+      customHistory.replace(ROUTES.login);
       throw error;
     }
   };
@@ -115,6 +115,34 @@ export class AuthenticationStore {
       runInAction(() => {
         this.allUsers = result;
       });
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  getUserById = async (userId: string) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      const response = await agent.authentication.getUserById(userId);
+
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  changeRole = async (userId: string, values: string[]) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      await agent.authentication.changeRole(userId, values);
+
+      store.commonStore.setAlertText("User role updated successfully");
     } catch (error) {
       throw error;
     } finally {

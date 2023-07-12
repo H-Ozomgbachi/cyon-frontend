@@ -5,6 +5,7 @@ import ContentTitle from "../../shared/content-title";
 import { useEffect } from "react";
 import MySkeleton from "../../shared/loading-spinner/MySkeleton";
 import ApologyCardAdmin from "./ApologyCardAdmin";
+import NoResult from "../../shared/no-result";
 
 export default observer(function ApologyAdmin() {
   const { attendanceStore } = useStore();
@@ -25,10 +26,12 @@ export default observer(function ApologyAdmin() {
 
       {attendanceStore.loadingPendingApologies ? (
         <MySkeleton count={3} />
-      ) : (
+      ) : attendanceStore.pendingApologies.length !== 0 ? (
         attendanceStore.pendingApologies.map((el, i) => (
           <ApologyCardAdmin key={i} data={el} />
         ))
+      ) : (
+        <NoResult title="No Pending Apology" />
       )}
     </Box>
   );

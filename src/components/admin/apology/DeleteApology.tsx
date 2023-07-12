@@ -1,65 +1,47 @@
-import { Button, Paper } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import { ApologyModel } from "../../../api/models/attendance";
 import { useStore } from "../../../api/main/appStore";
-import MyFormikController from "../../shared/inputs/MyFormikController";
 
 interface Props {
   data: ApologyModel;
 }
 
 export default observer(function DeleteApology({ data }: Props) {
-  const { attendanceStore } = useStore();
-
-  const initialValues = {
-    id: data.id,
-    for: data.for,
-    attendanceTypeId: data.attendanceTypeId,
-    date: data.date,
-    reason: data.reason,
-    isRejected: true,
-    rejectionReason: "",
-    isResolved: true,
-    userId: data.userId,
-    userCode: data.userCode,
-    name: data.name,
-  };
-
-  const validationSchema = Yup.object({
-    rejectionReason: Yup.string().required("Rejection reason required"),
-  });
+  const { attendanceStore, commonStore } = useStore();
 
   return (
     <Paper elevation={0}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) =>
-          attendanceStore.declineApology(values)
-        }
+      <Typography
+        sx={{
+          color: "red",
+        }}
       >
-        {() => (
-          <Form>
-            <MyFormikController
-              type="text"
-              control="text-area"
-              name="rejectionReason"
-              label="State your reason"
-            />
+        Are you sure you want to delete this apology ? This action is to
+        reversible!
+      </Typography>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              className="mt-3 uni-green_btn"
-            >
-              respond
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 4,
+        }}
+      >
+        <Button
+          color="error"
+          onClick={() => attendanceStore.deleteApology(data.id)}
+        >
+          Yes
+        </Button>
+        <Button
+          color="secondary"
+          onClick={() => commonStore.setModalVisible(false)}
+        >
+          No
+        </Button>
+      </Box>
     </Paper>
   );
 });

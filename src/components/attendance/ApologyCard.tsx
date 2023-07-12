@@ -92,6 +92,36 @@ export default function ApologyCard({ data }: Props) {
           </Typography>
           <Typography className="fw-light">{data.reason}</Typography>
         </Box>
+
+        {data.isRejected && (
+          <>
+            <Divider
+              sx={{
+                py: 1,
+              }}
+            />
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  mt: 1,
+                  fontWeight: "bold",
+                }}
+              >
+                Feedback
+              </Typography>
+              <Typography className="fw-light">
+                {data.rejectionReason}
+              </Typography>
+            </Box>
+          </>
+        )}
       </Paper>
     </GrowAnimation>
   );

@@ -1,17 +1,26 @@
-import { Box } from "@mui/material";
-import { Link } from "react-router-dom";
-import HeaderNav from "../../components/shared/header-nav";
+import { Backdrop } from "@mui/material";
+import { RotatingLines } from "react-loader-spinner";
+import { observer } from "mobx-react-lite";
+import { customHistory } from "../..";
 
-export default function Home() {
+//This should be changed once the home landing page is built
+
+export default observer(function Home() {
+  customHistory.back();
   return (
-    <Box>
-      <HeaderNav />
-
-      <br />
-      <Link to="/account/login">Login</Link>
-      <Link to="/account/register">Register</Link>
-      <Link to="/dashboard">Dashboard</Link>
-      <Link to="/dashboard">Dashboard</Link>
-    </Box>
+    <div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+      >
+        <RotatingLines
+          strokeColor="rgb(150, 114, 23)"
+          strokeWidth="5"
+          animationDuration="1"
+          width="90"
+          visible={true}
+        />
+      </Backdrop>
+    </div>
   );
-}
+});

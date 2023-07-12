@@ -43,7 +43,7 @@ export class OccupationStore {
     try {
       store.commonStore.setLoading(true);
       await agent.occupation.updateOccupation(values);
-      store.commonStore.setAlertText("Your occupation profile updated");
+      store.commonStore.setAlertText("Profile update was successful");
       this.getMyOccupation();
     } catch (error) {
       throw error;

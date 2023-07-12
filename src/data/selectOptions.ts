@@ -49,7 +49,7 @@ export const userFinanceTypeList: SelectOptionModel[] = [
 
 export const ratingList: SelectOptionModel[] = [
   {
-    text: "Very Impressive",
+    text: "Excellent",
     value: 5,
   },
   {
@@ -59,5 +59,16 @@ export const ratingList: SelectOptionModel[] = [
   {
     text: "Moderate",
     value: 3,
+  },
+];
+
+export const rolesList: SelectOptionModel[] = [
+  {
+    text: "Member",
+    value: "Member",
+  },
+  {
+    text: "Executive",
+    value: "Executive",
   },
 ];

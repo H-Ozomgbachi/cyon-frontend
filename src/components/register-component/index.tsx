@@ -55,9 +55,7 @@ export default observer(function RegisterComponent() {
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
-    userName: Yup.string().required("Username is required"),
     phoneNumber: Yup.string().required("Phone number is required"),
-
     departmentId: Yup.string().required("Department is required"),
     dateOfBirth: Yup.date().max(
       new Date(Date.now() - 441504000000),
@@ -93,12 +91,7 @@ export default observer(function RegisterComponent() {
             label="Last name"
             name="lastName"
           />
-          <MyFormikController
-            control="input"
-            type="text"
-            label="User name"
-            name="userName"
-          />
+
           <MyFormikController
             control="input"
             type="tel"
@@ -181,6 +174,7 @@ export default observer(function RegisterComponent() {
             authenticationStore.registerMyAccount({
               ...values,
               dateOfBirth: values.dateOfBirth.toISOString(),
+              userName: `${values.firstName.trim()}${values.lastName.trim()}`,
             })
           }
         >

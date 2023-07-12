@@ -8,7 +8,9 @@ export default observer(function TodayAttendance() {
   const { attendanceStore } = useStore();
 
   useEffect(() => {
-    attendanceStore.getTodayAttendance();
+    (async () => {
+      await attendanceStore.getTodayAttendance();
+    })();
   }, [attendanceStore]);
 
   return (

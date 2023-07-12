@@ -27,6 +27,7 @@ const processBadRequestMessage = (err: Error) => {
     ) as string[];
     return validationErrors.join(", ");
   }
+  console.log(err);
   return "An undescribed error occurred";
 };
 

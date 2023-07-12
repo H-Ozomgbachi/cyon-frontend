@@ -3,6 +3,7 @@ export interface UserFinanceModel {
   description: string;
   dateCollected: string;
   amount: number;
+  financeType: string;
 }
 
 export interface CreateUserFinance {
@@ -50,4 +51,9 @@ export interface OrganizationAccountStatementModel {
 
 export interface OrganizationAccountStatementModelResult {
   accountStatement: OrganizationAccountStatementModel;
+}
+
+export interface DebtPaymentDto {
+  debtId: string;
+  amountToClear: number;
 }

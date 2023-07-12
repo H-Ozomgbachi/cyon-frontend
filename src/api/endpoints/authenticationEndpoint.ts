@@ -20,4 +20,10 @@ export const Authentication = {
     requests.post("/authentication/register", values),
 
   getAllUsers: () => requests.get<UserModel[]>("/authentication/GetAllUsers"),
+
+  changeRole: (userId: string, payload: string[]) =>
+    requests.post(`/authentication/account/${userId}/change-role`, payload),
+
+  getUserById: (userId: string) =>
+    requests.get<UserModel>(`/authentication/GetUserById/${userId}`),
 };

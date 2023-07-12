@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import MySkeleton from "../../shared/loading-spinner/MySkeleton";
 import DecisionCardAdmin from "./DecisionCardAdmin";
 import CreateOrUpdateDecision from "./CreateOrUpdateDecision";
+import NoResult from "../../shared/no-result";
 
 export default observer(function DecisionAdmin() {
   const { decisionStore, commonStore } = useStore();
@@ -27,10 +28,12 @@ export default observer(function DecisionAdmin() {
 
       {decisionStore.loadingDecisionsAtAdmin ? (
         <MySkeleton count={3} />
-      ) : (
+      ) : decisionStore.decisionsAtAdmin.length !== 0 ? (
         decisionStore.decisionsAtAdmin.map((el, i) => (
           <DecisionCardAdmin key={i} data={el} />
         ))
+      ) : (
+        <NoResult title="No Available Record" />
       )}
 
       <Box

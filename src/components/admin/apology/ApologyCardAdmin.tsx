@@ -12,6 +12,7 @@ import { ApologyModel } from "../../../api/models/attendance";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
 import DeclineApology from "./DeclineApology";
+import DeleteApology from "./DeleteApology";
 
 interface Props {
   data: ApologyModel;
@@ -120,7 +121,14 @@ export default observer(function ApologyCardAdmin({ data }: Props) {
           >
             decline
           </Button>
-          <Button color="error">delete</Button>
+          <Button
+            color="error"
+            onClick={() =>
+              commonStore.setModalContent(<DeleteApology data={data} />, "")
+            }
+          >
+            delete
+          </Button>
         </ButtonGroup>
       </Paper>
     </GrowAnimation>

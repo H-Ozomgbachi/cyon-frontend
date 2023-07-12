@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import MyModal from "./components/shared/modal/MyModal";
 import { observer } from "mobx-react-lite";
 import Account from "./pages/account";
@@ -10,10 +10,10 @@ import MyAlert from "./components/shared/alert";
 import LoadingSpinner from "./components/shared/loading-spinner";
 import { useStore } from "./api/main/appStore";
 import { useEffect } from "react";
-import { customHistory } from ".";
 import { isMobile } from "react-device-detect";
 import Admin from "./pages/admin";
 import MoreContentsAdmin1 from "./pages/admin/MoreContentsAdmin1";
+import { ROUTES } from "./routes";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -28,7 +28,7 @@ export default observer(function App() {
         await authenticationStore.getMyAccount();
       })();
     } else {
-      customHistory.push("/account/login");
+      <Navigate to={ROUTES.login} replace />;
     }
   }, [commonStore.token, authenticationStore]);
 

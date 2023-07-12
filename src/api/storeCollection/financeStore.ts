@@ -3,6 +3,7 @@ import agent from "../main/apiAgent";
 import {
   CreateUserFinance,
   CreateUserFinanceDues,
+  DebtPaymentDto,
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
@@ -155,6 +156,30 @@ export class FinanceStore {
     } catch (error) {
       store.commonStore.setModalVisible(false);
       throw error;
+    }
+  };
+
+  getUserDebts = async (userId: string) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      return await agent.finance.getUserDebts(userId);
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  clearDebt = async (values: DebtPaymentDto) => {
+    try {
+      store.commonStore.setLoading(true);
+      await agent.finance.clearDebt(values);
+      return values.amountToClear;
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
     }
   };
 }
