@@ -6,6 +6,7 @@ import {
   ApologyModel,
   ApologySummaryModel,
   AttendanceModel,
+  AttendanceRecordDto,
   AttendanceSummaryModel,
   CreateApologyPayload,
   MarkAbsentees,
@@ -17,8 +18,6 @@ export class AttendanceStore {
   loadingMyAttendance = false;
   myApologies: ApologyModel[] = [];
   loadingMyApologies = false;
-  loadingTodayAttendance = false;
-  todayAttendance: AttendanceModel[] = [];
   loadingAttendanceTypes = false;
   attendanceTypes: SelectOptionModel[] = [];
   attendanceSummary: AttendanceSummaryModel | null = null;
@@ -46,18 +45,16 @@ export class AttendanceStore {
     }
   };
 
-  getTodayAttendance = async () => {
+  getAttendanceRecord = async (values: AttendanceRecordDto) => {
     try {
-      this.loadingTodayAttendance = true;
-      const result = await agent.attendance.getTodayAttendance();
+      store.commonStore.setLoading(true);
+      const result = await agent.attendance.getAttendanceRecord(values);
 
-      runInAction(() => {
-        this.todayAttendance = result;
-      });
+      return result;
     } catch (error) {
       throw error;
     } finally {
-      this.loadingTodayAttendance = false;
+      store.commonStore.setLoading(false);
     }
   };
 
@@ -68,8 +65,6 @@ export class AttendanceStore {
       await agent.attendance.takeAttendance(values);
 
       store.commonStore.setAlertText("Attendance recorded");
-
-      this.getTodayAttendance();
 
       flag = true;
     } catch (error) {
@@ -87,8 +82,6 @@ export class AttendanceStore {
       const outcome = await agent.attendance.markAbsentees(values);
 
       store.commonStore.setAlertText(outcome);
-
-      this.getTodayAttendance();
     } catch (error) {
       throw error;
     } finally {

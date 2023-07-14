@@ -1,63 +1,72 @@
 import { Paper, Button } from "@mui/material";
-import "./LoginComponent.css";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { OrganizationTitle } from "../shared/organization-title/OrganizationTitle";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import { ROUTES } from "../../routes";
 
-export default observer(function LoginComponent() {
+export default observer(function ResetPasswordComponent() {
   const { authenticationStore } = useStore();
 
+  const location = useLocation();
+
+  const pathName = location.pathname.split("reset-password/");
+  const [token, email] = pathName[1].split("userEmail");
+
   const initialValues = {
-    email: "",
-    password: "",
+    newPassword: "",
+    confirmNewPassword: "",
+    token: token,
+    email: email,
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Must be a valid email")
       .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+
+    newPassword: Yup.string()
+      .required("Password is required")
+      .min(8, "Must be atleast 8 characters")
+      .matches(new RegExp(/^(?=.*[0-9])/), "Must contain a digit"),
+
+    confirmNewPassword: Yup.string()
+      .required("You must confirm password")
+      .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+
+    token: Yup.string().required("Token is required"),
   });
 
   return (
     <div className="login-component-container">
       <OrganizationTitle />
       <Paper elevation={2} className="login-component-card">
-        <h1>Login to your account</h1>
+        <h1>Reset password</h1>
 
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) =>
-            authenticationStore
-              .login(values)
-              .finally(() => resetForm({ values: initialValues }))
+            authenticationStore.resetPassword(values)
           }
         >
           {({ isSubmitting }) => (
             <Form>
               <MyFormikController
-                control="input"
-                type="email"
-                label="Email"
-                name="email"
+                control="input-password"
+                name="newPassword"
+                label="New Password"
               />
               <br />
               <MyFormikController
                 control="input-password"
-                name="password"
-                label="Password"
+                name="confirmNewPassword"
+                label="Confirm New Password"
               />
-
-              <Link className="forgot-pass-link" to={ROUTES.forgotPassword}>
-                Forgot Password ?
-              </Link>
-
+              <br />
               <Button
                 type="submit"
                 variant="contained"
@@ -69,8 +78,8 @@ export default observer(function LoginComponent() {
             </Form>
           )}
         </Formik>
-        <Link className="register-component-link" to={ROUTES.register}>
-          Don't have an account ? Sign Up
+        <Link className="register-component-link" to={ROUTES.login}>
+          Back to Login
         </Link>
       </Paper>
     </div>

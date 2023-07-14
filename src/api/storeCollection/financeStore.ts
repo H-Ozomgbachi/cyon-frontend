@@ -175,6 +175,9 @@ export class FinanceStore {
     try {
       store.commonStore.setLoading(true);
       await agent.finance.clearDebt(values);
+
+      window.scrollTo(0, 0);
+      store.commonStore.setAlertText("Debt clearance was successful");
       return values.amountToClear;
     } catch (error) {
       throw error;

@@ -4,8 +4,10 @@ import { ROUTES } from "../../routes";
 import agent from "../main/apiAgent";
 import { store } from "../main/appStore";
 import {
+  ForgotPasswordDto,
   LoginPayload,
   RegisterMyAccountPayload,
+  ResetPasswordDto,
   UpdateMyAccountPayload,
   UserModel,
 } from "../models/authentication";
@@ -143,6 +145,38 @@ export class AuthenticationStore {
       await agent.authentication.changeRole(userId, values);
 
       store.commonStore.setAlertText("User role updated successfully");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  forgotPassword = async (values: ForgotPasswordDto) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      await agent.authentication.forgotPassword(values);
+
+      store.commonStore.setAlertText(
+        "Check your email for password reset information"
+      );
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  resetPassword = async (values: ResetPasswordDto) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      const response = await agent.authentication.resetPassword(values);
+
+      store.commonStore.setAlertText(response);
+
+      customHistory.push(ROUTES.login);
     } catch (error) {
       throw error;
     } finally {

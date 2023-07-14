@@ -3,6 +3,8 @@ import {
   ApologyModel,
   ApologySummaryModel,
   AttendanceModel,
+  AttendanceRecordDto,
+  AttendanceRecordModel,
   AttendanceSummaryModel,
   AttendanceTypeModel,
   CreateApologyPayload,
@@ -50,6 +52,9 @@ export const Attendance = {
   markAbsentees: (payload: MarkAbsentees) =>
     requests.post<string>("/AttendanceRegister/MarkAbsentees", payload),
 
-  getTodayAttendance: () =>
-    requests.get<AttendanceModel[]>("/AttendanceRegister/GetTodayAttendance"),
+  getAttendanceRecord: (payload: AttendanceRecordDto) =>
+    requests.post<AttendanceRecordModel[]>(
+      "/AttendanceRegister/GetAttendanceRecord",
+      payload
+    ),
 };

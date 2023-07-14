@@ -6,10 +6,10 @@ import {
 } from "../models/accountManagement";
 import { store } from "../main/appStore";
 import agent from "../main/apiAgent";
+import { UserModel } from "../models/authentication";
 
 export class AccountManagementStore {
-  deactivateAccountRequests: AccountDeactivateRequestModel[] = [];
-  loadingdeactivateAccountRequests = false;
+  inactiveUsers: UserModel[] = [];
 
   groupsResult = "";
 
@@ -19,14 +19,14 @@ export class AccountManagementStore {
 
   requestToDeactivateAccount = async (values: DeactivateAccountRequest) => {
     try {
+      store.commonStore.setModalVisible(false);
       store.commonStore.setLoading(true);
       await agent.accountManagement.requestToDeactivateAccount(values);
-      store.commonStore.setAlertText("Deactive request sent successfully");
+      store.commonStore.setAlertText("Deactivation request sent successfully");
     } catch (error) {
       throw error;
     } finally {
       store.commonStore.setLoading(false);
-      store.commonStore.setModalVisible(false);
     }
   };
 
@@ -65,26 +65,77 @@ export class AccountManagementStore {
 
   getAccountDeactivateRequest = async () => {
     try {
-      this.loadingdeactivateAccountRequests = true;
+      store.commonStore.setLoading(true);
 
       const response =
         await agent.accountManagement.getAccountDeactivateRequest();
 
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  deactivateAccount = async (values: AccountDeactivateRequestModel) => {
+    try {
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setLoading(true);
+
+      await agent.accountManagement.deactivateAccount(values);
+      store.commonStore.setAlertText(
+        `Account for ${values.userName} deactivated`
+      );
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  getInactiveUsers = async () => {
+    try {
+      store.commonStore.setLoading(true);
+      const res = await agent.accountManagement.getInactiveUsers();
+
       runInAction(() => {
-        this.deactivateAccountRequests = response;
+        this.inactiveUsers = res;
       });
     } catch (error) {
       throw error;
     } finally {
-      this.loadingdeactivateAccountRequests = false;
+      store.commonStore.setLoading(false);
     }
   };
 
-  deactivateAccountasync = async (values: AccountDeactivateRequestModel) => {
+  reactivateUser = async (userId: string) => {
     try {
-      await agent.accountManagement.deactivateAccount(values);
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setLoading(true);
+      await agent.accountManagement.reactivateUser(userId);
+
+      store.commonStore.setAlertText("One user reactivated successfully!");
+
+      this.getInactiveUsers();
     } catch (error) {
       throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  deleteDeactivationRequest = async (id: string) => {
+    try {
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setLoading(true);
+      await agent.accountManagement.deleteDeactivationRequest(id);
+
+      store.commonStore.setAlertText("Request for deactivation removed!");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
     }
   };
 }

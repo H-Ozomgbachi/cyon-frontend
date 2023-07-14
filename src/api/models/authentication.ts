@@ -51,3 +51,14 @@ export interface RegisterMyAccountPayload {
   isCommunicant: boolean;
   address: string;
 }
+
+export interface ForgotPasswordDto {
+  email: string;
+}
+
+export interface ResetPasswordDto {
+  newPassword: string;
+  confirmNewPassword: string;
+  token: string;
+  email: string;
+}

@@ -1,12 +1,18 @@
 import { Backdrop } from "@mui/material";
 import { RotatingLines } from "react-loader-spinner";
 import { observer } from "mobx-react-lite";
-import { customHistory } from "../..";
+import { useStore } from "../../api/main/appStore";
+import { useEffect } from "react";
 
 //This should be changed once the home landing page is built
 
 export default observer(function Home() {
-  customHistory.back();
+  const { commonStore } = useStore();
+
+  useEffect(() => {
+    commonStore.redirectDecision();
+  }, [commonStore]);
+
   return (
     <div>
       <Backdrop

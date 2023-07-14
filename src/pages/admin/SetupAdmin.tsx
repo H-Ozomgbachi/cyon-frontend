@@ -4,7 +4,6 @@ import { Box, Divider } from "@mui/material";
 import BottomNav from "../../components/shared/bottom-nav";
 import {
   EventAvailable,
-  LocalPolice,
   MeetingRoom,
   PsychologyAlt,
 } from "@mui/icons-material";
@@ -15,10 +14,9 @@ import HeaderNav from "../../components/shared/header-nav";
 import MeetingAdmin from "../../components/admin/meeting/MeetingAdmin";
 import MinuteAdmin from "../../components/admin/minute/MinuteAdmin";
 import DecisionAdmin from "../../components/admin/decision/DecisionAdmin";
-import RolesAdmin from "../../components/admin/roles/RolesAdmin";
 import { useStore } from "../../api/main/appStore";
 
-export default observer(function MoreContentsAdmin1() {
+export default observer(function SetupAdmin() {
   const { authenticationStore } = useStore();
 
   useEffect(() => {
@@ -47,10 +45,6 @@ export default observer(function MoreContentsAdmin1() {
             label: "Decision",
             icon: <PsychologyAlt />,
           },
-          {
-            label: "Roles",
-            icon: <LocalPolice />,
-          },
         ]}
         contentItems={[
           <HorizontalTabs
@@ -62,7 +56,6 @@ export default observer(function MoreContentsAdmin1() {
             tabContents={[<UpcomingEventAdmin />, <YearProgrammeAdmin />]}
           />,
           <DecisionAdmin />,
-          <RolesAdmin />,
         ]}
       />
     </Box>

@@ -1,25 +1,23 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { ApologyModel } from "../../../api/models/attendance";
 import { useStore } from "../../../api/main/appStore";
+import { AccountDeactivateRequestModel } from "../../../api/models/accountManagement";
 
 interface Props {
-  data: ApologyModel;
+  data: AccountDeactivateRequestModel;
 }
 
-export default observer(function DeleteApology({ data }: Props) {
-  const { attendanceStore, commonStore } = useStore();
+export default observer(function ApproveDeactivationRequest({ data }: Props) {
+  const { accountManagementStore, commonStore } = useStore();
 
   return (
     <Paper elevation={0}>
       <Typography
         sx={{
-          color: "red",
           textAlign: "center",
         }}
       >
-        Are you sure you want to delete this apology ? This action is not
-        reversible!
+        Are you sure you want to approve this deactivation request ?
       </Typography>
 
       <Box
@@ -30,14 +28,11 @@ export default observer(function DeleteApology({ data }: Props) {
           marginTop: 4,
         }}
       >
-        <Button
-          color="error"
-          onClick={() => attendanceStore.deleteApology(data.id)}
-        >
+        <Button onClick={() => accountManagementStore.deactivateAccount(data)}>
           Yes
         </Button>
         <Button
-          color="secondary"
+          color="inherit"
           onClick={() => commonStore.setModalVisible(false)}
         >
           No

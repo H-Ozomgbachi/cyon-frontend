@@ -3,6 +3,9 @@ export const ROUTES = {
   dashboard: "/dashboard",
   home: "/",
   adminPanel: "/admin",
-  moreContentAdmin: "/admin/more-contents-1",
+  setupAdmin: "/admin/setup",
+  accountMgtAdmin: "/admin/account-management",
   login: "/account/login",
+  register: "/account/register",
+  forgotPassword: "/account/forgot-password",
 };

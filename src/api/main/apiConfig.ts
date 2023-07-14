@@ -47,12 +47,10 @@ axios.interceptors.response.use(
   },
 
   (error: AxiosError) => {
-    // if (error.message === "Network Error") {
-    // }
-
     const resError = error.response as Error;
     switch (resError.status) {
       case 500:
+        console.log(resError);
         store.commonStore.setAlertText(
           "An internal server error occurred",
           true

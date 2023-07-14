@@ -75,7 +75,12 @@ export class CommonStore {
     this.lastVisitedPathname = pathname;
   };
 
-  redirectDecision = () => {
+  redirectDecision = (link?: string) => {
+    if (link) {
+      customHistory.push(link);
+      return;
+    }
+
     let linkToDirect;
 
     if (

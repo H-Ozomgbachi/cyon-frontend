@@ -61,3 +61,12 @@ export interface MarkAbsentees {
   dateEventHeld: string;
   attendanceTypeId: string;
 }
+
+export interface AttendanceRecordModel {
+  attendanceTypeName: string;
+  attendances: AttendanceModel[];
+}
+
+export interface AttendanceRecordDto {
+  dateOfActivity: string;
+}

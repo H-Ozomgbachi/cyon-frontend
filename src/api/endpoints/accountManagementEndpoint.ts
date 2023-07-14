@@ -6,6 +6,7 @@ import {
   NumberOfActiveUsers,
   RandomGroupsModel,
 } from "../models/accountManagement";
+import { UserModel } from "../models/authentication";
 
 export const AccountManagement = {
   requestToDeactivateAccount: (payload: DeactivateAccountRequest) =>
@@ -32,4 +33,13 @@ export const AccountManagement = {
 
   uploadProfilePic: (payload: FormData) =>
     requests.post("/AccountManagement/UploadProfilePicture", payload),
+
+  deleteDeactivationRequest: (id: string) =>
+    requests.del(`/AccountManagement/DeleteAccountDeactivationRequest/${id}`),
+
+  getInactiveUsers: () =>
+    requests.get<UserModel[]>("/AccountManagement/GetInactiveUsers"),
+
+  reactivateUser: (userId: string) =>
+    requests.post(`/AccountManagement/ReactivateAccount/${userId}`),
 };
