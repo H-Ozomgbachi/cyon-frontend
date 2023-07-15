@@ -1,31 +1,22 @@
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "../../../api/main/appStore";
-import { AccountDeactivateRequestModel } from "../../../api/models/accountManagement";
 import DeactivationRequestCardAdmin from "./DeactivationRequestCardAdmin";
 import NoResult from "../../shared/no-result";
 import ContentTitle from "../../shared/content-title";
 
 export default observer(function PendingDeactivationRequests() {
   const { accountManagementStore } = useStore();
-  const [pendingRequests, setPendingRequests] = useState<
-    AccountDeactivateRequestModel[]
-  >([]);
 
   useEffect(() => {
-    (async () => {
-      const response =
-        await accountManagementStore.getAccountDeactivateRequest();
-
-      setPendingRequests(response);
-    })();
+    accountManagementStore.getAccountDeactivateRequest();
   }, [accountManagementStore]);
 
   return (
     <>
       <ContentTitle title="Pending Deactivations" />
-      {pendingRequests.length !== 0 ? (
-        pendingRequests.map((el) => (
+      {accountManagementStore.pendingDeactivationRequests.length !== 0 ? (
+        accountManagementStore.pendingDeactivationRequests.map((el) => (
           <DeactivationRequestCardAdmin key={el.id} data={el} />
         ))
       ) : (

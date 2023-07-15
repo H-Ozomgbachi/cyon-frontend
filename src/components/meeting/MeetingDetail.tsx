@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Divider,
+  Paper,
   Typography,
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
@@ -11,8 +12,13 @@ import { useEffect } from "react";
 import { useStore } from "../../api/main/appStore";
 import { MeetingModel } from "../../api/models/meeting";
 import MySkeleton from "../shared/loading-spinner/MySkeleton";
-import MeetingCard from "./MeetingCard";
-import { Download } from "@mui/icons-material";
+import {
+  AccessTime,
+  CalendarMonth,
+  Download,
+  ReceiptLongOutlined,
+} from "@mui/icons-material";
+import { DateOnlyFormatter, NumberToHourMin } from "../../helpers/formatters";
 
 interface Props {
   data: MeetingModel;
@@ -50,7 +56,62 @@ export default observer(function MeetingDetail({ data }: Props) {
 
   return (
     <Box>
-      <MeetingCard data={data} />
+      <Paper className="paper-bg">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography>
+            {" "}
+            <CalendarMonth fontSize="small" /> Date
+          </Typography>
+
+          <Typography>{DateOnlyFormatter(data.date)}</Typography>
+        </Box>
+        <Divider
+          sx={{
+            my: 1,
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography>
+            {" "}
+            <ReceiptLongOutlined fontSize="small" /> Agenda
+          </Typography>
+
+          <Typography>{data.agenda.length}</Typography>
+        </Box>
+        <Divider
+          sx={{
+            my: 1,
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography>
+            {" "}
+            <AccessTime fontSize="small" /> Duration
+          </Typography>
+
+          <Typography>
+            {NumberToHourMin(data.proposedDurationInMinutes)}
+          </Typography>
+        </Box>
+      </Paper>
       {LinedTitle("Agenda")}
       {data.agenda.map((el) => {
         return (

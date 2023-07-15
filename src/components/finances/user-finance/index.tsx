@@ -13,9 +13,7 @@ export default observer(function UserFinance() {
   const { financeStore } = useStore();
 
   useEffect(() => {
-    if (financeStore.userFinances.length === 0) {
-      financeStore.getUserFinances();
-    }
+    financeStore.getUserFinances();
     financeStore.getUserFinanceSummary();
   }, [financeStore]);
 

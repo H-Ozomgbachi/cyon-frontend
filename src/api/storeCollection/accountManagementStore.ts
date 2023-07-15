@@ -10,6 +10,7 @@ import { UserModel } from "../models/authentication";
 
 export class AccountManagementStore {
   inactiveUsers: UserModel[] = [];
+  pendingDeactivationRequests: AccountDeactivateRequestModel[] = [];
 
   groupsResult = "";
 
@@ -70,7 +71,9 @@ export class AccountManagementStore {
       const response =
         await agent.accountManagement.getAccountDeactivateRequest();
 
-      return response;
+      runInAction(() => {
+        this.pendingDeactivationRequests = response;
+      });
     } catch (error) {
       throw error;
     } finally {
@@ -87,6 +90,7 @@ export class AccountManagementStore {
       store.commonStore.setAlertText(
         `Account for ${values.userName} deactivated`
       );
+      this.getAccountDeactivateRequest();
     } catch (error) {
       throw error;
     } finally {
@@ -132,6 +136,8 @@ export class AccountManagementStore {
       await agent.accountManagement.deleteDeactivationRequest(id);
 
       store.commonStore.setAlertText("Request for deactivation removed!");
+
+      this.getAccountDeactivateRequest();
     } catch (error) {
       throw error;
     } finally {
