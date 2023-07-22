@@ -6,6 +6,7 @@ import { Decision } from "../endpoints/decisionEndpoint";
 import { Department } from "../endpoints/departmentEndpoint";
 import { Finance } from "../endpoints/financeEndpoint";
 import { Meeting } from "../endpoints/meetingEndpoint";
+import { Notifications } from "../endpoints/notificationsEndpoint";
 import { Occupation } from "../endpoints/occupationEndpoint";
 import { UpcomingEvent } from "../endpoints/upcomingEventEndpoints";
 import { YearProgramme } from "../endpoints/yearprogrammeEndpoint";
@@ -22,6 +23,7 @@ const agent = {
   upcomingEvent: UpcomingEvent,
   accountManagement: AccountManagement,
   decision: Decision,
+  notifications: Notifications,
 };
 
 export default agent;

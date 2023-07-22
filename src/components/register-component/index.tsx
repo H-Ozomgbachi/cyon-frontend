@@ -53,8 +53,12 @@ export default observer(function RegisterComponent() {
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string().required("Last name is required"),
+    firstName: Yup.string()
+      .required("First name is required")
+      .matches(new RegExp(/^\S*$/), "Spaces are not allowed"),
+    lastName: Yup.string()
+      .required("Last name is required")
+      .matches(new RegExp(/^\S*$/), "Spaces are not allowed"),
     phoneNumber: Yup.string().required("Phone number is required"),
     departmentId: Yup.string().required("Department is required"),
     dateOfBirth: Yup.date().max(

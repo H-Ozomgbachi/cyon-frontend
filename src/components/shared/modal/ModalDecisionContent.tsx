@@ -2,7 +2,7 @@ import "./ModalDecisionContent.css";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
-import { Divider } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 
 interface Props {
   actionName: string;
@@ -24,23 +24,23 @@ export default observer(function ModalDecisionContent({
 
       <div className="">{futherDetail}</div>
       {futherDetail ? <Divider /> : null}
-      <div className="mt-3 d-flex justify-content-center gap-3">
-        <button
-          className="btn btn-sm btn-outline-primary"
-          onClick={() => {
-            actionCallback();
-            commonStore.setModalVisible(false);
-          }}
-        >
-          Confirm
-        </button>
-        <button
-          className="btn btn-sm btn-outline-secondary"
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 4,
+        }}
+      >
+        <Button onClick={actionCallback}>confirm</Button>
+        <Button
+          color="inherit"
           onClick={() => commonStore.setModalVisible(false)}
         >
-          Cancel
-        </button>
-      </div>
+          cancel
+        </Button>
+      </Box>
     </div>
   );
 });

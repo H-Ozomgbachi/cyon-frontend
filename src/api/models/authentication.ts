@@ -25,6 +25,8 @@ export interface UserModel {
   rank: string;
   address: string;
   uniqueCode: string;
+  emailConfirmed: boolean;
+  email: string;
 }
 
 export interface UpdateMyAccountPayload {

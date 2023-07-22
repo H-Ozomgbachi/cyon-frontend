@@ -38,7 +38,11 @@ export default function RichEditor({ setValue, defaultValue }: Props) {
   ];
 
   return (
-    <Box>
+    <Box
+      sx={{
+        mt: 1,
+      }}
+    >
       <ReactQuill
         theme="snow"
         modules={modules}

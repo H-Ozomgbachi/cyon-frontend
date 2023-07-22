@@ -13,6 +13,8 @@ import { useState } from "react";
 import MyFormikController from "../../shared/inputs/MyFormikController";
 import { UploadFile } from "@mui/icons-material";
 import RichEditor from "../../shared/rich-editor";
+import dayjs from "dayjs";
+import { TODAY } from "../../shared/inputs/CustomDatePicker";
 
 export default observer(function CreateUpcomingEvent() {
   const { upcomingEventStore } = useStore();
@@ -37,6 +39,7 @@ export default observer(function CreateUpcomingEvent() {
     title: "",
     description: "",
     image: null,
+    importantDate: dayjs(TODAY),
   };
 
   const validationSchema = Yup.object({
@@ -67,12 +70,11 @@ export default observer(function CreateUpcomingEvent() {
               name="title"
               type="text"
             />
-            {/* <MyFormikController
-              control="text-area"
-              label="Description"
-              name="description"
-              type="text"
-            /> */}
+            <MyFormikController
+              control="date-picker"
+              label="Important Date"
+              name="importantDate"
+            />
 
             <RichEditor
               defaultValue={contentValue}

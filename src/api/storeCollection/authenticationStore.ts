@@ -16,6 +16,7 @@ import { SelectOptionModel } from "../../components/shared/models/selectOptionMo
 export class AuthenticationStore {
   currentUser: UserModel | null = null;
   allUsers: UserModel[] = [];
+  numOfNewUsers = 0;
 
   usersOption: SelectOptionModel[] = [];
 
@@ -52,6 +53,10 @@ export class AuthenticationStore {
   getMyAccount = async () => {
     try {
       const user = await agent.authentication.myAccount();
+
+      if (!user.emailConfirmed) {
+        customHistory.push(ROUTES.confirmEmail, user.email);
+      }
 
       this.currentUser = user;
     } catch (error) {
@@ -93,7 +98,7 @@ export class AuthenticationStore {
       store.commonStore.setLoading(true);
       await agent.authentication.registerMyAccount(values);
 
-      this.login({ email: values.email, password: values.password });
+      customHistory.push(ROUTES.confirmEmail, values.email);
     } catch (error) {
       throw error;
     } finally {
@@ -177,6 +182,61 @@ export class AuthenticationStore {
       store.commonStore.setAlertText(response);
 
       customHistory.push(ROUTES.login);
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  getNumOfUnwelcomedUser = async () => {
+    try {
+      const res = await agent.authentication.getNumOfUnwelcomedUser();
+
+      runInAction(() => {
+        this.numOfNewUsers = res;
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getNumberOfCelebrants = async () => {
+    try {
+      const res = await agent.authentication.getNumberOfCelebrants();
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  confirmEmail = async (email: string, passcode: string) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      await agent.authentication.confirmEmail(email, passcode);
+
+      store.commonStore.setAlertText(
+        "Email confirmation successful. You can now login"
+      );
+      customHistory.push(ROUTES.login);
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  sendConfirmMessage = async (email: string) => {
+    try {
+      store.commonStore.setLoading(true);
+
+      await agent.authentication.sendConfirmMessage(email);
+
+      store.commonStore.setAlertText(
+        "A passcode was sent to your email for confirmation. If not found in your inbox folder, please check the SPAM folder and mark as not spam so that further emails will be sent directly to your inbox. Thanks!"
+      );
     } catch (error) {
       throw error;
     } finally {

@@ -38,11 +38,17 @@ export default observer(function AddApology() {
         {() => (
           <Form>
             <MyFormikController
+              control="date-picker"
+              name="date"
+              label="When is this activity ?"
+            />
+            <MyFormikController
               control="select"
               label="Activity"
               name="attendanceTypeId"
               options={attendanceStore.attendanceTypes}
             />
+
             <MyFormikController
               type="text"
               control="text-area"

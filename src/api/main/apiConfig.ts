@@ -69,6 +69,10 @@ axios.interceptors.response.use(
           true
         );
         break;
+      case 412:
+        const email = resError.data.message.split("|")[1];
+        customHistory.push(ROUTES.confirmEmail, email);
+        break;
       default:
         store.commonStore.setAlertText(
           "An unknown error occurred contact site admin",

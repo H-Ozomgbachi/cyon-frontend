@@ -5,6 +5,7 @@ export interface AnnouncementModel {
   isActive: boolean;
   dateAdded: string;
   readBy: string;
+  importantDate: string;
 }
 
 export interface CreateOrUpdateAnnouncement {
@@ -12,4 +13,5 @@ export interface CreateOrUpdateAnnouncement {
   title: string;
   content: string;
   isActive?: boolean;
+  importantDate: string;
 }

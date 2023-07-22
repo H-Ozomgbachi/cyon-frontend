@@ -11,6 +11,7 @@ import { DepartmentStore } from "../storeCollection/departmentStore";
 import { UpcomingEventStore } from "../storeCollection/upcomingEventStore";
 import { AccountManagementStore } from "../storeCollection/accountManagementStore";
 import { DecisionStore } from "../storeCollection/decisionStore";
+import { NotificationsStore } from "../storeCollection/notificationsStore";
 
 interface Store {
   commonStore: CommonStore;
@@ -25,6 +26,7 @@ interface Store {
   upcomingEventStore: UpcomingEventStore;
   accountManagementStore: AccountManagementStore;
   decisionStore: DecisionStore;
+  notificationsStore: NotificationsStore;
 }
 
 export const store: Store = {
@@ -40,6 +42,7 @@ export const store: Store = {
   upcomingEventStore: new UpcomingEventStore(),
   accountManagementStore: new AccountManagementStore(),
   decisionStore: new DecisionStore(),
+  notificationsStore: new NotificationsStore(),
 };
 
 export const StoreContext = createContext(store);

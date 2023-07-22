@@ -17,6 +17,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import SetupAdmin from "./pages/admin/SetupAdmin";
 import AccountManagementAdmin from "./pages/admin/AccountManagementAdmin";
+import NotificationAdmin from "./pages/admin/NotificationAdmin";
+import ConfirmEmail from "./pages/auth/ConfirmEmail";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -32,9 +34,7 @@ export default observer(function App() {
       !authenticationStore.currentUser &&
       !location.pathname.includes("reset-password")
     ) {
-      (async () => {
-        await authenticationStore.getMyAccount();
-      })();
+      authenticationStore.getMyAccount();
     } else if (location.pathname.includes("reset-password")) {
       commonStore.redirectDecision(location.pathname);
     } else {
@@ -57,6 +57,7 @@ export default observer(function App() {
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="confirm-email" element={<ConfirmEmail />} />
           </Route>
 
           <Route path="dashboard">
@@ -69,6 +70,7 @@ export default observer(function App() {
               path="account-management"
               element={<AccountManagementAdmin />}
             />
+            <Route path="notifications" element={<NotificationAdmin />} />
           </Route>
         </Routes>
       ) : (

@@ -7,6 +7,7 @@ import {
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
+  UserFinanceByRange,
   UserFinanceModel,
   UserFinanceSummaryModel,
 } from "../models/finance";
@@ -53,4 +54,13 @@ export const Finance = {
 
   clearDebt: (payload: DebtPaymentDto) =>
     requests.post("/UserFinance/ClearDebt", payload),
+
+  getUserFinanceByRange: (payload: UserFinanceByRange) =>
+    requests.post<UserFinanceModel[]>(
+      "/UserFinance/GetUserFinancesByDateRange",
+      payload
+    ),
+
+  deleteUserFinance: (financeId: string) =>
+    requests.del(`/UserFinance/DeleteUserFinance/${financeId}`),
 };

@@ -1,78 +1,67 @@
 import { Paper, Button } from "@mui/material";
-import "./LoginComponent.css";
 import * as Yup from "yup";
+import { useEffect } from "react";
 import { Formik, Form } from "formik";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { OrganizationTitle } from "../shared/organization-title/OrganizationTitle";
-import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
-import { ROUTES } from "../../routes";
+import { useLocation } from "react-router-dom";
 
-export default observer(function LoginComponent() {
+export default observer(function EmailConfirmationComponent() {
   const { authenticationStore } = useStore();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      authenticationStore.sendConfirmMessage(`${location.state}`);
+    }
+  }, [location.state, authenticationStore]);
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: location.state ? `${location.state}` : "",
+    passcode: "",
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Must be a valid email")
       .required("Email is required"),
-    password: Yup.string().required("Password is required"),
   });
 
   return (
     <div className="login-component-container">
       <OrganizationTitle />
       <Paper elevation={2} className="login-component-card">
-        <h1>Login to your account</h1>
+        <h1>Email Confirmation</h1>
 
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) =>
-            authenticationStore
-              .login(values)
-              .finally(() => resetForm({ values: initialValues }))
+            authenticationStore.confirmEmail(values.email, values.passcode)
           }
         >
           {({ isSubmitting }) => (
             <Form>
               <MyFormikController
                 control="input"
-                type="email"
-                label="Email"
-                name="email"
+                type="text"
+                label="Enter Passcode"
+                name="passcode"
               />
               <br />
-              <MyFormikController
-                control="input-password"
-                name="password"
-                label="Password"
-              />
-
-              <Link className="forgot-pass-link" to={ROUTES.forgotPassword}>
-                Forgot Password ?
-              </Link>
-
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
                 className="mt-3 login-component-btn"
               >
-                Submit
+                Confirm
               </Button>
             </Form>
           )}
         </Formik>
-
-        <Link className="register-component-link" to={ROUTES.register}>
-          Don't have an account ? Sign Up
-        </Link>
       </Paper>
     </div>
   );

@@ -86,13 +86,15 @@ export class CommonStore {
     if (
       this.lastVisitedPathname !== null &&
       this.lastVisitedPathname !== "/account/login" &&
-      this.lastVisitedPathname !== "/account/forgot-password"
+      this.lastVisitedPathname !== "/account/forgot-password" &&
+      this.lastVisitedPathname !== "/account/confirm-email"
     ) {
       linkToDirect = this.lastVisitedPathname;
     } else if (
       this.onreloadPath !== null &&
       this.onreloadPath !== "/account/login" &&
       this.onreloadPath !== "/account/forgot-password" &&
+      this.onreloadPath !== "/account/confirm-email" &&
       !this.onreloadPath.includes("/account/reset-password") &&
       this.onreloadPath !== "/account/register"
     ) {

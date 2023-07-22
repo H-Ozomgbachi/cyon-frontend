@@ -34,4 +34,16 @@ export const Authentication = {
 
   resetPassword: (payload: ResetPasswordDto) =>
     requests.post<string>("/authentication/reset-password", payload),
+
+  getNumOfUnwelcomedUser: () =>
+    requests.get<number>("/authentication/NumberOfUnwelcomedUsers"),
+
+  getNumberOfCelebrants: () =>
+    requests.get<number>("/authentication/NumberOfBirthdayCelebrants"),
+
+  confirmEmail: (email: string, passcode: string) =>
+    requests.post(`/authentication/confirmEmail/${email}/${passcode}`),
+
+  sendConfirmMessage: (email: string) =>
+    requests.post(`/authentication/SendConfirmEmailMessage/${email}`),
 };

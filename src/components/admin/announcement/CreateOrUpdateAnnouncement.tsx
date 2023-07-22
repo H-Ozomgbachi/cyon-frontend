@@ -7,6 +7,8 @@ import { observer } from "mobx-react-lite";
 import { AnnouncementModel } from "../../../api/models/announcement";
 import { useState } from "react";
 import RichEditor from "../../shared/rich-editor";
+import dayjs from "dayjs";
+import { TODAY } from "../../shared/inputs/CustomDatePicker";
 
 interface Props {
   announcement: AnnouncementModel | null;
@@ -15,7 +17,7 @@ interface Props {
 export default observer(function CreateOrUpdateAnnouncement({
   announcement,
 }: Props) {
-  const { announcementStore } = useStore();
+  const { announcementStore, notificationsStore } = useStore();
   const [contentValue, setContentValue] = useState(announcement?.content ?? "");
 
   const initialValues = {
@@ -23,6 +25,7 @@ export default observer(function CreateOrUpdateAnnouncement({
     title: announcement?.title ?? "",
     content: contentValue,
     isActive: announcement?.isActive ?? true,
+    importantDate: dayjs(announcement?.importantDate) ?? dayjs(TODAY),
   };
 
   const validationSchema = Yup.object({
@@ -40,10 +43,12 @@ export default observer(function CreateOrUpdateAnnouncement({
             ? announcementStore.updateAnnouncement({
                 ...values,
                 content: contentValue,
+                importantDate: values.importantDate.toISOString(),
               })
             : announcementStore.addAnnouncement({
                 ...values,
                 content: contentValue,
+                importantDate: values.importantDate.toISOString(),
               })
         }
       >
@@ -55,12 +60,11 @@ export default observer(function CreateOrUpdateAnnouncement({
               name="title"
               type="text"
             />
-            {/* <MyFormikController
-              control="text-area"
-              label="Content"
-              name="content"
-              type="text"
-            /> */}
+            <MyFormikController
+              control="date-picker"
+              label="Important Date"
+              name="importantDate"
+            />
 
             <RichEditor
               setValue={setContentValue}
@@ -94,20 +98,42 @@ export default observer(function CreateOrUpdateAnnouncement({
       {announcement ? (
         <>
           <br />
-          <Button
-            color="error"
-            variant="contained"
-            className="mt-3"
-            onClick={() =>
-              announcementStore.deleteAnnouncement(announcement.id)
-            }
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            {announcementStore.isDeletingAnnouncement ? (
-              <CircularProgress color="inherit" />
-            ) : (
-              "delete"
-            )}
-          </Button>
+            <Box>
+              <Button
+                color="primary"
+                variant="contained"
+                className="mt-3"
+                onClick={() =>
+                  notificationsStore.sendAnnouncementReminder(announcement.id)
+                }
+              >
+                Send Reminder
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                color="error"
+                variant="contained"
+                className="mt-3"
+                onClick={() =>
+                  announcementStore.deleteAnnouncement(announcement.id)
+                }
+              >
+                {announcementStore.isDeletingAnnouncement ? (
+                  <CircularProgress color="inherit" />
+                ) : (
+                  "delete"
+                )}
+              </Button>
+            </Box>
+          </Box>
         </>
       ) : null}
     </Box>

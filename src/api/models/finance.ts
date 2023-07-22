@@ -57,3 +57,9 @@ export interface DebtPaymentDto {
   debtId: string;
   amountToClear: number;
 }
+
+export interface UserFinanceByRange {
+  userId: string;
+  startDate: string;
+  endDate: string;
+}

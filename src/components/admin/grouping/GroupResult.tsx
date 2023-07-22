@@ -11,7 +11,7 @@ export default observer(function GroupResult() {
   const handleClick = () => {
     navigator.clipboard.writeText(accountManagementStore.groupsResult);
     window.scrollTo(0, 0);
-    commonStore.setAlertText("Grops copied to clipboard");
+    commonStore.setAlertText("Groups copied to clipboard");
   };
 
   return (

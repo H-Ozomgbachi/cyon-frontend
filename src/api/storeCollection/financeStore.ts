@@ -7,6 +7,7 @@ import {
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
+  UserFinanceByRange,
   UserFinanceModel,
   UserFinanceSummaryModel,
 } from "../models/finance";
@@ -20,6 +21,7 @@ export class FinanceStore {
   userFinanceSummary: UserFinanceSummaryModel | null = null;
 
   isDeletingOrganizationFinance = false;
+  isDeletingUserFinance = false;
 
   loadingOrganizationFinances = false;
 
@@ -179,6 +181,32 @@ export class FinanceStore {
       window.scrollTo(0, 0);
       store.commonStore.setAlertText("Debt clearance was successful");
       return values.amountToClear;
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  getUserFinanceByRange = async (values: UserFinanceByRange) => {
+    try {
+      store.commonStore.setLoading(true);
+      return await agent.finance.getUserFinanceByRange(values);
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+    }
+  };
+
+  deleteUserFinance = async (id: string) => {
+    try {
+      store.commonStore.setModalVisible(false);
+      store.commonStore.setLoading(true);
+
+      await agent.finance.deleteUserFinance(id);
+
+      store.commonStore.setAlertText("User Finance deleted successfully");
     } catch (error) {
       throw error;
     } finally {

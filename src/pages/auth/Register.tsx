@@ -5,16 +5,13 @@ import RegisterComponent from "../../components/register-component";
 import BackgroundOne from "../../components/shared/bg-1/BackgroundOne";
 
 export default observer(function Register() {
-  const { departmentStore, commonStore } = useStore();
+  const { departmentStore } = useStore();
 
   useEffect(() => {
-    if (departmentStore.departments.length === 0) {
-      commonStore.setLoading(true);
-      departmentStore
-        .getDepartments()
-        .finally(() => commonStore.setLoading(false));
-    }
-  }, [departmentStore, commonStore]);
+    (async () => {
+      await departmentStore.getDepartments();
+    })();
+  }, [departmentStore]);
 
   return (
     <BackgroundOne>

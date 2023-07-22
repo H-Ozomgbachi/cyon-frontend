@@ -5,4 +5,5 @@ export interface UpcomingEventModel {
   imageUrl: string;
   isActive: boolean;
   dateAdded: string;
+  importantDate: string;
 }
