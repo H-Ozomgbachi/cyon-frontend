@@ -15,6 +15,7 @@ export interface MyInputProps {
   required?: boolean;
   options?: SelectOptionModel[];
   control?: string;
+  defaultValue?: any;
 }
 
 export default function CustomInput(props: MyInputProps) {

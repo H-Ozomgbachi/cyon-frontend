@@ -8,13 +8,18 @@ import MySkeleton from "../../shared/loading-spinner/MySkeleton";
 import SummaryCard from "../../shared/summary-card";
 import PersonalFinanceCard from "./PersonalFinanceCard";
 import "./UserFinance.css";
+import CustomAccordion from "../../shared/custom-accordion";
+import { ReceiptLong } from "@mui/icons-material";
+import ViewMyAccountStatement from "./ViewMyAccountStatement";
 
 export default observer(function UserFinance() {
   const { financeStore } = useStore();
 
   useEffect(() => {
-    financeStore.getUserFinances();
-    financeStore.getUserFinanceSummary();
+    (async () => {
+      await financeStore.getUserFinances();
+      await financeStore.getUserFinanceSummary();
+    })();
   }, [financeStore]);
 
   return (
@@ -31,6 +36,13 @@ export default observer(function UserFinance() {
       ) : (
         <MySkeleton count={1} />
       )}
+
+      <CustomAccordion
+        isExpanded={true}
+        title="My Finance Statement"
+        titleIcon={<ReceiptLong />}
+        content={<ViewMyAccountStatement />}
+      />
 
       <ContentTitle title="Details" />
 

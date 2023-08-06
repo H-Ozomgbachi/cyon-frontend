@@ -14,10 +14,12 @@ export default observer(function OrganizationFinance() {
   const { financeStore } = useStore();
 
   useEffect(() => {
-    if (financeStore.organizationFinances.length === 0) {
-      financeStore.getOrganizationFinances();
-    }
-    financeStore.getOrganizationAccountBalance();
+    (async () => {
+      if (financeStore.organizationFinances.length === 0) {
+        await financeStore.getOrganizationFinances();
+      }
+      await financeStore.getOrganizationAccountBalance();
+    })();
   }, [financeStore]);
 
   return (

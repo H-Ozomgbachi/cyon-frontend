@@ -15,16 +15,18 @@ export default observer(function Feeds() {
     useStore();
 
   useEffect(() => {
-    if (
-      announcementStore.announcements.length === 0 ||
-      yearProgrammeStore.yearProgrammes.length === 0
-    ) {
-      announcementStore.getAnnouncements();
-      yearProgrammeStore.getCurrentYearProgrammes();
-    }
-    if (upcomingEventStore.upcomingEvents.length === 0) {
-      upcomingEventStore.getUpcomingEvents();
-    }
+    (async () => {
+      if (
+        announcementStore.announcements.length === 0 ||
+        yearProgrammeStore.yearProgrammes.length === 0
+      ) {
+        await announcementStore.getAnnouncements();
+        await yearProgrammeStore.getCurrentYearProgrammes();
+      }
+      if (upcomingEventStore.upcomingEvents.length === 0) {
+        await upcomingEventStore.getUpcomingEvents();
+      }
+    })();
   }, [announcementStore, yearProgrammeStore, upcomingEventStore]);
 
   return (

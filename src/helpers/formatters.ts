@@ -34,3 +34,6 @@ export const IsDaySame = (value1: string, value2: string) =>
   dayjs.utc(value1).isSame(value2, "day");
 
 export const dateFromNow = (value: string) => dayjs.utc(value).fromNow();
+
+export const DateAndTimeFormat = (value: string) =>
+  dayjs.utc(value).add(1, "hour").format("DD/MM/YY hh:mm:ss A");

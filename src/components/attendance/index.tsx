@@ -12,7 +12,9 @@ export default observer(function Attendance() {
 
   useEffect(() => {
     if (attendanceStore.attendanceTypes.length === 0) {
-      attendanceStore.getAttendanceTypes();
+      (async () => {
+        await attendanceStore.getAttendanceTypes();
+      })();
     }
   }, [attendanceStore]);
 

@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import MyModal from "./components/shared/modal/MyModal";
 import { observer } from "mobx-react-lite";
 import Account from "./pages/account";
@@ -12,7 +12,6 @@ import { useStore } from "./api/main/appStore";
 import { useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Admin from "./pages/admin";
-import { ROUTES } from "./routes";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import SetupAdmin from "./pages/admin/SetupAdmin";
@@ -29,18 +28,10 @@ export default observer(function App() {
   }, [commonStore]);
 
   useEffect(() => {
-    if (
-      commonStore.token &&
-      !authenticationStore.currentUser &&
-      !location.pathname.includes("reset-password")
-    ) {
+    if (commonStore.token && !authenticationStore.currentUser) {
       authenticationStore.getMyAccount();
-    } else if (location.pathname.includes("reset-password")) {
-      commonStore.redirectDecision(location.pathname);
-    } else {
-      <Navigate to={ROUTES.login} replace />;
     }
-  }, [commonStore.token, authenticationStore, location.pathname, commonStore]);
+  }, [authenticationStore, commonStore]);
 
   return isMobile ? (
     <>

@@ -13,8 +13,10 @@ export default observer(function ApologyRecord() {
   const { commonStore, attendanceStore } = useStore();
 
   useEffect(() => {
-    attendanceStore.getMyApologies();
-    attendanceStore.getApologySummary();
+    (async () => {
+      await attendanceStore.getMyApologies();
+      await attendanceStore.getApologySummary();
+    })();
   }, [attendanceStore]);
 
   return (

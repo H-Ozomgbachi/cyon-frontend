@@ -6,25 +6,26 @@ import { TODAY } from "../../shared/inputs/CustomDatePicker";
 import MyFormikController from "../../shared/inputs/MyFormikController";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
-import StatementOfAccount from "./StatementOfAccount";
+import MyStatementOfAccount from "./MyStatementOfAccount";
 
-export default observer(function ViewAccountStatement() {
-  const { financeStore, commonStore } = useStore();
+export default observer(function ViewMyAccountStatement() {
+  const { financeStore, commonStore, authenticationStore } = useStore();
 
   const initialValues = {
-    startDate: dayjs(TODAY).add(-6, "month"),
+    startDate: dayjs(TODAY).add(-4, "month"),
     endDate: dayjs(TODAY),
   };
 
   const handleSubmit = async (start: string, end: string) => {
-    const response = await financeStore.getOrganizationAccountStatement({
+    const response = await financeStore.getUserFinanceByRange({
       startDate: start,
       endDate: end,
+      userId: authenticationStore.currentUser?.id!,
     });
 
     return commonStore.setModalContent(
-      <StatementOfAccount data={response} />,
-      "Statement of Account",
+      <MyStatementOfAccount data={response} startDate={start} endDate={end} />,
+      "My Statement of Account",
       true
     );
   };
@@ -63,7 +64,7 @@ export default observer(function ViewAccountStatement() {
               className="uni-green_btn"
               startIcon={<DoubleArrow />}
             >
-              Generate
+              Check
             </Button>
           </Form>
         )}

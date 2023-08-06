@@ -50,18 +50,19 @@ axios.interceptors.response.use(
     const resError = error.response as Error;
     switch (resError.status) {
       case 500:
-        console.log(resError);
         store.commonStore.setAlertText(
           "An internal server error occurred",
           true
         );
+        console.log(resError);
         break;
       case 401:
         store.commonStore.setLastVisitedPathname(window.location.pathname);
-        customHistory.push(ROUTES.login);
+        customHistory.replace(ROUTES.login);
         break;
       case 404:
         store.commonStore.setAlertText(resError.data.message, true);
+
         break;
       case 400:
         store.commonStore.setAlertText(
@@ -69,9 +70,11 @@ axios.interceptors.response.use(
           true
         );
         break;
-      case 412:
-        const email = resError.data.message.split("|")[1];
-        customHistory.push(ROUTES.confirmEmail, email);
+      case 403:
+        store.commonStore.setAlertText(
+          "Permission to view this information is restricted",
+          true
+        );
         break;
       default:
         store.commonStore.setAlertText(

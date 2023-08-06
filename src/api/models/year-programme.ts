@@ -7,3 +7,16 @@ export interface YearProgrammeModel {
   scope: string;
   year: string;
 }
+
+// Remove Later
+export interface FoundTreasureDto {
+  founderName: string;
+  founderPhone: string;
+}
+
+export interface TreasureResultModel {
+  id: string;
+  founderName: string;
+  founderPhone: string;
+  dateAdded: string;
+}

@@ -1,5 +1,9 @@
 import requests from "../main/apiConfig";
-import { YearProgrammeModel } from "../models/year-programme";
+import {
+  FoundTreasureDto,
+  TreasureResultModel,
+  YearProgrammeModel,
+} from "../models/year-programme";
 
 export const YearProgramme = {
   getYearProgrammes: () =>
@@ -10,4 +14,11 @@ export const YearProgramme = {
 
   deleteYearProgramme: (id: string) =>
     requests.del(`/YearProgramme/DeleteYearProgramme/${id}`),
+
+  //Remove Later
+  postTreasureHuntResult: (values: FoundTreasureDto) =>
+    requests.post("/Games/PostTreasureHuntResult", values),
+
+  getTreasureHuntResult: () =>
+    requests.get<TreasureResultModel[]>("/Games/GetTreasureHuntResults"),
 };

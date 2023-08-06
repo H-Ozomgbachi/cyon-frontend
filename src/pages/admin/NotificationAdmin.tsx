@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { Box, Divider } from "@mui/material";
 import BottomNav from "../../components/shared/bottom-nav";
-import { Alarm, Email } from "@mui/icons-material";
+import { Email, Gamepad } from "@mui/icons-material";
 import HeaderNav from "../../components/shared/header-nav";
 import EmailerAdmin from "../../components/admin/emailers/EmailerAdmin";
+import TreasureHuntResultAdmin from "../../components/admin/games/TreasureHuntResultAdmin";
 
 export default observer(function NotificationAdmin() {
   return (
@@ -19,11 +20,11 @@ export default observer(function NotificationAdmin() {
             icon: <Email />,
           },
           {
-            label: "Reminders",
-            icon: <Alarm />,
+            label: "Games",
+            icon: <Gamepad />,
           },
         ]}
-        contentItems={[<EmailerAdmin />, <></>]}
+        contentItems={[<EmailerAdmin />, <TreasureHuntResultAdmin />]}
       />
     </Box>
   );
