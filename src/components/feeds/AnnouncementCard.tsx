@@ -20,6 +20,10 @@ export default observer(function AnnouncementCard({ data }: Props) {
 
   const handleClick = async () => {
     await announcementStore.readAnnouncement(data.id, read);
+    data.content = data.content.replaceAll(
+      "[UserName]",
+      authenticationStore.currentUser?.firstName!
+    );
     commonStore.setModalContent(<AnnouncementDetail data={data} />, "", true);
   };
 
