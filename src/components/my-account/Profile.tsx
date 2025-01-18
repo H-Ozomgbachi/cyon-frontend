@@ -40,6 +40,7 @@ export default observer(function Profile() {
     firstName: authenticationStore.currentUser?.firstName ?? "",
     lastName: authenticationStore.currentUser?.lastName ?? "",
     userName: authenticationStore.currentUser?.userName ?? "",
+    dateOfBirth: authenticationStore.currentUser?.dateOfBirth ?? "",
     phoneNumber: authenticationStore.currentUser?.phoneNumber ?? "",
     gender: authenticationStore.currentUser?.gender ?? "",
     isCommunicant: authenticationStore.currentUser?.isCommunicant ?? false,
@@ -139,6 +140,12 @@ export default observer(function Profile() {
                 control="input"
                 name="lastName"
                 label="Last Name"
+              />
+
+              <MyFormikController
+                control="date-picker"
+                name="dateOfBirth"
+                label="Date of Birth"
               />
 
               <MyFormikController

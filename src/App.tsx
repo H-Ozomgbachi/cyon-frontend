@@ -28,7 +28,11 @@ export default observer(function App() {
   }, [commonStore]);
 
   useEffect(() => {
-    if (commonStore.token && !authenticationStore.currentUser) {
+    if (
+      !location.pathname.includes("reset-password") &&
+      commonStore.token &&
+      !authenticationStore.currentUser
+    ) {
       authenticationStore.getMyAccount();
     }
   }, [authenticationStore, commonStore]);

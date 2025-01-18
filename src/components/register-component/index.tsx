@@ -53,12 +53,8 @@ export default observer(function RegisterComponent() {
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required("First name is required")
-      .matches(new RegExp(/^\S*$/), "Spaces are not allowed"),
-    lastName: Yup.string()
-      .required("Last name is required")
-      .matches(new RegExp(/^\S*$/), "Spaces are not allowed"),
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
     phoneNumber: Yup.string().required("Phone number is required"),
     departmentId: Yup.string().required("Department is required"),
     dateOfBirth: Yup.date().max(
@@ -177,7 +173,7 @@ export default observer(function RegisterComponent() {
           onSubmit={(values) =>
             authenticationStore.registerMyAccount({
               ...values,
-              dateOfBirth: values.dateOfBirth.toISOString(),
+              dateOfBirth: values.dateOfBirth.toString(),
               userName: `${values.firstName.trim()}${values.lastName.trim()}`,
             })
           }

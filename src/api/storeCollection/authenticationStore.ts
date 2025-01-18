@@ -98,7 +98,9 @@ export class AuthenticationStore {
       store.commonStore.setLoading(true);
       await agent.authentication.registerMyAccount(values);
 
-      customHistory.push(ROUTES.confirmEmail, values.email);
+      store.commonStore.setAlertText("Registration successful");
+
+      this.login({ email: values.email, password: values.password });
     } catch (error) {
       throw error;
     } finally {

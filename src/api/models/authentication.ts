@@ -13,6 +13,7 @@ export interface UserModel {
   firstName: string;
   lastName: string;
   userName: string;
+  dateOfBirth: string;
   photoUrl: string;
   roles: string[];
   phoneNumber: string;
