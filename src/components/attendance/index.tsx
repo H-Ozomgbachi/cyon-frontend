@@ -19,7 +19,7 @@ export default observer(function Attendance() {
   }, [attendanceStore]);
 
   return (
-    <Box>
+    <Box sx={{ p: { xs: 1, md: 2 } }}>
       <HorizontalTabs
         tabNames={["record", "apology"]}
         tabContents={[<AttendanceRecord />, <ApologyRecord />]}

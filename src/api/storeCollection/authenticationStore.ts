@@ -60,8 +60,15 @@ export class AuthenticationStore {
 
       this.currentUser = user;
     } catch (error) {
-      customHistory.replace(ROUTES.login);
-      throw error;
+      // Clear the invalid token
+      store.commonStore.setToken(null);
+      this.currentUser = null;
+      
+      // Only redirect to login if not already on a public page
+      if (!window.location.pathname.includes('/account') && window.location.pathname !== '/') {
+        customHistory.replace(ROUTES.login);
+      }
+      console.error('Failed to get account:', error);
     }
   };
 

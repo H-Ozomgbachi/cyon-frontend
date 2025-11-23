@@ -1,32 +1,34 @@
-import { Backdrop } from "@mui/material";
-import { RotatingLines } from "react-loader-spinner";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import { useEffect } from "react";
-
-//This should be changed once the home landing page is built
+import LandingPage from "../../components/landing/LandingPage";
+import { customHistory } from "../..";
+import { ROUTES } from "../../routes";
 
 export default observer(function Home() {
-  const { commonStore } = useStore();
+  const { commonStore, authenticationStore } = useStore();
 
   useEffect(() => {
-    commonStore.redirectDecision();
-  }, [commonStore]);
+    // If user has a token but no currentUser yet, fetch account data
+    if (commonStore.token && !authenticationStore.currentUser) {
+      authenticationStore.getMyAccount().then(() => {
+        // After successfully fetching user, redirect to dashboard
+        if (authenticationStore.currentUser) {
+          customHistory.replace(ROUTES.dashboard);
+        }
+      });
+    } 
+    // If user is already authenticated, redirect immediately
+    else if (authenticationStore.currentUser) {
+      customHistory.replace(ROUTES.dashboard);
+    }
+  }, [commonStore, authenticationStore, commonStore.token]);
 
-  return (
-    <div>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={true}
-      >
-        <RotatingLines
-          strokeColor="rgb(150, 114, 23)"
-          strokeWidth="5"
-          animationDuration="1"
-          width="90"
-          visible={true}
-        />
-      </Backdrop>
-    </div>
-  );
+  // Show landing page if not authenticated
+  if (!authenticationStore.currentUser && !commonStore.token) {
+    return <LandingPage />;
+  }
+
+  // Show nothing while loading/redirecting
+  return null;
 });

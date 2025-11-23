@@ -11,8 +11,15 @@
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .uni-green_btn {
@@ -29,4 +36,95 @@ body {
     url("./assets/img/bg-paper.webp");
   padding: 0.3rem;
   margin-bottom: 1rem;
+}
+
+/* Responsive Utilities */
+.responsive-padding {
+  padding: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .responsive-padding {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .responsive-padding {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .responsive-padding {
+    padding: 2rem;
+  }
+}
+
+/* Responsive text sizes */
+.responsive-text-sm {
+  font-size: 0.875rem;
+}
+
+.responsive-text-base {
+  font-size: 1rem;
+}
+
+.responsive-text-lg {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 900px) {
+  .responsive-text-sm {
+    font-size: 1rem;
+  }
+  
+  .responsive-text-base {
+    font-size: 1.125rem;
+  }
+  
+  .responsive-text-lg {
+    font-size: 1.25rem;
+  }
+}
+
+/* Responsive margins */
+.mb-responsive {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 900px) {
+  .mb-responsive {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Hide/Show based on screen size */
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus styles */
+:focus-visible {
+  outline: 2px solid rgba(0, 148, 50, 1);
+  outline-offset: 2px;
 }

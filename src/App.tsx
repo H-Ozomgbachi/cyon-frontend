@@ -10,7 +10,6 @@ import MyAlert from "./components/shared/alert";
 import LoadingSpinner from "./components/shared/loading-spinner";
 import { useStore } from "./api/main/appStore";
 import { useEffect } from "react";
-import { isMobile } from "react-device-detect";
 import Admin from "./pages/admin";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
@@ -30,14 +29,15 @@ export default observer(function App() {
   useEffect(() => {
     if (
       !location.pathname.includes("reset-password") &&
+      location.pathname !== "/" && // Don't fetch user data on landing page
       commonStore.token &&
       !authenticationStore.currentUser
     ) {
       authenticationStore.getMyAccount();
     }
-  }, [authenticationStore, commonStore]);
+  }, [authenticationStore, commonStore, commonStore.token, location.pathname]);
 
-  return isMobile ? (
+  return (
     <>
       <MyModal />
       <MyAlert />
@@ -72,9 +72,5 @@ export default observer(function App() {
         <ResetPassword />
       )}
     </>
-  ) : (
-    <h2 className="p-3 mt-1">
-      This Site is Currently Supported for Mobile Devices Only
-    </h2>
   );
 });

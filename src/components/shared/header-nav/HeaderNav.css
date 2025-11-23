@@ -8,3 +8,29 @@
   font-weight: bold;
   font-size: 2rem !important;
 }
+
+/* Desktop Navigation Enhancements */
+@media (min-width: 900px) {
+  .header-nav_container {
+    padding: 8px 16px;
+  }
+  
+  /* Add spacing and hover effects for desktop nav items */
+  .MuiButton-root {
+    margin: 0 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .MuiButton-root:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 600px) and (max-width: 899px) {
+  .header-nav_container {
+    padding: 6px 12px;
+  }
+}

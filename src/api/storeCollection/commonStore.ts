@@ -127,7 +127,8 @@ export class CommonStore {
     if (retrievedToken) {
       this.setToken(retrievedToken);
       window.localStorage.removeItem("jwt-cyon");
+      // Only redirect if user has a token (is authenticated)
+      this.redirectDecision();
     }
-    this.redirectDecision();
   };
 }

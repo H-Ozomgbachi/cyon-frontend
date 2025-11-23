@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import CustomCarousel from "../shared/carousel";
 import ContentTitle from "../shared/content-title";
 import AnnouncementCard from "./AnnouncementCard";
@@ -32,7 +32,7 @@ export default observer(function Feeds() {
   return (
     <Box
       sx={{
-        p: 1,
+        p: { xs: 1, md: 2 },
       }}
     >
       <ContentTitle title="Programmes" />
@@ -51,9 +51,13 @@ export default observer(function Feeds() {
       {announcementStore.loadingAnnouncements ? (
         <MySkeleton count={4} />
       ) : (
-        announcementStore.announcements.map((el) => (
-          <AnnouncementCard key={el.id} data={el} />
-        ))
+        <Grid container spacing={2}>
+          {announcementStore.announcements.map((el) => (
+            <Grid item xs={12} md={6} lg={4} key={el.id}>
+              <AnnouncementCard data={el} />
+            </Grid>
+          ))}
+        </Grid>
       )}
 
       <ContentTitle title="Upcoming Events" />
@@ -61,9 +65,13 @@ export default observer(function Feeds() {
       {upcomingEventStore.loadingUpcomingEvents ? (
         <MySkeleton count={4} />
       ) : (
-        upcomingEventStore.upcomingEvents.map((el) => (
-          <UpcomingEventCard key={el.id} data={el} />
-        ))
+        <Grid container spacing={2}>
+          {upcomingEventStore.upcomingEvents.map((el) => (
+            <Grid item xs={12} md={6} lg={4} key={el.id}>
+              <UpcomingEventCard data={el} />
+            </Grid>
+          ))}
+        </Grid>
       )}
     </Box>
   );

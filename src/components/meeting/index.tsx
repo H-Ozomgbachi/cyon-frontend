@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useStore } from "../../api/main/appStore";
@@ -19,7 +19,7 @@ export default observer(function Meetings() {
   return (
     <Paper
       sx={{
-        p: 1,
+        p: { xs: 1, md: 2 },
       }}
       elevation={0}
     >
@@ -28,7 +28,13 @@ export default observer(function Meetings() {
       {meetingStore.loadingMeetings ? (
         <MySkeleton count={4} />
       ) : (
-        meetingStore.meetings.map((el, i) => <MeetingCard key={i} data={el} />)
+        <Grid container spacing={2}>
+          {meetingStore.meetings.map((el, i) => (
+            <Grid item xs={12} md={6} lg={4} key={i}>
+              <MeetingCard data={el} />
+            </Grid>
+          ))}
+        </Grid>
       )}
     </Paper>
   );

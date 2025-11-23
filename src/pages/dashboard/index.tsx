@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { Divider } from "@mui/material";
+import { Container, Divider } from "@mui/material";
 import HeaderNav from "../../components/shared/header-nav";
 import BottomNav from "../../components/shared/bottom-nav";
 import {
@@ -18,7 +18,7 @@ import { observer } from "mobx-react-lite";
 
 export default observer(function Dashboard() {
   return (
-    <Box>
+    <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
       <HeaderNav />
       
       <Divider />

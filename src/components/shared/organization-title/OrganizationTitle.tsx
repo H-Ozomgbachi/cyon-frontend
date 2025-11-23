@@ -1,9 +1,11 @@
 import "./OrganizationTitle.css";
 import logo from "../../../assets/img/logo_2.png";
+import { customHistory } from "../../..";
+import { ROUTES } from "../../../routes";
 
 export function OrganizationTitle() {
   return (
-    <div className="organisation-title">
+    <div className="organisation-title" onClick={() => customHistory.push(ROUTES.home)} style={{ cursor: "pointer" }}>
       <div>
         <img alt="logo" src={logo} className="organisation-title_logo" />
       </div>
@@ -17,7 +19,7 @@ export function OrganizationTitle() {
 
 export function JustLogo() {
   return (
-    <div>
+    <div onClick={() => customHistory.push(ROUTES.home)} style={{ cursor: "pointer" }}>
       <img alt="logo" src={logo} className="just-logo" />
     </div>
   );
@@ -25,7 +27,7 @@ export function JustLogo() {
 
 export function OrganizationTitleSecond() {
   return (
-    <div className="organisation-title_2">
+    <div className="organisation-title_2" onClick={() => customHistory.push(ROUTES.home)} style={{ cursor: "pointer" }}>
       <div>
         <img alt="logo" src={logo} className="organisation-title_logo_2" />
       </div>
