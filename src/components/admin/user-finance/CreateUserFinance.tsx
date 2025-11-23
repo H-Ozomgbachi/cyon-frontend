@@ -41,7 +41,7 @@ export default observer(function CreateUserFinance() {
         {() => (
           <Form>
             <MyFormikController
-              control="select"
+              control="autocomplete"
               label="Member's Name"
               name="userId"
               options={authenticationStore.usersOption}

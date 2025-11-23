@@ -91,7 +91,7 @@ export default observer(function TakeAttendance() {
                       <div className="attendance-title">
                         <MyFormikController
                           type="text"
-                          control="select"
+                          control="autocomplete"
                           name={`attendanceData[${index}].userCode`}
                           label="Member's Name"
                           options={authenticationStore.usersOption}

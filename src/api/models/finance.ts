@@ -19,6 +19,16 @@ export interface CreateUserFinanceDues {
   duesCostMonthly: number;
 }
 
+export interface PayDuesByMonths {
+  userId: string;
+  description: string;
+  duesCostMonthly: number;
+  fromMonth: number;
+  fromYear: number;
+  toMonth: number;
+  toYear: number;
+}
+
 export interface UserFinanceSummaryModel {
   contribution: number;
   debt: number;

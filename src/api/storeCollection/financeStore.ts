@@ -7,6 +7,7 @@ import {
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
+  PayDuesByMonths,
   UserFinanceByRange,
   UserFinanceModel,
   UserFinanceSummaryModel,
@@ -64,6 +65,20 @@ export class FinanceStore {
     try {
       store.commonStore.setLoading(true);
       await agent.finance.payDuesByAmount(values);
+
+      store.commonStore.setAlertText("Dues payment successful");
+    } catch (error) {
+      throw error;
+    } finally {
+      store.commonStore.setLoading(false);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  payDuesByMonths = async (values: PayDuesByMonths) => {
+    try {
+      store.commonStore.setLoading(true);
+      await agent.finance.payDuesByMonths(values);
 
       store.commonStore.setAlertText("Dues payment successful");
     } catch (error) {

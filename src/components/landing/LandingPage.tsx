@@ -42,7 +42,7 @@ export default function LandingPage() {
     {
       icon: <FeedOutlined sx={{ fontSize: 48, color: OrganizationColors.green }} />,
       title: "Stay Connected",
-      description: "Get real-time updates, announcements, and news from your organization.",
+      description: "Get real-time updates, announcements, and news from our organization.",
     },
     {
       icon: <AutoStoriesOutlined sx={{ fontSize: 48, color: OrganizationColors.deepYellow }} />,

@@ -7,6 +7,7 @@ import {
   OrganizationAccountStatementPayload,
   OrganizationBalanceModel,
   OrganizationFinanceModel,
+  PayDuesByMonths,
   UserFinanceByRange,
   UserFinanceModel,
   UserFinanceSummaryModel,
@@ -21,6 +22,9 @@ export const Finance = {
 
   payDuesByAmount: (payload: CreateUserFinanceDues) =>
     requests.post("/UserFinance/PayDuesByAmount", payload),
+
+  payDuesByMonths: (payload: PayDuesByMonths) =>
+    requests.post("/UserFinance/PayDuesByMonths", payload),
 
   getUserFinanceSummary: () =>
     requests.get<UserFinanceSummaryModel>("/UserFinance/GetUserFinanceSummary"),
