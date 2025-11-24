@@ -8,10 +8,13 @@ import Collapse from "@mui/material/Collapse";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Chip } from "@mui/material";
+import { EventAvailable, CalendarMonth } from "@mui/icons-material";
 import GrowAnimation from "../shared/animate-content/GrowAnimation";
 import { observer } from "mobx-react-lite";
 import { CompleteDateFormatter } from "../../helpers/formatters";
 import { UpcomingEventModel } from "../../api/models/upcomingEvent";
+import { OrganizationColors } from "../../colors";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -39,43 +42,96 @@ export default observer(function UpcomingEventCard({ data }: Props) {
     setExpanded(!expanded);
   };
 
+  // Calculate if event is coming soon (within 7 days)
+  const eventDate = new Date(data.importantDate);
+  const today = new Date();
+  const daysUntilEvent = Math.ceil((eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  const isComingSoon = daysUntilEvent <= 7 && daysUntilEvent >= 0;
+
   return (
     <GrowAnimation>
-      <Card>
-        <CardMedia
-          component="img"
-          height="auto"
-          image={data.imageUrl}
-          alt="img"
-          sx={{
-            objectFit: "cover",
-            objectPosition: "top",
-          }}
-        />
-        <CardContent>
+      <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <Box sx={{ position: "relative" }}>
+          <CardMedia
+            component="img"
+            height="200"
+            image={data.imageUrl}
+            alt={data.title}
+            sx={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
+          {isComingSoon && (
+            <Chip
+              label="Coming Soon!"
+              color="error"
+              size="small"
+              sx={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                fontWeight: "bold",
+                animation: "pulse 2s infinite",
+                "@keyframes pulse": {
+                  "0%, 100%": { opacity: 1 },
+                  "50%": { opacity: 0.7 },
+                },
+              }}
+            />
+          )}
+        </Box>
+        <CardContent sx={{ flexGrow: 1, pb: 1 }}>
           <Typography
+            variant="h6"
             sx={{
               fontWeight: "bold",
               fontSize: "1.1rem",
               textTransform: "capitalize",
+              mb: 2,
+              color: OrganizationColors.green,
             }}
           >
             {data.title}
           </Typography>
-          <Typography
+
+          {/* Event Date - Prominently displayed */}
+          <Box
             sx={{
-              color: "#777",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              mb: 1.5,
+              p: 1.5,
+              backgroundColor: OrganizationColors.deepYellow,
+              borderRadius: 2,
+              color: "#fff",
             }}
           >
-            Posted: {CompleteDateFormatter(data.dateAdded)}
-          </Typography>
+            <EventAvailable sx={{ fontSize: 28 }} />
+            <Box>
+              <Typography variant="caption" sx={{ display: "block", opacity: 0.9 }}>
+                Event Date
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "bold", fontSize: "1rem" }}>
+                {CompleteDateFormatter(data.importantDate)}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Posted Date */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <CalendarMonth sx={{ fontSize: 18, color: "#999" }} />
+            <Typography variant="caption" sx={{ color: "#777" }}>
+              Posted: {CompleteDateFormatter(data.dateAdded)}
+            </Typography>
+          </Box>
         </CardContent>
-        <CardActions disableSpacing onClick={handleExpandClick}>
-          <Typography paragraph sx={{ ml: 1 }}>
+        <CardActions disableSpacing onClick={handleExpandClick} sx={{ cursor: "pointer", pt: 0 }}>
+          <Typography variant="body2" sx={{ ml: 1, color: OrganizationColors.green, fontWeight: 500 }}>
             Read more
           </Typography>
           <ExpandMore
-            // onClick={handleExpandClick}
             expand={expanded}
             aria-expanded={expanded}
             aria-label="show more"
@@ -86,7 +142,6 @@ export default observer(function UpcomingEventCard({ data }: Props) {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            {/* <Typography paragraph>{data.description}</Typography> */}
             <div
               className="container"
               dangerouslySetInnerHTML={{

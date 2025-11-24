@@ -32,6 +32,7 @@ import { ROUTES } from "../../routes";
 import { OrganizationColors } from "../../colors";
 import "./LandingPage.css";
 import { JustLogo } from "../shared/organization-title/OrganizationTitle";
+import UpcomingEventsSection from "./UpcomingEventsSection";
 
 export default function LandingPage() {
   const theme = useTheme();
@@ -92,7 +93,7 @@ export default function LandingPage() {
   return (
     <Box className="landing-page">
       {/* Navigation Bar */}
-      <AppBar position="sticky" sx={{ backgroundColor: OrganizationColors.green }}>
+      <AppBar position="sticky" sx={{ backgroundColor: OrganizationColors.deepYellow }}>
         <Toolbar>
           <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
             <Box sx={{ backgroundColor: "#fff", p: 0.5, borderRadius: 1, mr: 2 }}>
@@ -148,7 +149,7 @@ export default function LandingPage() {
                 variant="contained"
                 sx={{
                   backgroundColor: "#fff",
-                  color: OrganizationColors.green,
+                  color: OrganizationColors.deepYellow,
                   "&:hover": { backgroundColor: "#f0f0f0" },
                 }}
                 onClick={() => customHistory.push(ROUTES.register)}
@@ -165,11 +166,10 @@ export default function LandingPage() {
         minHeight: { xs: "70vh", md: "80vh" },
         display: "flex",
         alignItems: "center",
-        background: `linear-gradient(135deg, rgba(150, 114, 23, 0.96) 0%, rgba(40, 40, 40, 0.94) 100())`,
-        backgroundImage: `linear-gradient(135deg, rgba(150, 114, 23, 0.96) 0%, rgba(40, 40, 40, 0.94) 100%), url(${require("../../assets/img/chur_img_1.jpg")})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${require("../../assets/img/church_altar.jpg")})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundBlendMode: "overlay",
+        backgroundRepeat: "no-repeat",
         color: "#fff",
         textAlign: "center",
         py: { xs: 6, md: 10 },
@@ -183,7 +183,8 @@ export default function LandingPage() {
               fontWeight: 700,
               fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
               mb: 3,
-              textShadow: "3px 3px 10px rgba(0, 0, 0, 0.8)",
+              textShadow: "2px 2px 8px rgba(0, 0, 0, 0.9)",
+              color: "#fff",
             }}
           >
             Welcome to CYON
@@ -197,8 +198,9 @@ export default function LandingPage() {
               maxWidth: "800px",
               mx: "auto",
               fontWeight: 400,
-              textShadow: "2px 2px 8px rgba(0, 0, 0, 0.8)",
+              textShadow: "1px 1px 6px rgba(0, 0, 0, 0.9)",
               lineHeight: 1.6,
+              color: "#fff",
             }}
           >
             This is the official website of the Catholic Youth Organization of Nigeria, SS. Peter &amp; Paul, Shomolu. Empowering youth through faith, community, and service.
@@ -208,12 +210,13 @@ export default function LandingPage() {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#fff",
-                color: OrganizationColors.green,
+                backgroundColor: OrganizationColors.deepYellow,
+                color: "#fff",
                 px: 4,
                 py: 1.5,
                 fontSize: "1.1rem",
-                "&:hover": { backgroundColor: "#f0f0f0" },
+                fontWeight: 600,
+                "&:hover": { backgroundColor: "rgb(130, 94, 13)" },
               }}
               onClick={() => customHistory.push(ROUTES.register)}
             >
@@ -224,11 +227,17 @@ export default function LandingPage() {
               size="large"
               sx={{
                 borderColor: "#fff",
+                borderWidth: 2,
                 color: "#fff",
                 px: 4,
                 py: 1.5,
                 fontSize: "1.1rem",
-                "&:hover": { borderColor: "#f0f0f0", backgroundColor: "rgba(255,255,255,0.1)" },
+                fontWeight: 600,
+                "&:hover": { 
+                  borderColor: "#fff",
+                  borderWidth: 2,
+                  backgroundColor: "rgba(255,255,255,0.2)"
+                },
               }}
               onClick={() => customHistory.push(ROUTES.login)}
             >
@@ -294,6 +303,9 @@ export default function LandingPage() {
           </Grid>
         </Container>
       </Box>
+
+      {/* Upcoming Events Section */}
+      <UpcomingEventsSection />
 
       {/* About Us Section with Group Photo */}
       <Box

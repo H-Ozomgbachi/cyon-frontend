@@ -58,6 +58,7 @@ export default observer(function CreateUpcomingEvent() {
           formData.append("title", values.title);
           formData.append("description", contentValue);
           formData.append("image", file, fileName);
+          formData.append("importantDate", values.importantDate.toISOString());
 
           upcomingEventStore.addUpcomingEvent(formData);
         }}
