@@ -12,6 +12,7 @@ import { UpcomingEventStore } from "../storeCollection/upcomingEventStore";
 import { AccountManagementStore } from "../storeCollection/accountManagementStore";
 import { DecisionStore } from "../storeCollection/decisionStore";
 import { NotificationsStore } from "../storeCollection/notificationsStore";
+import { EducationImpactStore } from "../storeCollection/educationImpactStore";
 
 interface Store {
   commonStore: CommonStore;
@@ -27,6 +28,7 @@ interface Store {
   accountManagementStore: AccountManagementStore;
   decisionStore: DecisionStore;
   notificationsStore: NotificationsStore;
+  educationImpactStore: EducationImpactStore;
 }
 
 export const store: Store = {
@@ -43,6 +45,7 @@ export const store: Store = {
   accountManagementStore: new AccountManagementStore(),
   decisionStore: new DecisionStore(),
   notificationsStore: new NotificationsStore(),
+  educationImpactStore: new EducationImpactStore(),
 };
 
 export const StoreContext = createContext(store);

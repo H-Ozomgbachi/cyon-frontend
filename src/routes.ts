@@ -10,4 +10,22 @@ export const ROUTES = {
   register: "/account/register",
   forgotPassword: "/account/forgot-password",
   confirmEmail: "/account/confirm-email",
+  
+  // Education Impact Routes
+  educationImpact: "/education-impact",
+  educationImpactJambApplication: "/education-impact/apply/jamb",
+  educationImpactTertiaryApplication: "/education-impact/apply/tertiary",
+  educationImpactApplicationSuccess: "/education-impact/application-success",
+  
+  // Admin Education Impact Routes
+  educationImpactAdmin: "/admin/education-impact",
+  educationImpactCampaigns: "/admin/education-impact/campaigns",
+  educationImpactCreateCampaign: "/admin/education-impact/campaigns/new",
+  educationImpactEditCampaign: "/admin/education-impact/campaigns/edit",
+  educationImpactCampaignStatistics: "/admin/education-impact/campaigns/statistics",
+  educationImpactJambApplications: "/admin/education-impact/jamb",
+  educationImpactJambApplicationDetail: "/admin/education-impact/jamb/detail",
+  educationImpactTertiaryApplications: "/admin/education-impact/tertiary",
+  educationImpactTertiaryApplicationDetail: "/admin/education-impact/tertiary/detail",
+  educationImpactTopApplicants: "/admin/education-impact/tertiary/top",
 };

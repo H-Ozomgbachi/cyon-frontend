@@ -17,6 +17,11 @@ import SetupAdmin from "./pages/admin/SetupAdmin";
 import AccountManagementAdmin from "./pages/admin/AccountManagementAdmin";
 import NotificationAdmin from "./pages/admin/NotificationAdmin";
 import ConfirmEmail from "./pages/auth/ConfirmEmail";
+import EducationImpactLanding from "./components/education-impact/EducationImpactLanding";
+import JambApplicationForm from "./components/education-impact/JambApplicationForm";
+import TertiaryApplicationForm from "./components/education-impact/TertiaryApplicationForm";
+import ApplicationSuccess from "./components/education-impact/ApplicationSuccess";
+import EducationImpactAdmin from "./components/admin/education-impact/EducationImpactAdmin";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -58,6 +63,14 @@ export default observer(function App() {
           <Route path="dashboard">
             <Route index element={<Dashboard />} />
           </Route>
+          
+          <Route path="education-impact">
+            <Route index element={<EducationImpactLanding />} />
+            <Route path="apply/jamb" element={<JambApplicationForm />} />
+            <Route path="apply/tertiary" element={<TertiaryApplicationForm />} />
+            <Route path="application-success/:id" element={<ApplicationSuccess />} />
+          </Route>
+          
           <Route path="admin">
             <Route index element={<Admin />} />
             <Route path="setup" element={<SetupAdmin />} />
@@ -66,6 +79,7 @@ export default observer(function App() {
               element={<AccountManagementAdmin />}
             />
             <Route path="notifications" element={<NotificationAdmin />} />
+            <Route path="education-impact" element={<EducationImpactAdmin />} />
           </Route>
         </Routes>
       ) : (
