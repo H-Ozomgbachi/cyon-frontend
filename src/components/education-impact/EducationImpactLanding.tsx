@@ -809,7 +809,7 @@ const EducationImpactLanding = observer(() => {
             © {new Date().getFullYear()} CYON Education Impact Project. All rights reserved.
           </Typography>
           <Typography variant="body2" color="inherit" sx={{ opacity: 0.8 }}>
-            CYON Empowering Youth Through Education
+            For God and For Youth... Through Christ!
           </Typography>
         </Container>
       </Box>
