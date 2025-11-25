@@ -59,12 +59,8 @@ const EducationImpactLanding = observer(() => {
   }, []);
 
   const loadActiveCampaign = async () => {
-    try {
-      const activeCampaign = await educationImpactStore.getActiveCampaign();
-      setCampaign(activeCampaign);
-    } catch (error) {
-      console.error("No active campaign found");
-    }
+    const activeCampaign = await educationImpactStore.getActiveCampaign();
+    setCampaign(activeCampaign);
   };
 
   useEffect(() => {
