@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -33,11 +33,30 @@ import { OrganizationColors } from "../../colors";
 import "./LandingPage.css";
 import { JustLogo } from "../shared/organization-title/OrganizationTitle";
 import UpcomingEventsSection from "./UpcomingEventsSection";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../api/main/appStore";
+import { CampaignModel } from "../../api/models/educationImpact";
 
-export default function LandingPage() {
+const LandingPage = observer(() => {
+  const { educationImpactStore } = useStore();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [activeCampaign, setActiveCampaign] = useState<CampaignModel | null>(null);
+
+  useEffect(() => {
+    // Load active campaign on component mount
+    const loadActiveCampaign = async () => {
+      try {
+        const campaign = await educationImpactStore.getActiveCampaign();
+        setActiveCampaign(campaign);
+      } catch (error) {
+        // No active campaign, keep it null
+        setActiveCampaign(null);
+      }
+    };
+    loadActiveCampaign();
+  }, [educationImpactStore]);
 
   const features = [
     {
@@ -89,6 +108,14 @@ export default function LandingPage() {
     { label: "Login", action: () => customHistory.push(ROUTES.login) },
     { label: "Register", action: () => customHistory.push(ROUTES.register) },
   ];
+
+  // Get the campaign year from the openDate
+  const getCampaignYear = () => {
+    if (activeCampaign?.openDate) {
+      return new Date(activeCampaign.openDate).getFullYear();
+    }
+    return new Date().getFullYear();
+  };
 
   return (
     <Box className="landing-page">
@@ -304,166 +331,168 @@ export default function LandingPage() {
         </Container>
       </Box>
 
-      {/* Education Impact 2026 Section */}
-      <Box
-        sx={{
-          py: { xs: 6, md: 10 },
-          background: `linear-gradient(135deg, ${OrganizationColors.green} 0%, ${OrganizationColors.deepYellow} 100%)`,
-          color: "#fff",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={7}>
-              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                <AutoStoriesOutlined sx={{ fontSize: 40, mr: 2 }} />
-                <Typography variant="h3" component="h2" sx={{ fontWeight: 700, fontSize: { xs: "1.75rem", sm: "2.5rem" } }}>
-                  Education Impact 2026
+      {/* Education Impact Section - Only show when there's an active campaign */}
+      {activeCampaign && activeCampaign.isOpen && (
+        <Box
+          sx={{
+            py: { xs: 6, md: 10 },
+            background: `linear-gradient(135deg, ${OrganizationColors.green} 0%, ${OrganizationColors.deepYellow} 100%)`,
+            color: "#fff",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+            <Grid container spacing={4} alignItems="center">
+              <Grid item xs={12} md={7}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                  <AutoStoriesOutlined sx={{ fontSize: 40, mr: 2 }} />
+                  <Typography variant="h3" component="h2" sx={{ fontWeight: 700, fontSize: { xs: "1.75rem", sm: "2.5rem" } }}>
+                    {activeCampaign.title}
+                  </Typography>
+                </Box>
+                <Typography variant="h5" sx={{ mb: 3, opacity: 0.95, fontWeight: 400, lineHeight: 1.6 }}>
+                  Transform Your Educational Journey with Our Scholarship Program
                 </Typography>
-              </Box>
-              <Typography variant="h5" sx={{ mb: 3, opacity: 0.95, fontWeight: 400, lineHeight: 1.6 }}>
-                Transform Your Educational Journey with Our Scholarship Program
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 3, fontSize: "1.1rem", lineHeight: 1.8, opacity: 0.9 }}>
-                We're investing in the next generation of leaders! Apply now for:
-              </Typography>
-              <Grid container spacing={2} sx={{ mb: 4 }}>
-                <Grid item xs={12} sm={6}>
-                  <Card sx={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
-                    <CardContent sx={{ color: "#fff" }}>
-                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
-                        📚 JAMB Support
-                      </Typography>
-                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                        7 slots available for JAMB candidates
-                      </Typography>
-                      <Typography variant="body2" sx={{ mt: 1, fontWeight: 600 }}>
-                        ✓ Registration fees covered
-                        <br />
-                        ✓ Study materials provided
-                        <br />
-                        ✓ Mentorship included
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                <Typography variant="body1" sx={{ mb: 3, fontSize: "1.1rem", lineHeight: 1.8, opacity: 0.9 }}>
+                  {activeCampaign.description || "We're investing in the next generation of leaders! Apply now for:"}
+                </Typography>
+                <Grid container spacing={2} sx={{ mb: 4 }}>
+                  <Grid item xs={12} sm={6}>
+                    <Card sx={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
+                      <CardContent sx={{ color: "#fff" }}>
+                        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
+                          📚 JAMB Support
+                        </Typography>
+                        <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                          {activeCampaign.maxJambApplicants} slots available for JAMB candidates
+                        </Typography>
+                        <Typography variant="body2" sx={{ mt: 1, fontWeight: 600 }}>
+                          ✓ Registration fees covered
+                          <br />
+                          ✓ Study materials provided
+                          <br />
+                          ✓ Mentorship included
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Card sx={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
+                      <CardContent sx={{ color: "#fff" }}>
+                        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
+                          🎓 Tertiary Scholarship
+                        </Typography>
+                        <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                          Top {activeCampaign.maxTertiaryApplicants} students receive scholarships
+                        </Typography>
+                        <Typography variant="body2" sx={{ mt: 1, fontWeight: 600 }}>
+                          ✓ ₦{activeCampaign.tertiarySupportAmount.toLocaleString()} tuition support
+                          <br />
+                          ✓ Based on academic merit
+                          <br />
+                          ✓ Recognition & awards
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Card sx={{ backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
-                    <CardContent sx={{ color: "#fff" }}>
-                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
-                        🎓 Tertiary Scholarship
-                      </Typography>
-                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                        Top 3 students receive scholarships
-                      </Typography>
-                      <Typography variant="body2" sx={{ mt: 1, fontWeight: 600 }}>
-                        ✓ ₦100,000 tuition support
-                        <br />
-                        ✓ Based on academic merit
-                        <br />
-                        ✓ Recognition & awards
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-              <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    backgroundColor: "#fff",
-                    color: OrganizationColors.green,
-                    px: 4,
-                    py: 1.5,
-                    fontSize: "1.1rem",
-                    fontWeight: 600,
-                    "&:hover": { backgroundColor: "#f0f0f0", transform: "translateY(-2px)" },
-                    transition: "all 0.3s",
-                  }}
-                  onClick={() => customHistory.push(ROUTES.educationImpact)}
-                >
-                  Apply Now
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  sx={{
-                    borderColor: "#fff",
-                    borderWidth: 2,
-                    color: "#fff",
-                    px: 4,
-                    py: 1.5,
-                    fontSize: "1.1rem",
-                    fontWeight: 600,
-                    "&:hover": {
+                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      backgroundColor: "#fff",
+                      color: OrganizationColors.green,
+                      px: 4,
+                      py: 1.5,
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      "&:hover": { backgroundColor: "#f0f0f0", transform: "translateY(-2px)" },
+                      transition: "all 0.3s",
+                    }}
+                    onClick={() => customHistory.push(ROUTES.educationImpact)}
+                  >
+                    Apply Now
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    sx={{
                       borderColor: "#fff",
                       borderWidth: 2,
-                      backgroundColor: "rgba(255,255,255,0.2)",
-                      transform: "translateY(-2px)",
-                    },
-                    transition: "all 0.3s",
-                  }}
-                  onClick={() => customHistory.push(ROUTES.educationImpact)}
-                >
-                  View Details
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <Box
-                sx={{
-                  position: "relative",
-                  textAlign: "center",
-                  p: 4,
-                }}
-              >
+                      color: "#fff",
+                      px: 4,
+                      py: 1.5,
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      "&:hover": {
+                        borderColor: "#fff",
+                        borderWidth: 2,
+                        backgroundColor: "rgba(255,255,255,0.2)",
+                        transform: "translateY(-2px)",
+                      },
+                      transition: "all 0.3s",
+                    }}
+                    onClick={() => customHistory.push(ROUTES.educationImpact)}
+                  >
+                    View Details
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={5}>
                 <Box
                   sx={{
-                    width: { xs: 200, md: 300 },
-                    height: { xs: 200, md: 300 },
-                    borderRadius: "50%",
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    mx: "auto",
                     position: "relative",
-                    animation: "pulse 2s ease-in-out infinite",
-                    "@keyframes pulse": {
-                      "0%, 100%": { transform: "scale(1)" },
-                      "50%": { transform: "scale(1.05)" },
-                    },
+                    textAlign: "center",
+                    p: 4,
                   }}
                 >
                   <Box
                     sx={{
-                      width: { xs: 160, md: 240 },
-                      height: { xs: 160, md: 240 },
+                      width: { xs: 200, md: 300 },
+                      height: { xs: 200, md: 300 },
                       borderRadius: "50%",
-                      backgroundColor: "rgba(255,255,255,0.3)",
+                      backgroundColor: "rgba(255,255,255,0.2)",
                       display: "flex",
-                      flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                      mx: "auto",
+                      position: "relative",
+                      animation: "pulse 2s ease-in-out infinite",
+                      "@keyframes pulse": {
+                        "0%, 100%": { transform: "scale(1)" },
+                        "50%": { transform: "scale(1.05)" },
+                      },
                     }}
                   >
-                    <EventAvailableOutlined sx={{ fontSize: { xs: 60, md: 80 }, mb: 2 }} />
-                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                      2026
-                    </Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                      Applications Open
-                    </Typography>
+                    <Box
+                      sx={{
+                        width: { xs: 160, md: 240 },
+                        height: { xs: 160, md: 240 },
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(255,255,255,0.3)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <EventAvailableOutlined sx={{ fontSize: { xs: 60, md: 80 }, mb: 2 }} />
+                      <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                        {getCampaignYear()}
+                      </Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        Applications Open
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
+      )}
 
       {/* Upcoming Events Section */}
       <UpcomingEventsSection />
@@ -685,4 +714,6 @@ export default function LandingPage() {
       </Box>
     </Box>
   );
-}
+});
+
+export default LandingPage;
