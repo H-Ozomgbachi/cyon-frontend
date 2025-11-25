@@ -41,8 +41,8 @@ export class EducationImpactStore {
     } catch (error: any) {
       // Suppress the alert for "no active campaign" errors
       if (error?.response?.status === 404) {
-        // Clear any 404 alert that was set by the interceptor
-        store.commonStore.setAlertText("", false);
+        // Hide any 404 alert that was set by the interceptor
+        store.commonStore.setAlertVisible(false);
       }
       runInAction(() => {
         this.activeCampaign = null;
