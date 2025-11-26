@@ -12,6 +12,12 @@ export default observer(function MoreAdmin() {
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      transform: "translateY(-4px)",
+      boxShadow: theme.shadows[4],
+    },
   }));
 
   return (

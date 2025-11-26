@@ -10,6 +10,8 @@ import {
   Chip,
   Tabs,
   Tab,
+  IconButton,
+  Divider,
 } from "@mui/material";
 import {
   SchoolOutlined,
@@ -19,6 +21,7 @@ import {
   CancelOutlined,
   AddCircleOutline,
   BarChartOutlined,
+  ArrowBack,
 } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
@@ -28,6 +31,7 @@ import { OrganizationColors } from "../../../colors";
 import CampaignManagement from "./CampaignManagement";
 import JambApplicationsList from "./JambApplicationsList";
 import TertiaryApplicationsList from "./TertiaryApplicationsList";
+import HeaderNav from "../../shared/header-nav";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -102,15 +106,30 @@ const EducationImpactAdmin = observer(() => {
   );
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 700 }}>
-          Education Impact Administration
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Manage campaigns, review applications, and track statistics
-        </Typography>
-      </Box>
+    <Box>
+      <HeaderNav />
+      <Divider />
+      
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Box sx={{ mb: 4, display: "flex", alignItems: "center", gap: 2 }}>
+          <IconButton 
+            onClick={() => customHistory.push(ROUTES.adminPanel)}
+            sx={{ 
+              color: OrganizationColors.green,
+              "&:hover": { backgroundColor: "rgba(0, 148, 50, 0.1)" }
+            }}
+          >
+            <ArrowBack />
+          </IconButton>
+          <Box>
+            <Typography variant="h4" sx={{ fontWeight: 700 }}>
+              Education Impact Administration
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Manage campaigns, review applications, and track statistics
+            </Typography>
+          </Box>
+        </Box>
 
       {/* Statistics Overview */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
@@ -226,7 +245,8 @@ const EducationImpactAdmin = observer(() => {
           <TertiaryApplicationsList onReviewComplete={loadStatistics} />
         </TabPanel>
       </Card>
-    </Container>
+      </Container>
+    </Box>
   );
 });
 

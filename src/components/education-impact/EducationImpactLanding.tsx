@@ -127,7 +127,7 @@ const EducationImpactLanding = observer(() => {
     {
       question: "Who is eligible to apply?",
       answer:
-        "JAMB applicants must be parishioners and preparing for UTME. Tertiary applicants must be in 200 level or above with a minimum CGPA requirement. Being a CYON member is an advantage but not mandatory.",
+        "JAMB applicants must be parishioners and preparing for UTME. Tertiary applicants must be in 200 level or above. Being a registered CYON member is an advantage but not mandatory.",
     },
     {
       question: "What documents do I need?",
@@ -137,12 +137,12 @@ const EducationImpactLanding = observer(() => {
     {
       question: "When will I hear back about my application?",
       answer:
-        "Applications are reviewed on a rolling basis. You'll receive an email notification about your application status within 2-3 weeks of submission.",
+        "Applications are reviewed on a rolling basis. You'll receive an email notification about your application status within 1-2 weeks of submission.",
     },
     {
       question: "How are recipients selected?",
       answer:
-        "JAMB recipients are selected based on academic potential, and commitment. Tertiary recipients are ranked by CGPA, achievements, financial need, and extracurricular activities.",
+        "JAMB recipients are selected based on academic potential and assessment results. Tertiary recipients are ranked by CGPA, achievements, financial need, and extracurricular activities.",
     },
     {
       question: "Can I apply for both programs?",
@@ -289,7 +289,7 @@ const EducationImpactLanding = observer(() => {
 
           {!campaign && (
             <Typography variant="h6" sx={{ mb: 4, opacity: 0.9 }}>
-              No active campaign at the moment. Check back soon!
+              Application is currently closed. Check back soon!
             </Typography>
           )}
         </Container>
@@ -556,8 +556,8 @@ const EducationImpactLanding = observer(() => {
                     <br />
                     • Minimum CGPA requirement
                     <br />
-                    • Nigerian university student
-                    <br />• Academic & extracurricular excellence
+                    • Nigerian university, polytechnic or college of education student
+                    <br />• Academic excellence
                   </Typography>
 
                   <Button
