@@ -18,7 +18,6 @@ import {
 } from "../../api/models/election";
 import { customHistory } from "../..";
 import { ROUTES } from "../../routes";
-import HeaderNav from "../shared/header-nav";
 import MySkeleton from "../shared/loading-spinner/MySkeleton";
 import NoResult from "../shared/no-result";
 import SlideAnimation from "../shared/animate-content/SlideAnimation";
@@ -44,7 +43,6 @@ export default observer(function ActiveElections() {
 
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
-<HeaderNav/>
       <Box sx={{ p: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
           Elections
