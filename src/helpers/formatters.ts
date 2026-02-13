@@ -15,7 +15,7 @@ export const NairaFormatter = (value: number) => {
 };
 
 export const DateOnlyFormatter = (value: string) =>
-  dayjs.utc(value).format("DD/MM/YYYY");
+  dayjs.utc(value).local().format("DD/MM/YYYY");
 
 export const NumberToHourMin = (value: number) => {
   const hr = Math.floor(value / 60);
@@ -25,15 +25,23 @@ export const NumberToHourMin = (value: number) => {
 };
 
 export const DayAndMonthFormatter = (value: string) =>
-  dayjs.utc(value).format("MMMM DD");
+  dayjs.utc(value).local().format("MMMM DD");
 
 export const CompleteDateFormatter = (value: string) =>
-  dayjs.utc(value).format("MMMM DD, YYYY");
+  dayjs.utc(value).local().format("MMMM DD, YYYY");
 
 export const IsDaySame = (value1: string, value2: string) =>
-  dayjs.utc(value1).isSame(value2, "day");
+  dayjs.utc(value1).local().isSame(dayjs.utc(value2).local(), "day");
 
-export const dateFromNow = (value: string) => dayjs.utc(value).fromNow();
+export const dateFromNow = (value: string) => dayjs.utc(value).local().fromNow();
 
 export const DateAndTimeFormat = (value: string) =>
-  dayjs.utc(value).add(1, "hour").format("DD/MM/YY hh:mm:ss A");
+  dayjs.utc(value).local().format("DD/MM/YY hh:mm:ss A");
+
+// Convert UTC date string to local Date object for display
+export const UtcToLocalDate = (value: string) =>
+  dayjs.utc(value).local().toDate();
+
+// Format UTC date to local time with full date and time
+export const FullDateTimeFormat = (value: string) =>
+  dayjs.utc(value).local().format("MMMM DD, YYYY [at] h:mm A");

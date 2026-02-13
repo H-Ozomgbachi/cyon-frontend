@@ -42,6 +42,7 @@ import MySkeleton from "../../shared/loading-spinner/MySkeleton";
 import CreateOrUpdateElection from "./CreateOrUpdateElection";
 import CreateOrUpdateContest from "./CreateOrUpdateContest";
 import CreateOrUpdateNominee from "./CreateOrUpdateNominee";
+import { FullDateTimeFormat } from "../../../helpers/formatters";
 import "./Election.css";
 
 export default observer(function ElectionBuilder() {
@@ -531,7 +532,7 @@ const ContestCard = observer(function ContestCard({
               Order: {contest.displayOrder} &bull;{" "}
               {contest.nominees?.length || 0}/{maxNominees} nominees
               {contest.resultPublishedAt && (
-                <> &bull; Published: {new Date(contest.resultPublishedAt).toLocaleDateString()}</>
+                <> &bull; Published: {FullDateTimeFormat(contest.resultPublishedAt)}</>
               )}
             </Typography>
           </Box>

@@ -31,9 +31,17 @@ export class ElectionStore {
   loadingResults = false;
   loadingVoterBreakdown = false;
 
+  // Real-time: track the last published contest ID for auto-switching tabs
+  lastPublishedContestId: string | null = null;
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  // Clear the last published contest ID after navigating to it
+  clearLastPublishedContestId = () => {
+    this.lastPublishedContestId = null;
+  };
 
   // Admin: Fetch all elections
   fetchElections = async () => {
@@ -528,6 +536,8 @@ export class ElectionStore {
       } else {
         this.liveResults.push(contestResult);
       }
+      // Set last published for auto-switching tabs in VotingInterface
+      this.lastPublishedContestId = contestResult.contestId;
     });
   };
 

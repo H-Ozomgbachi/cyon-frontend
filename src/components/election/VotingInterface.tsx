@@ -67,6 +67,32 @@ export default observer(function VotingInterface() {
     };
   }, [electionStore, id]);
 
+  // Auto-switch to newly published contest when results are published via SignalR
+  useEffect(() => {
+    const lastPublishedId = electionStore.lastPublishedContestId;
+    const election = electionStore.currentElection;
+    if (!lastPublishedId || !election) return;
+
+    // Compute visible contests the same way as in render
+    const sortedContests = (election.contests ?? [])
+      .slice()
+      .sort((a, b) => a.displayOrder - b.displayOrder);
+    const activeContestId = election.activeContestId;
+    const visibleContests = activeContestId
+      ? sortedContests.filter((c) => c.id === activeContestId || c.isResultPublished)
+      : sortedContests;
+
+    // Find the index of the newly published contest
+    const newTabIndex = visibleContests.findIndex((c) => c.id === lastPublishedId);
+    if (newTabIndex >= 0) {
+      setActiveTab(newTabIndex);
+      setSelectedNominee(null);
+    }
+
+    // Clear so we don't keep switching
+    electionStore.clearLastPublishedContestId();
+  }, [electionStore.lastPublishedContestId, electionStore.currentElection, electionStore]);
+
   const election = electionStore.currentElection;
 
   if (electionStore.loadingCurrentElection || !election) {
