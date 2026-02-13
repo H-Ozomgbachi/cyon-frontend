@@ -31,6 +31,10 @@ export class ElectionStore {
   loadingResults = false;
   loadingVoterBreakdown = false;
 
+  // Attendance-based voting eligibility
+  isEligibleToVote: boolean | null = null;
+  loadingEligibility = false;
+
   // Real-time: track the last published contest ID for auto-switching tabs
   lastPublishedContestId: string | null = null;
 
@@ -395,6 +399,34 @@ export class ElectionStore {
     } catch (error) {
       console.error("Failed to fetch voted contests:", error);
     }
+  };
+
+  // Check if user is eligible to vote in an attendance-restricted election
+  checkVotingEligibility = async (electionId: string) => {
+    try {
+      this.loadingEligibility = true;
+      const isEligible = await agent.election.checkVotingEligibility(electionId);
+      runInAction(() => {
+        this.isEligibleToVote = isEligible;
+      });
+      return isEligible;
+    } catch (error) {
+      console.error("Failed to check voting eligibility:", error);
+      runInAction(() => {
+        this.isEligibleToVote = null;
+      });
+      return null;
+    } finally {
+      runInAction(() => {
+        this.loadingEligibility = false;
+      });
+    }
+  };
+
+  // Reset eligibility state (call when leaving voting page)
+  resetEligibility = () => {
+    this.isEligibleToVote = null;
+    this.loadingEligibility = false;
   };
 
   // Admin: Activate a specific contest for voting

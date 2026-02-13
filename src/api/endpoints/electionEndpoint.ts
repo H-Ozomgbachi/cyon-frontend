@@ -126,4 +126,8 @@ export const ElectionEndpoint = {
 
   getMyVotedContests: (electionId: string) =>
     requests.get<string[]>(`/elections/${electionId}/my-votes`),
+
+  /** Check if current user is eligible to vote (returns true if no attendance required or user has checked in) */
+  checkVotingEligibility: (electionId: string) =>
+    requests.get<boolean>(`/elections/${electionId}/eligibility`),
 };

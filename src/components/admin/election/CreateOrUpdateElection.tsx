@@ -1,5 +1,6 @@
-import { Box, Button, CircularProgress } from "@mui/material";
-import { Form, Formik } from "formik";
+import { useEffect } from "react";
+import { Box, Button, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import MyFormikController from "../../shared/inputs/MyFormikController";
 import { useStore } from "../../../api/main/appStore";
@@ -11,7 +12,12 @@ interface Props {
 }
 
 export default observer(function CreateOrUpdateElection({ election }: Props) {
-  const { electionStore } = useStore();
+  const { electionStore, meetingStore } = useStore();
+
+  // Load meetings for the dropdown
+  useEffect(() => {
+    meetingStore.getMeetings();
+  }, [meetingStore]);
 
   const initialValues = {
     id: election?.id ?? "",
@@ -19,6 +25,7 @@ export default observer(function CreateOrUpdateElection({ election }: Props) {
     description: election?.description ?? "",
     startAt: election?.startAt ?? "",
     endAt: election?.endAt ?? "",
+    meetingId: election?.meetingId ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -31,13 +38,18 @@ export default observer(function CreateOrUpdateElection({ election }: Props) {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) =>
-          election
-            ? electionStore.updateElection(election.id, values)
-            : electionStore.createElection(values)
-        }
+        onSubmit={(values) => {
+          const payload = {
+            ...values,
+            // Convert empty string to undefined for optional meetingId
+            meetingId: values.meetingId || undefined,
+          };
+          return election
+            ? electionStore.updateElection(election.id, payload)
+            : electionStore.createElection(payload);
+        }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setFieldValue }) => (
           <Form>
             <MyFormikController
               control="input"
@@ -66,6 +78,28 @@ export default observer(function CreateOrUpdateElection({ election }: Props) {
               name="endAt"
               type="datetime-local"
             />
+
+            <FormControl fullWidth sx={{ mt: 2, mb: 1 }}>
+              <InputLabel id="meeting-select-label">Restrict to Meeting (Optional)</InputLabel>
+              <Select
+                labelId="meeting-select-label"
+                label="Restrict to Meeting (Optional)"
+                value={values.meetingId}
+                onChange={(e) => setFieldValue("meetingId", e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>No restriction - Anyone can vote</em>
+                </MenuItem>
+                {meetingStore.meetings.map((meeting) => (
+                  <MenuItem key={meeting.id} value={meeting.id}>
+                    {new Date(meeting.date).toLocaleDateString()} - {meeting.additionalInfo || "Meeting"}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>
+                If selected, only users who checked in at this meeting can vote
+              </FormHelperText>
+            </FormControl>
 
             <Button
               type="submit"

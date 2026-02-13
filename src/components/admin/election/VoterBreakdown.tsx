@@ -17,6 +17,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
 import { VoterRecord } from "../../../api/models/election";
 import MySkeleton from "../../shared/loading-spinner/MySkeleton";
+import { CompleteDateFormatter } from "../../../helpers/formatters";
 
 interface Props {
   electionId: string;
@@ -136,7 +137,7 @@ export default observer(function VoterBreakdown({
                   </TableCell>
                   <TableCell>{voter.fullName}</TableCell>
                   <TableCell>
-                    {new Date(voter.castAt).toLocaleString()}
+                    {CompleteDateFormatter(voter.castAt)}
                   </TableCell>
                 </TableRow>
               ))

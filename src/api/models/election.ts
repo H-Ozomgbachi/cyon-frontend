@@ -14,6 +14,12 @@ export interface Election {
   endAt?: string;
   publishedAt?: string;
   activeContestId?: string;
+  /** If set, voting is restricted to users who have checked in to this meeting */
+  meetingId?: string;
+  /** The date of the linked meeting */
+  meetingDate?: string;
+  /** Indicates whether this election requires attendance to vote */
+  requiresAttendance: boolean;
   contests: Contest[];
 }
 
@@ -84,6 +90,8 @@ export interface CreateElectionDto {
   description: string;
   startAt?: string;
   endAt?: string;
+  /** Optional: Link to a meeting. If set, only users who have checked in can vote */
+  meetingId?: string;
 }
 
 export interface UpdateElectionDto extends CreateElectionDto {

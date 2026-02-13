@@ -25,6 +25,7 @@ import {
   Person,
   RadioButtonChecked,
   RadioButtonUnchecked,
+  People,
 } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../api/main/appStore";
@@ -256,6 +257,19 @@ export default observer(function ElectionBuilder() {
             >
               {ElectionStatusLabels[election.status]}
             </span>
+            {election.requiresAttendance && (
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="body2" color="warning.main" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <People fontSize="small" />
+                  Attendance Required to Vote
+                  {election.meetingDate && (
+                    <span style={{ marginLeft: 4, fontStyle: 'italic' }}>
+                      (Meeting: {new Date(election.meetingDate).toLocaleDateString()})
+                    </span>
+                  )}
+                </Typography>
+              </Box>
+            )}
           </Box>
 
           {/* Action Buttons */}

@@ -8,7 +8,7 @@ import {
   Grid,
   Chip,
 } from "@mui/material";
-import { HowToVote, BarChart } from "@mui/icons-material";
+import { HowToVote, BarChart, People } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import {
@@ -126,12 +126,22 @@ const ElectionCard = observer(function ElectionCard({
             {election.description}
           </Typography>
 
-          <Chip
-            label={`${election.contests?.length || 0} position(s)`}
-            size="small"
-            variant="outlined"
-            sx={{ mb: 2 }}
-          />
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+            <Chip
+              label={`${election.contests?.length || 0} position(s)`}
+              size="small"
+              variant="outlined"
+            />
+            {election.requiresAttendance && (
+              <Chip
+                icon={<People />}
+                label="Attendance Required"
+                size="small"
+                color="warning"
+                variant="outlined"
+              />
+            )}
+          </Box>
 
           <Box>
             {isLive && (

@@ -1,5 +1,6 @@
 import { Box, Chip, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { People } from "@mui/icons-material";
 import { Election, ElectionStatus, ElectionStatusLabels } from "../../../api/models/election";
 import SlideAnimation from "../../shared/animate-content/SlideAnimation";
 import { CompleteDateFormatter } from "../../../helpers/formatters";
@@ -81,6 +82,15 @@ export default observer(function ElectionCardAdmin({ data }: Props) {
               size="small"
               variant="outlined"
             />
+            {data.requiresAttendance && (
+              <Chip
+                icon={<People />}
+                label="Attendance Required"
+                size="small"
+                color="warning"
+                variant="outlined"
+              />
+            )}
             {data.startAt && (
               <Chip
                 label={`Start: ${CompleteDateFormatter(data.startAt)}`}

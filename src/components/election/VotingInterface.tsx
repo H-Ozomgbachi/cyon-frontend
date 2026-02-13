@@ -21,6 +21,7 @@ import {
   Person,
   EmojiEvents,
   Schedule,
+  VerifiedUser,
 } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
@@ -59,10 +60,12 @@ export default observer(function VotingInterface() {
       electionStore.fetchElection(id).catch(() => {});
       electionStore.fetchResults(id).catch(() => {});
       electionStore.fetchMyVotedContests(id).catch(() => {});
+      electionStore.checkVotingEligibility(id).catch(() => {});
       connectToElectionHub(id);
     }
     return () => {
       electionStore.clearVotedContests();
+      electionStore.resetEligibility();
       disconnectFromElectionHub();
     };
   }, [electionStore, id]);
@@ -126,6 +129,39 @@ export default observer(function VotingInterface() {
     );
   }
 
+  // Check if user is eligible to vote (attendance-based restriction)
+  const isEligible = electionStore.isEligibleToVote;
+  const requiresAttendance = election.requiresAttendance;
+
+  if (requiresAttendance && isEligible === false) {
+    return (
+      <Box>
+        <HeaderNav />
+        <Box sx={{ p: 2, textAlign: "center" }}>
+          <Typography variant="h6" sx={{ mt: 4, color: "error.main" }}>
+            You are not eligible to vote in this election
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
+            This election requires you to be present at the meeting to vote.
+            Please check in with the attendance register first.
+          </Typography>
+          {election.meetingDate && (
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              Meeting date: {new Date(election.meetingDate).toLocaleDateString()}
+            </Typography>
+          )}
+          <Button
+            variant="outlined"
+            sx={{ mt: 3 }}
+            onClick={() => customHistory.push(ROUTES.elections)}
+          >
+            Back to Elections
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
   const sortedContests = (election.contests ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
@@ -179,9 +215,20 @@ export default observer(function VotingInterface() {
         <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
           {election.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           {election.description}
         </Typography>
+        
+        {/* Show attendance verification status */}
+        {requiresAttendance && isEligible && (
+          <Chip
+            icon={<VerifiedUser />}
+            label="Attendance Verified"
+            color="success"
+            size="small"
+            sx={{ mb: 2 }}
+          />
+        )}
 
         {/* Contest Tabs - show when there are multiple visible contests */}
         {visibleContests.length > 1 && (
