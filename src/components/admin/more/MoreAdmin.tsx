@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography, styled } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { ManageAccounts, Notifications, Settings, School } from "@mui/icons-material";
+import { ManageAccounts, Notifications, Settings, School, HowToVote } from "@mui/icons-material";
 import ContentTitle from "../../shared/content-title";
 import { customHistory } from "../../..";
 import { ROUTES } from "../../../routes";
@@ -114,6 +114,28 @@ export default observer(function MoreAdmin() {
               }}
             >
               Education Impact
+            </Typography>
+          </Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+            onClick={() => customHistory.push(ROUTES.electionsAdmin)}
+          >
+            <HowToVote
+              sx={{
+                alignSelf: "center",
+              }}
+            />
+            <Typography
+              sx={{
+                color: "rgb(150, 114, 23)",
+              }}
+            >
+              Elections
             </Typography>
           </Item>
         </Grid>

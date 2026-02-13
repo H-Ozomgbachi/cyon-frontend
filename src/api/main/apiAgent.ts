@@ -11,6 +11,7 @@ import { Occupation } from "../endpoints/occupationEndpoint";
 import { UpcomingEvent } from "../endpoints/upcomingEventEndpoints";
 import { YearProgramme } from "../endpoints/yearprogrammeEndpoint";
 import { EducationImpact } from "../endpoints/educationImpactEndpoint";
+import { ElectionEndpoint } from "../endpoints/electionEndpoint";
 
 const agent = {
   authentication: Authentication,
@@ -26,6 +27,7 @@ const agent = {
   decision: Decision,
   notifications: Notifications,
   educationImpact: EducationImpact,
+  election: ElectionEndpoint,
 };
 
 export default agent;

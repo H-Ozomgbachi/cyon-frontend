@@ -9,6 +9,7 @@ export const ROUTES = {
   login: "/account/login",
   register: "/account/register",
   forgotPassword: "/account/forgot-password",
+  resetPassword: "/account/reset-password",
   confirmEmail: "/account/confirm-email",
   
   // Education Impact Routes
@@ -28,4 +29,13 @@ export const ROUTES = {
   educationImpactTertiaryApplications: "/admin/education-impact/tertiary",
   educationImpactTertiaryApplicationDetail: "/admin/education-impact/tertiary/detail",
   educationImpactTopApplicants: "/admin/education-impact/tertiary/top",
+
+  // Election Routes
+  elections: "/elections",
+  electionVote: "/elections/vote",
+  electionResults: "/elections/results",
+
+  // Admin Election Routes
+  electionsAdmin: "/admin/elections",
+  electionBuilder: "/admin/elections/builder",
 };

@@ -7,6 +7,7 @@ import {
   AutoStoriesOutlined,
   FeedOutlined,
   Groups2Outlined,
+  HowToVoteOutlined,
 } from "@mui/icons-material";
 import HorizontalTabs from "../../components/shared/horizontal-tabs";
 import UserFinance from "../../components/finances/user-finance";
@@ -14,6 +15,7 @@ import OrganizationFinance from "../../components/finances/organization-finance"
 import Attendance from "../../components/attendance";
 import Meetings from "../../components/meeting";
 import Feeds from "../../components/feeds";
+import ActiveElections from "../../components/election/ActiveElections";
 import { observer } from "mobx-react-lite";
 
 export default observer(function Dashboard() {
@@ -41,6 +43,10 @@ export default observer(function Dashboard() {
             label: "Finances",
             icon: <AccountBalanceOutlined />,
           },
+          {
+            label: "Elections",
+            icon: <HowToVoteOutlined />,
+          },
         ]}
         contentItems={[
           <Feeds />,
@@ -50,6 +56,7 @@ export default observer(function Dashboard() {
             tabNames={["personal", "organization"]}
             tabContents={[<UserFinance />, <OrganizationFinance />]}
           />,
+          <ActiveElections />,
         ]}
       />
     </Box>

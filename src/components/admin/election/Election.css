@@ -1,0 +1,113 @@
+.election-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.election-status-draft {
+  background-color: #e0e0e0;
+  color: #616161;
+}
+
+.election-status-live {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  animation: pulse-live 2s infinite;
+}
+
+.election-status-closed {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.election-status-published {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+@keyframes pulse-live {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+.election-card-admin {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 8px;
+}
+
+.election-card-admin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nominee-card {
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.nominee-card:hover {
+  border-color: rgba(0, 148, 50, 0.4);
+}
+
+.nominee-card.selected {
+  border-color: rgba(0, 148, 50, 1);
+  background-color: rgba(0, 148, 50, 0.05);
+}
+
+.nominee-card.voted {
+  border-color: #4caf50;
+  background-color: #e8f5e9;
+}
+
+.results-bar {
+  height: 24px;
+  border-radius: 12px;
+  background-color: #e0e0e0;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.results-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.5s ease-in-out;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 148, 50, 0.8),
+    rgba(0, 148, 50, 1)
+  );
+}
+
+.results-bar-fill.winner {
+  background: linear-gradient(
+    90deg,
+    rgba(150, 114, 23, 0.8),
+    rgba(150, 114, 23, 1)
+  );
+}
+
+.tie-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background-color: #fff3e0;
+  color: #e65100;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

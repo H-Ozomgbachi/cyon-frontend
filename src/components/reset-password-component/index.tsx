@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MyFormikController from "../shared/inputs/MyFormikController";
 import { OrganizationTitle } from "../shared/organization-title/OrganizationTitle";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../api/main/appStore";
 import { ROUTES } from "../../routes";
@@ -11,10 +11,10 @@ import { ROUTES } from "../../routes";
 export default observer(function ResetPasswordComponent() {
   const { authenticationStore } = useStore();
 
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const pathName = location.pathname.split("reset-password/");
-  const [token, email] = pathName[1].split("userEmail");
+  const token = searchParams.get("token") || "";
+  const email = searchParams.get("email") || "";
 
   const initialValues = {
     newPassword: "",

@@ -22,6 +22,11 @@ import JambApplicationForm from "./components/education-impact/JambApplicationFo
 import TertiaryApplicationForm from "./components/education-impact/TertiaryApplicationForm";
 import ApplicationSuccess from "./components/education-impact/ApplicationSuccess";
 import EducationImpactAdmin from "./components/admin/education-impact/EducationImpactAdmin";
+import ActiveElections from "./components/election/ActiveElections";
+import VotingInterface from "./components/election/VotingInterface";
+import ElectionResults from "./components/election/ElectionResults";
+import ElectionBuilder from "./components/admin/election/ElectionBuilder";
+import ElectionsAdminPage from "./pages/admin/ElectionsAdmin";
 
 export default observer(function App() {
   const { commonStore, authenticationStore } = useStore();
@@ -33,7 +38,7 @@ export default observer(function App() {
 
   useEffect(() => {
     if (
-      !location.pathname.includes("reset-password") &&
+      location.pathname !== "/account/reset-password" &&
       location.pathname !== "/" && // Don't fetch user data on landing page
       commonStore.token &&
       !authenticationStore.currentUser
@@ -48,43 +53,48 @@ export default observer(function App() {
       <MyAlert />
       <LoadingSpinner />
 
-      {!location.pathname.includes("reset-password") ? (
-        <Routes>
-          <Route index element={<Home />} />
+      <Routes>
+        <Route index element={<Home />} />
 
-          <Route path="account">
-            <Route index element={<Account />} />
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-            <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="confirm-email" element={<ConfirmEmail />} />
-          </Route>
+        <Route path="account">
+          <Route index element={<Account />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="confirm-email" element={<ConfirmEmail />} />
+        </Route>
 
-          <Route path="dashboard">
-            <Route index element={<Dashboard />} />
-          </Route>
-          
-          <Route path="education-impact">
-            <Route index element={<EducationImpactLanding />} />
-            <Route path="apply/jamb" element={<JambApplicationForm />} />
-            <Route path="apply/tertiary" element={<TertiaryApplicationForm />} />
-            <Route path="application-success/:id" element={<ApplicationSuccess />} />
-          </Route>
-          
-          <Route path="admin">
-            <Route index element={<Admin />} />
-            <Route path="setup" element={<SetupAdmin />} />
-            <Route
-              path="account-management"
-              element={<AccountManagementAdmin />}
-            />
-            <Route path="notifications" element={<NotificationAdmin />} />
-            <Route path="education-impact" element={<EducationImpactAdmin />} />
-          </Route>
-        </Routes>
-      ) : (
-        <ResetPassword />
-      )}
+        <Route path="dashboard">
+          <Route index element={<Dashboard />} />
+        </Route>
+        
+        <Route path="education-impact">
+          <Route index element={<EducationImpactLanding />} />
+          <Route path="apply/jamb" element={<JambApplicationForm />} />
+          <Route path="apply/tertiary" element={<TertiaryApplicationForm />} />
+          <Route path="application-success/:id" element={<ApplicationSuccess />} />
+        </Route>
+
+        <Route path="elections">
+          <Route index element={<ActiveElections />} />
+          <Route path="vote/:id" element={<VotingInterface />} />
+          <Route path="results/:id" element={<ElectionResults />} />
+        </Route>
+        
+        <Route path="admin">
+          <Route index element={<Admin />} />
+          <Route path="setup" element={<SetupAdmin />} />
+          <Route
+            path="account-management"
+            element={<AccountManagementAdmin />}
+          />
+          <Route path="notifications" element={<NotificationAdmin />} />
+          <Route path="education-impact" element={<EducationImpactAdmin />} />
+          <Route path="elections" element={<ElectionsAdminPage />} />
+          <Route path="elections/builder/:id" element={<ElectionBuilder />} />
+        </Route>
+      </Routes>
     </>
   );
 });
